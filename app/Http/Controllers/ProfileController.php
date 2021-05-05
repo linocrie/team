@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Detail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -19,8 +20,7 @@ class ProfileController extends Controller
         return view('profile')->with('user', Auth::user());
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
 
         $request->validate([
             'name'     => 'required|string|max:191',
@@ -35,6 +35,13 @@ class ProfileController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => $request->password ? bcrypt($request->password) : Auth::user()->password
+        ]);
+
+        Detail::where('id', Auth::id())->update([
+            'phone'      => $request->phone,
+            'address'    => $request->address,
+            'city'       => $request->city,
+            'country'    => $request->country
         ]);
 
         return back()->with('success', 'Profile successfully updated');
