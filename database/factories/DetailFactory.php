@@ -6,7 +6,6 @@ use App\Models\Detail;
 use App\Models\Model;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class DetailFactory extends Factory
 {
