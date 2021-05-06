@@ -71,7 +71,7 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="" autofocus>
+                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $detail->phone }}" autofocus>
 
                                     @error('phone')
                                     <span class="invalid-feedback" role="alert">

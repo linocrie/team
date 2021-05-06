@@ -14,10 +14,8 @@ class UserProfessions extends Migration
     public function up()
     {
         Schema::create('user_professions', function (Blueprint $table) {
-            $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('profession_id');
-            $table->foreign('profession_id')->references('id')->on('professions');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('profession_id')->constrained();
         });
     }
 
