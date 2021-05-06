@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profession;
+use App\Models\UserProfession;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Detail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\RedirectResponse;
 
 class ProfileController extends Controller
 {
@@ -25,62 +28,48 @@ class ProfileController extends Controller
         // $user->detail()->first() - query
 
 
-        $user = Auth::user()->load('detail');
-//
-//        $user->detail()->create([
-//            'phone'   => '444',
-//            'address' => 'asd',
-//            'city'    => 'TT',
-//            'country' => 'AA'
-//        ]);
-//
-//        exit;
+//        $detail = Detail::with(['user'])->first();
+//        $profession = UserProfession::with(['user'])->first();
 
+        $user = Auth::user();
         return view('profile')
             ->with('user', $user)
             ->with('detail', $user->detail);
     }
 
-    public function update(Request $request) {
+    public function updateProfile(Request $request): RedirectResponse
+    {
+        $userId = Auth::id();
+        $request->validate([
+            'name'     => 'required|string|max:191',
+            'email'    => [
+                'required',
+                Rule::unique('users')->ignore($userId)
+            ],
+            'password' => 'nullable|string',
+        ]);
 
-//        if($request->get('form') == 1) {
-//            $request->validate([
-//                'name' => 'required|string|max:191',
-//                'email' => [
-//                    'required',
-//                    Rule::unique('users')->ignore(Auth::id())
-//                ],
-//                'password' => 'nullable|string',
-//            ]);
-//
-//            User::where('id', Auth::id())->update([
-//                'name' => $request->name,
-//                'email' => $request->email,
-//                'password' => $request->password ? bcrypt($request->password) : Auth::user()->password
-//            ]);
-//        }
-//        else if($request->get('form') == 2) {
-//            $request->validate([
-//                'phone' => Rule::unique('details')->ignore(Auth::id())
-//            ]);
-//
-//            Detail::where('id', Auth::id())->update([
-//                'phone' => $request->phone,
-//                'address' => $request->address,
-//                'city' => $request->city,
-//                'country' => $request->country
-//            ]);
-//        }
+        User::where('id', $userId)->update([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : Auth::user()->password
+        ]);
 
-//        Detail::updateOrCreate(
-//            ['user_id' => $user->id],
-//            [
-//                'phone' => $request->phone,
-//                'address' => $request->address,
-//                'city' => $request->city,
-//                'country' => $request->country
-//            ]
-//        );
+        return back()->with('success', 'Profile successfully updated');
+    }
+
+    public function updateDetail(Request $request): RedirectResponse
+    {
+
+        Detail::updateOrCreate(
+        ['user_id'    => Auth::id()],
+        [
+            'phone'   => $request->phone,
+            'address' => $request->address,
+            'city'    => $request->city,
+            'country' => $request->country
+        ]
+        );
 
         return back()->with('success', 'Profile successfully updated');
     }

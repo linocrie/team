@@ -25,8 +25,8 @@ class DetailFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'phone'   => $this->faker->unique()->phoneNumber,
-            'address' => $this->faker->unique()->address,
+            'phone'   => $this->faker->phoneNumber,
+            'address' => $this->faker->address,
             'city'    => $this->faker->city,
             'country' => $this->faker->country
         ];

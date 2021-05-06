@@ -23,5 +23,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::put('/profile/updateProfile', [ProfileController::class, 'updateProfile'])->name('profile.updateProfile');
+Route::put('/profile/updateDetail', [ProfileController::class, 'updateDetail'])->name('profile.updateDetail');
 
