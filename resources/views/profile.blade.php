@@ -13,7 +13,7 @@
                             <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
                         @endif
 
-                        <form method="POST" action="{{ route('profile.update') }}">
+                        <form method="POST" action="{{ route('profile.update', ['form' => 1]) }}">
                             @csrf
 
                             @method('PUT')
@@ -46,6 +46,27 @@
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
                                 </div>
                             </div>
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Update') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card mb-5">
+                    <div class="card-body">
+
+                        <form method="POST" action="{{ route('profile.update', ['form' => 2]) }}">
+                            @csrf
+
+                            @method('PUT')
 
                             <div class="form-group row">
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
