@@ -16,6 +16,16 @@ class ProfileController extends Controller
     }
 
     public function index() {
+        $detail = Detail::where('user_id', Auth::id())->first();
+        if($detail === null) {
+            Detail::create([
+                'user_id' => Auth::id(),
+                'phone' => '',
+                'address' => '',
+                'city' => '',
+                'country' => ''
+            ]);
+        }
         return view('profile')->with('user', Auth::user());
     }
 
