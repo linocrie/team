@@ -38,6 +38,10 @@ class ProfileController extends Controller
             ]);
         }
         else if($request->get('form') == 2) {
+            $request->validate([
+                'phone' => Rule::unique('details')->ignore(Auth::id())
+            ]);
+
             Detail::where('id', Auth::id())->update([
                 'phone' => $request->phone,
                 'address' => $request->address,

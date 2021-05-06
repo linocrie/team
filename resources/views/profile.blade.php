@@ -2,16 +2,15 @@
 
 @section('content')
     <div class="container">
+        @if(session('success'))
+            <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card mb-5">
                     <div class="card-header">Hello {{ Auth::user()->name }}</div>
 
                     <div class="card-body">
-
-                        @if(session('success'))
-                            <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
-                        @endif
 
                         <form method="POST" action="{{ route('profile.update', ['form' => 1]) }}">
                             @csrf
@@ -73,6 +72,12 @@
 
                                 <div class="col-md-6">
                                     <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="" autofocus>
+
+                                    @error('phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
 
