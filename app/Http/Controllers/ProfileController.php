@@ -32,9 +32,22 @@ class ProfileController extends Controller
 //        $profession = UserProfession::with(['user'])->first();
 
         $user = Auth::user();
+//        $user = User::find(1);
+//
+//        dd($user->professions);
+
+//        $prof = Profession::find(1);
+//
+//        dd($prof->users);
+
+        $profId = Profession::select('id')
+            ->where('name', 'Business Development Manager')
+            ->get();
+        dd($profId);
         return view('profile')
             ->with('user', $user)
-            ->with('detail', $user->detail);
+            ->with('detail', $user->detail)
+            ->with('detail', $user->profession);
     }
 
     public function updateProfile(Request $request): RedirectResponse
@@ -70,6 +83,11 @@ class ProfileController extends Controller
             'country' => $request->country
         ]
         );
+
+//        UserProfession::updateOrCreate(
+//            ['user_id'       => Auth::id()],
+//            ['profession_id' => ]
+//        );
 
         return back()->with('success', 'Profile successfully updated');
     }

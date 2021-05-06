@@ -9,9 +9,4 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class UserProfession extends Model
 {
     use HasFactory;
-
-    public function profession(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
 }
