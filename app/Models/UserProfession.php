@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class UserProfession extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'profession_id'
+    ];
 }

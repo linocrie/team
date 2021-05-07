@@ -20,34 +20,14 @@ class ProfileController extends Controller
 
     public function index()
     {
-        // Query with relationship
-        // $detail  = Detail::with(['user'])->first();
-        // $user->load('detail')
-
-        // $user->detail - property lavel
-        // $user->detail()->first() - query
-
-
-//        $detail = Detail::with(['user'])->first();
-//        $profession = UserProfession::with(['user'])->first();
 
         $user = Auth::user();
-//        $user = User::find(1);
-//
-//        dd($user->professions);
-
-//        $prof = Profession::find(1);
-//
-//        dd($prof->users);
-
-        $profId = Profession::select('id')
-            ->where('name', 'Business Development Manager')
-            ->get();
-        dd($profId);
+        $profession = Profession::select('name', 'id')->get()->toArray();
         return view('profile')
             ->with('user', $user)
             ->with('detail', $user->detail)
-            ->with('detail', $user->profession);
+            ->with('profession', $profession)
+            ->with('profess', $user->profess);
     }
 
     public function updateProfile(Request $request): RedirectResponse
@@ -74,6 +54,13 @@ class ProfileController extends Controller
     public function updateDetail(Request $request): RedirectResponse
     {
 
+        $request->validate([
+            'phone'       => 'required',
+            'address'     => 'required|string|max:191',
+            'city'        => 'required|string|max:191',
+            'country'     => 'required|string|max:191'
+        ]);
+
         Detail::updateOrCreate(
         ['user_id'    => Auth::id()],
         [
@@ -84,10 +71,10 @@ class ProfileController extends Controller
         ]
         );
 
-//        UserProfession::updateOrCreate(
-//            ['user_id'       => Auth::id()],
-//            ['profession_id' => ]
-//        );
+//        $prof = Profession::get()->pluck('id');
+        $prof = $request->profession;
+        $user = User::find(Auth::id());
+        $user->professions()->sync($prof);
 
         return back()->with('success', 'Profile successfully updated');
     }

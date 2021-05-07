@@ -85,6 +85,12 @@
 
                                 <div class="col-md-6">
                                     <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $user->detail == null ? '' : $detail->address }}" autofocus>
+
+                                    @error('address')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -93,6 +99,12 @@
 
                                 <div class="col-md-6">
                                     <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ $user->detail == null ? '' : $detail->city }}" autofocus>
+
+                                    @error('city')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -101,6 +113,24 @@
 
                                 <div class="col-md-6">
                                     <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ $user->detail == null ? '' : $detail->country }}" autofocus>
+
+                                    @error('country')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
+
+                                <div class="col-md-6">
+                                    <select name="profession[]" multiple="multiple">
+                                        @foreach ($profession as $prof)
+                                            <option value="{{ $prof['id'] }}">{{ $prof['name'] }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
