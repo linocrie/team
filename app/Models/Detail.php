@@ -15,7 +15,8 @@ class Detail extends Model
         'phone',
         'address',
         'city',
-        'country'
+        'country',
+        'avatar'
     ];
 
     public function user(): BelongsTo

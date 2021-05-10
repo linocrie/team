@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="">
-                    <img src='/images/avatars/{{ Session::get('image') }}' alt='avatar' class = 'img-fluid'>
+                    <img src='/images/avatars/{{ ($user->detail == null) || ($user->detail->avatar == null) ? 'default.png' : $user->detail->avatar }}' alt='avatar' class = 'img-fluid'>
                 </div>
                 <div class=''>
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
@@ -144,11 +144,8 @@
 
                                 <div class="col-md-6">
                                     <select name="profession[]" multiple="multiple">
-                                        @foreach ($user_profession as $user_prof)
-                                            <option value="{{ $user_prof->id }}" selected>{{ $user_prof->name }}</option>
-                                        @endforeach
                                         @foreach ($profession as $prof)
-                                            <option value="{{ $prof->id }}">{{ $prof->name }}</option>
+                                            <option value="{{ $prof->id }}" @if(in_array($prof->id, $user_profession)) selected @endif>{{ $prof->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

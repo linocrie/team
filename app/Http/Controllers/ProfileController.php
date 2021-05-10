@@ -20,19 +20,18 @@ class ProfileController extends Controller
     public function index()
     {
 
-//        $userTest = Auth::user();
         $user_prof = User::with(['professions'])->find(Auth::id());
         $arr = [];
         foreach ($user_prof->professions as $userProf) {
             array_push($arr, $userProf->id);
         }
-        $profession = Profession::select('name', 'id')->whereNotIn('id', $arr)->get();
+        $profession = Profession::select('name', 'id')->get();
         $user = User::with(['detail'])->find(Auth::id());
 
         return view('profile')
             ->with('user', $user)
             ->with('profession', $profession)
-            ->with('user_profession', $user_prof->professions);
+            ->with('user_profession', $arr);
     }
 
     public function updateProfile(Request $request): RedirectResponse
@@ -53,7 +52,8 @@ class ProfileController extends Controller
             'password' => $request->password ? bcrypt($request->password) : Auth::user()->password
         ]);
 
-        return back()->with('success', 'Profile successfully updated');
+        return back()
+            ->with('success', 'Profile successfully updated');
     }
 
     public function updateDetail(Request $request): RedirectResponse
@@ -81,7 +81,8 @@ class ProfileController extends Controller
         $user = Auth::user();
         $user->professions()->sync($prof);
 
-        return back()->with('success', 'Profile successfully updated');
+        return back()
+            ->with('success', 'Profile successfully updated');
     }
 
     public function upload(Request $request): RedirectResponse
@@ -93,10 +94,14 @@ class ProfileController extends Controller
         $imageName = time().'.'.$request->image->extension();
         $request->image->move(public_path('images/avatars'), $imageName);
 
-        /* Store $imageName name in DATABASE from HERE */
+        Detail::updateOrCreate(
+            ['user_id'    => Auth::id()],
+            [
+                'avatar'  => $imageName
+            ]
+        );
 
         return back()
             ->with('success','Image successfully uploaded')
-            ->with('image',$imageName);
     }
 }

@@ -20,6 +20,7 @@ class CreateDetailsTable extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('country');
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }

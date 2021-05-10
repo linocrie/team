@@ -27,7 +27,8 @@ class DetailFactory extends Factory
             'phone'   => $this->faker->phoneNumber,
             'address' => $this->faker->address,
             'city'    => $this->faker->city,
-            'country' => $this->faker->country
+            'country' => $this->faker->country,
+            'avatar' => null
         ];
     }
 }
