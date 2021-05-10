@@ -1,11 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         @if(session('success'))
             <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
         @endif
-        <div class="row justify-content-center">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="">
+                    <img src='{{ asset('images/avatars/background.jpg') }}' alt='avatar' class = 'img-fluid'>
+                </div>
+                <div class=''>
+                    <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    @method('PUT')
+                        <input type="file" name="image" class="form-control-file text-black-50 mt-1">
+                        <button type="submit" class="btn btn-success mt-1">Upload</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="col-md-8">
                 <div class="card mb-5">
                     <div class="card-header">Hello {{ Auth::user()->name }}</div>
@@ -57,8 +72,10 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-8 offset-3">
                 <div class="card mb-5">
                     <div class="card-body">
 
@@ -70,7 +87,7 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $user->detail == null ? '' : $detail->phone }}" autofocus>
+                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $user->detail == null ? '' : $user->detail->phone }}" autofocus>
 
                                     @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -84,7 +101,7 @@
                                 <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $user->detail == null ? '' : $detail->address }}" autofocus>
+                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $user->detail == null ? '' : $user->detail->address }}" autofocus>
 
                                     @error('address')
                                     <span class="invalid-feedback" role="alert">
@@ -98,7 +115,7 @@
                                 <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ $user->detail == null ? '' : $detail->city }}" autofocus>
+                                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ $user->detail == null ? '' : $user->detail->city }}" autofocus>
 
                                     @error('city')
                                     <span class="invalid-feedback" role="alert">
@@ -112,7 +129,7 @@
                                 <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ $user->detail == null ? '' : $detail->country }}" autofocus>
+                                    <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ $user->detail == null ? '' : $user->detail->country }}" autofocus>
 
                                     @error('country')
                                     <span class="invalid-feedback" role="alert">
@@ -127,8 +144,11 @@
 
                                 <div class="col-md-6">
                                     <select name="profession[]" multiple="multiple">
+                                        @foreach ($user_profession as $user_prof)
+                                            <option value="{{ $user_prof->id }}" selected>{{ $user_prof->name }}</option>
+                                        @endforeach
                                         @foreach ($profession as $prof)
-                                            <option value="{{ $prof['id'] }}">{{ $prof['name'] }}</option>
+                                            <option value="{{ $prof->id }}">{{ $prof->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

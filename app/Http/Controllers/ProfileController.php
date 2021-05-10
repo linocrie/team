@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profession;
-use App\Models\UserProfession;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Detail;
@@ -21,13 +20,19 @@ class ProfileController extends Controller
     public function index()
     {
 
-        $user = Auth::user();
-        $profession = Profession::select('name', 'id')->get()->toArray();
+//        $userTest = Auth::user();
+        $user_prof = User::with(['professions'])->find(Auth::id());
+        $arr = [];
+        foreach ($user_prof->professions as $userProf) {
+            array_push($arr, $userProf->id);
+        }
+        $profession = Profession::select('name', 'id')->whereNotIn('id', $arr)->get();
+        $user = User::with(['detail'])->find(Auth::id());
+
         return view('profile')
             ->with('user', $user)
-            ->with('detail', $user->detail)
             ->with('profession', $profession)
-            ->with('profess', $user->profess);
+            ->with('user_profession', $user_prof->professions);
     }
 
     public function updateProfile(Request $request): RedirectResponse
@@ -73,9 +78,27 @@ class ProfileController extends Controller
 
 //        $prof = Profession::get()->pluck('id');
         $prof = $request->profession;
-        $user = User::find(Auth::id());
+        $user = Auth::user();
         $user->professions()->sync($prof);
 
         return back()->with('success', 'Profile successfully updated');
+    }
+
+    public function upload(Request $request): RedirectResponse
+    {
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images/avatars'), $imageName);
+        dd($imageName);
+
+        /* Store $imageName name in DATABASE from HERE */
+
+        return back()
+            ->with('success','You have successfully upload image.')
+            ->with('image',$imageName);
     }
 }
