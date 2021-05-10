@@ -86,19 +86,17 @@ class ProfileController extends Controller
 
     public function upload(Request $request): RedirectResponse
     {
-
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $imageName = time().'.'.$request->image->extension();
         $request->image->move(public_path('images/avatars'), $imageName);
-        dd($imageName);
 
         /* Store $imageName name in DATABASE from HERE */
 
         return back()
-            ->with('success','You have successfully upload image.')
+            ->with('success','Image successfully uploaded')
             ->with('image',$imageName);
     }
 }

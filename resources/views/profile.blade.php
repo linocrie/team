@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="">
-                    <img src='{{ asset('images/avatars/background.jpg') }}' alt='avatar' class = 'img-fluid'>
+                    <img src='/images/avatars/{{ Session::get('image') }}' alt='avatar' class = 'img-fluid'>
                 </div>
                 <div class=''>
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
