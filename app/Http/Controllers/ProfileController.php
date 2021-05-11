@@ -76,7 +76,10 @@ class ProfileController extends Controller
 
     public function upload(Request $request): RedirectResponse
     {
-        $userPath = auth()->user()->load(['avatar'])->avatar->path;
+        $userPath = '';
+        if(auth()->user()->load(['avatar'])->avatar) {
+            $userPath = auth()->user()->load(['avatar'])->avatar->path;
+        }
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
