@@ -19,37 +19,27 @@ class ProfileController extends Controller
 
     public function index()
     {
-
-        $user_prof = User::with(['professions'])->find(Auth::id());
-        $arr = [];
-        foreach ($user_prof->professions as $userProf) {
-            array_push($arr, $userProf->id);
-        }
-        $profession = Profession::select('name', 'id')->get();
-        $user = User::with(['detail'])->find(Auth::id());
-
         return view('profile')
-            ->with('user', $user)
-            ->with('profession', $profession)
-            ->with('user_profession', $arr);
+            ->with('user', auth()->user()->load(['professions', 'detail']))
+            ->with('professions', Profession::all());
     }
 
     public function updateProfile(Request $request): RedirectResponse
     {
-        $userId = Auth::id();
+        $user = auth()->user();
         $request->validate([
             'name'     => 'required|string|max:191',
             'email'    => [
                 'required',
-                Rule::unique('users')->ignore($userId)
+                Rule::unique('users')->ignore($user->id)
             ],
             'password' => 'nullable|string',
         ]);
 
-        User::where('id', $userId)->update([
+        $user->update([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : Auth::user()->password
+            'password' => $request->password ? bcrypt($request->password) : $user->password
         ]);
 
         return back()
@@ -58,7 +48,7 @@ class ProfileController extends Controller
 
     public function updateDetail(Request $request): RedirectResponse
     {
-
+        $user = auth()->user();
         $request->validate([
             'phone'       => 'required',
             'address'     => 'required|string|max:191',
@@ -67,7 +57,7 @@ class ProfileController extends Controller
         ]);
 
         Detail::updateOrCreate(
-        ['user_id'    => Auth::id()],
+        ['user_id'    => $user->id],
         [
             'phone'   => $request->phone,
             'address' => $request->address,
@@ -75,11 +65,8 @@ class ProfileController extends Controller
             'country' => $request->country
         ]
         );
-
-//        $prof = Profession::get()->pluck('id');
-        $prof = $request->profession;
-        $user = Auth::user();
-        $user->professions()->sync($prof);
+        
+        $user->professions()->sync($request->profession);
 
         return back()
             ->with('success', 'Profile successfully updated');

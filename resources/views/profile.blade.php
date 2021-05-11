@@ -87,7 +87,7 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $user->detail == null ? '' : $user->detail->phone }}" autofocus>
+                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ optional($user->detail)->phone }}" autofocus>
 
                                     @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -101,7 +101,7 @@
                                 <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $user->detail == null ? '' : $user->detail->address }}" autofocus>
+                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ optional($user->detail)->address }}" autofocus>
 
                                     @error('address')
                                     <span class="invalid-feedback" role="alert">
@@ -115,7 +115,7 @@
                                 <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ $user->detail == null ? '' : $user->detail->city }}" autofocus>
+                                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ optional($user->detail)->city }}" autofocus>
 
                                     @error('city')
                                     <span class="invalid-feedback" role="alert">
@@ -129,7 +129,7 @@
                                 <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ $user->detail == null ? '' : $user->detail->country }}" autofocus>
+                                    <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ optional($user->detail)->country }}" autofocus>
 
                                     @error('country')
                                     <span class="invalid-feedback" role="alert">
@@ -143,9 +143,9 @@
                                 <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
 
                                 <div class="col-md-6">
-                                    <select name="profession[]" multiple="multiple">
-                                        @foreach ($profession as $prof)
-                                            <option value="{{ $prof->id }}" @if(in_array($prof->id, $user_profession)) selected @endif>{{ $prof->name }}</option>
+                                    <select name="profession[]" multiple="multiple" id="multiSelect">
+                                        @foreach ($professions as $profession)
+                                            <option value="{{ $profession->id }}" @if(in_array($profession->id, $user->professions->pluck('id')->all())) selected @endif>{{ $profession->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
