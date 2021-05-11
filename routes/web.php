@@ -23,7 +23,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::put('/profile/updateProfile', [ProfileController::class, 'updateProfile'])->name('profile.updateProfile');
-Route::put('/profile/updateDetail', [ProfileController::class, 'updateDetail'])->name('profile.updateDetail');
+Route::put('/profile/updateProfile', [ProfileController::class, 'updateProfile'])->name('profile.update.profile');
+Route::put('/profile/updateDetail', [ProfileController::class, 'updateDetail'])->name('profile.update.detail');
 Route::put('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
 

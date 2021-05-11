@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Profession;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Detail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
@@ -17,7 +17,7 @@ class ProfileController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(): View
     {
         return view('profile')
             ->with('user', auth()->user()->load(['professions', 'detail']))
@@ -65,7 +65,7 @@ class ProfileController extends Controller
             'country' => $request->country
         ]
         );
-        
+
         $user->professions()->sync($request->profession);
 
         return back()

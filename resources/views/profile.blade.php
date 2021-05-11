@@ -27,7 +27,7 @@
 
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('profile.updateProfile') }}">
+                        <form method="POST" action="{{ route('profile.update.profile') }}">
                             @csrf
 
                             @method('PUT')
@@ -79,7 +79,7 @@
                 <div class="card mb-5">
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('profile.updateDetail') }}">
+                        <form method="POST" action="{{ route('profile.update.detail') }}">
                             @csrf
 
                             @method('PUT')
