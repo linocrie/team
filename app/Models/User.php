@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Profession::class, 'user_profession');
     }
+
+    public function avatar(): HasOne
+    {
+        return $this->hasOne(Avatar::class);
+    }
 }

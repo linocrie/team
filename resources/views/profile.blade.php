@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="">
-                    <img src='/images/avatars/{{ ($user->detail == null) || ($user->detail->avatar == null) ? 'default.png' : $user->detail->avatar }}' alt='avatar' class = 'img-fluid'>
+                    <img src="{{ $user->avatar ? asset('storage') . '/'. $user->avatar->path: asset('storage/avatars/default.png') }}" alt='avatar' class = 'img-fluid'>
                 </div>
                 <div class=''>
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
@@ -16,7 +16,7 @@
 
                     @method('PUT')
                         <input type="file" name="image" class="form-control-file text-black-50 mt-1">
-                        <button type="submit" class="btn btn-success mt-1">Upload</button>
+                        <button type="submit" class="btn btn-success w-100 mt-1">Upload</button>
                     </form>
                 </div>
             </div>

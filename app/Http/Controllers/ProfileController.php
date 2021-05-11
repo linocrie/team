@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Avatar;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use App\Models\Detail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -20,7 +22,7 @@ class ProfileController extends Controller
     public function index(): View
     {
         return view('profile')
-            ->with('user', auth()->user()->load(['professions', 'detail']))
+            ->with('user', auth()->user()->load(['professions', 'detail', 'avatar']))
             ->with('professions', Profession::all());
     }
 
@@ -74,17 +76,22 @@ class ProfileController extends Controller
 
     public function upload(Request $request): RedirectResponse
     {
+        $userPath = auth()->user()->load(['avatar'])->avatar->path;
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images/avatars'), $imageName);
+        if ($userPath) {
+            Storage::delete($userPath);
+        }
 
-        Detail::updateOrCreate(
+        $file = $request->file('image')->store('avatars');
+
+        Avatar::updateOrCreate(
             ['user_id'    => Auth::id()],
             [
-                'avatar'  => $imageName
+                'original_name' => $request->file('image')->getClientOriginalName(),
+                'path'  => $file
             ]
         );
 

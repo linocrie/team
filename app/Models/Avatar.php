@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Detail extends Model
+class Avatar extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'phone',
-        'address',
-        'city',
-        'country'
+        'original_name',
+        'path',
+        'processed'
     ];
 
     public function user(): BelongsTo
