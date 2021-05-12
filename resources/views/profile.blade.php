@@ -8,14 +8,17 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="">
-                    <img src="{{ $user->avatar ? asset('storage') . '/'. $user->avatar->path: asset('storage/avatars/default.png') }}" alt='avatar' class = 'img-fluid'>
+                    <img src="{{ $user->avatar ? asset('storage') . '/'. $user->avatar->path: asset('storage/avatars/default.png') }}" alt='avatar' class = 'img-fluid rounded-circle'>
                 </div>
                 <div class=''>
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     @method('PUT')
-                        <input type="file" name="image" class="form-control-file text-black-50 mt-1">
+                        <div class="custom-file mt-1">
+                            <input type="file" class="custom-file-input" name="image">
+                            <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                        </div>
                         <button type="submit" class="btn btn-success w-100 mt-1">Upload</button>
                     </form>
                 </div>
