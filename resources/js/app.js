@@ -1,3 +1,3 @@
 require('./bootstrap');
-require('./script');
+require('./multiselect');
 require('./disablebutton');
