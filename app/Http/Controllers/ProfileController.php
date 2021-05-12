@@ -90,13 +90,15 @@ class ProfileController extends Controller
 
         $file = $request->file('image')->store('avatars');
 
-        Avatar::updateOrCreate(
-            ['user_id'    => Auth::id()],
-            [
-                'original_name' => $request->file('image')->getClientOriginalName(),
-                'path'  => $file
-            ]
-        );
+        if(Storage::exists($file)) {
+            Avatar::updateOrCreate(
+                ['user_id' => Auth::id()],
+                [
+                    'original_name' => $request->file('image')->getClientOriginalName(),
+                    'path' => $file
+                ]
+            );
+        }
 
         return back()
             ->with('success','Image successfully uploaded');
