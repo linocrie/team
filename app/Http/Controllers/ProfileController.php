@@ -22,8 +22,12 @@ class ProfileController extends Controller
 
     public function index(): View
     {
+        $user = auth()->user()->load(['professions', 'detail', 'avatar']);
+        $userPath = $user->avatar ? $user->avatar->path : 'avatars/default.png';
+
         return view('profile')
-            ->with('user', auth()->user()->load(['professions', 'detail', 'avatar']))
+            ->with('user', $user)
+            ->with('userPath', $userPath)
             ->with('professions', Profession::all());
     }
 

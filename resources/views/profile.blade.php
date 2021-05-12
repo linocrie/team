@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div>
-                    <img src="{{ $user->avatar ? asset('storage/'.$user->avatar->path) : asset('storage/avatars/default.png') }}" alt='avatar' class = 'img-fluid rounded-circle'>
+                    <img src="{{ asset('storage/'.$userPath) }}" alt='avatar' class = 'img-fluid rounded-circle'>
                 </div>
                 <div class=''>
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
