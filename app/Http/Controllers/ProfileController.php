@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Avatar;
 use App\Models\Profession;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Detail;
 use Illuminate\Support\Facades\Auth;
