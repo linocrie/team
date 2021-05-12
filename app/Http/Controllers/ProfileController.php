@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DetailRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Models\Avatar;
 use App\Models\Profession;
 use Illuminate\Http\Request;
@@ -26,17 +28,9 @@ class ProfileController extends Controller
             ->with('professions', Profession::all());
     }
 
-    public function updateProfile(Request $request): RedirectResponse
+    public function updateProfile(ProfileRequest $request): RedirectResponse
     {
         $user = auth()->user();
-        $request->validate([
-            'name'     => 'required|string|max:191',
-            'email'    => [
-                'required',
-                Rule::unique('users')->ignore($user->id)
-            ],
-            'password' => 'nullable|string',
-        ]);
 
         $user->update([
             'name'     => $request->name,
@@ -48,15 +42,9 @@ class ProfileController extends Controller
             ->with('success', 'Profile successfully updated');
     }
 
-    public function updateDetail(Request $request): RedirectResponse
+    public function updateDetail(DetailRequest $request): RedirectResponse
     {
         $user = auth()->user();
-        $request->validate([
-            'phone'       => 'required',
-            'address'     => 'required|string|max:191',
-            'city'        => 'required|string|max:191',
-            'country'     => 'required|string|max:191'
-        ]);
 
         Detail::updateOrCreate(
         ['user_id'    => $user->id],
