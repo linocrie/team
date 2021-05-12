@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Models\Detail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
