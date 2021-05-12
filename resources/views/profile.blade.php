@@ -7,7 +7,7 @@
         @endif
         <div class="row">
             <div class="col-md-3">
-                <div class="">
+                <div>
                     <img src="{{ $user->avatar ? asset('storage') . '/'. $user->avatar->path: asset('storage/avatars/default.png') }}" alt='avatar' class = 'img-fluid rounded-circle'>
                 </div>
                 <div class=''>
