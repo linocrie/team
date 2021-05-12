@@ -16,7 +16,13 @@
 
                     @method('PUT')
                         <div class="custom-file mt-1">
-                            <input type="file" class="custom-file-input" name="image" id="imageName">
+                            <input type="file" class="custom-file-input  @error('image') is-invalid @enderror"  name="image" id="imageName">
+
+                            @error('image')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                             <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
                         </div>
                         <button id = "uploadButton" type="submit" class="btn btn-success w-100 mt-1" disabled>Upload</button>
