@@ -119,5 +119,6 @@
     <orderEntry type="library" name="jquery-2.2.0" level="application" />
     <orderEntry type="library" name="bootstrap-select" level="application" />
     <orderEntry type="library" name="bootstrap.bundle" level="application" />
+    <orderEntry type="library" name="jquery-1.11.3" level="application" />
   </component>
 </module>

@@ -16,10 +16,10 @@
 
                     @method('PUT')
                         <div class="custom-file mt-1">
-                            <input type="file" class="custom-file-input" name="image">
+                            <input type="file" class="custom-file-input" name="image" id="imageName">
                             <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
                         </div>
-                        <button type="submit" class="btn btn-success w-100 mt-1">Upload</button>
+                        <button id = "uploadButton" type="submit" class="btn btn-success w-100 mt-1" disabled>Upload</button>
                     </form>
                 </div>
             </div>
