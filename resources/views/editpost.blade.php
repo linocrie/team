@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('posts.update') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('posts.update', ['id' => request('id')]) }}" enctype="multipart/form-data">
                             @csrf
 
                             @method('PUT')

@@ -21,7 +21,13 @@
                                 <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea class="form-control" id="textarea" name="description" rows="3" required autofocus></textarea>
+                                    <textarea class="form-control @error('description') is-invalid @enderror" id="textarea" name="description" rows="3" required autofocus></textarea>
+
+                                    @error('description')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
 

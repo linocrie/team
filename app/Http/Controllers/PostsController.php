@@ -37,17 +37,16 @@ class PostsController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function update(PostRequest $request): RedirectResponse
+    public function update(PostRequest $request, $id): RedirectResponse
     {
-        dd($request->all());
         $user = auth()->user();
 
-        if ($user->load(['post'])->posts) {
-            Storage::delete($user->posts->first()->path);
+        if ($user->load(['posts'])->posts) {
+            Storage::delete(Post::select('path')->where('id', $id)->first()->path);
         }
 
         $file = $request->file('image')->store('postimages');
-        Post::where('id', )->update(
+        Post::where('id', $id)->update(
             [
                 'title'   => $request->title,
                 'description' => $request->description,

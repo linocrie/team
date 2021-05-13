@@ -31,7 +31,7 @@ Route::get('/posts/{id}', function () {
     return view('editpost');
 })->name('posts.edit');
 
-Route::put('/posts/update', [PostsController::class, 'update'])->name('posts.update');
+Route::put('/posts/update/{id}', [PostsController::class, 'update'])->name('posts.update');
 Route::post('/posts/store', [PostsController::class, 'store'])->name('posts.store');
 Route::put('/profile/updateProfile', [ProfileController::class, 'updateProfile'])->name('profile.update.profile');
 Route::put('/profile/updateDetail', [ProfileController::class, 'updateDetail'])->name('profile.update.detail');
