@@ -53,6 +53,18 @@
                                 </li>
                             @endif
                         @else
+                            @if (Route::has('posts.index'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('posts.store') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ __('Create post') }}
+                                    </a>
+                                </li>
+                            @endif
+                            <li class="nav-item">
+                                <a id="posts" class="nav-link" href="{{ route('posts.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ __('Posts') }}
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

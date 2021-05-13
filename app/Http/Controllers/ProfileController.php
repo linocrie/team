@@ -22,25 +22,19 @@ class ProfileController extends Controller
 
     public function index(): View
     {
-        $user = auth()->user()->load(['professions', 'detail', 'avatar']);
-        $userPath = $user->avatar ? $user->avatar->path : 'avatars/default.png';
-
         return view('profile')
-            ->with('user', $user)
-            ->with('userPath', $userPath)
+            ->with('user', auth()->user()->load(['professions', 'detail', 'avatar']))
             ->with('professions', Profession::all());
     }
 
     public function updateProfile(ProfileRequest $request): RedirectResponse
     {
         $user = auth()->user();
-
         $user->update([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => $request->password ? bcrypt($request->password) : $user->password
         ]);
-
         return back()
             ->with('success', 'Profile successfully updated');
     }
@@ -48,7 +42,6 @@ class ProfileController extends Controller
     public function updateDetail(DetailRequest $request): RedirectResponse
     {
         $user = auth()->user();
-
         Detail::updateOrCreate(
         ['user_id'    => $user->id],
         [
@@ -58,9 +51,7 @@ class ProfileController extends Controller
             'country' => $request->country
         ]
         );
-
         $user->professions()->sync($request->profession);
-
         return back()
             ->with('success', 'Profile successfully updated');
     }
@@ -73,14 +64,14 @@ class ProfileController extends Controller
         ]);
 
         if ($user->load(['avatar'])->avatar) {
-            Storage::delete($user->load(['avatar'])->avatar->path);
+            Storage::delete($user->avatar->path);
         }
 
         $file = $request->file('image')->store('avatars');
 
         if(Storage::exists($file)) {
             Avatar::updateOrCreate(
-                ['user_id' => Auth::id()],
+                ['user_id' => $user->id],
                 [
                     'original_name' => $request->file('image')->getClientOriginalName(),
                     'path' => $file

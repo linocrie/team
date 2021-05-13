@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="d-flex justify-content-center">
-                    <img src="{{ asset('storage/'.$userPath) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
+                    <img src="{{ $user->avatar ? asset('storage/'.$user->avatar->path) :  asset('images/default-avatar.png') }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
                 </div>
                 <div class="w-75 m-auto">
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">

@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Detail;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DetailFactory extends Factory
+class PostFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Detail::class;
+    protected $model = Post::class;
 
     /**
      * Define the model's default state.
@@ -24,10 +24,8 @@ class DetailFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'phone'   => $this->faker->phoneNumber,
-            'address' => $this->faker->address,
-            'city'    => $this->faker->city,
-            'country' => $this->faker->country
+            'title'   => $this->faker->sentence(10),
+            'description' => $this->faker->sentence(50)
         ];
     }
 }
