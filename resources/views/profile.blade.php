@@ -7,16 +7,16 @@
         @endif
         <div class="row">
             <div class="col-md-3">
-                <div>
-                    <img src="{{ asset('storage/'.$userPath) }}" alt='avatar' class = 'img-fluid rounded-circle'>
+                <div class="d-flex justify-content-center">
+                    <img src="{{ asset('storage/'.$userPath) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
                 </div>
-                <div class=''>
+                <div class="w-75 m-auto">
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     @method('PUT')
                         <div class="custom-file mt-1">
-                            <input type="file" class="custom-file-input  @error('image') is-invalid @enderror"  name="image" id="imageName">
+                            <input type="file" class="custom-file-input @error('image') is-invalid @enderror"  name="image" id="imageName">
 
                             @error('image')
                             <span class="invalid-feedback" role="alert">
