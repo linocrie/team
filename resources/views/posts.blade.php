@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+        @if(!$user)
+            <h2 class = "d-flex justify-content-center text-secondary">No posts created so far</h2>
+        @endif
         @foreach($user as $users)
             <a href="{{ route('posts.edit', ['id' => $users->id]) }}" class="text-decoration-none text-secondary">
                 <div class="row justify-content-center mb-5">
