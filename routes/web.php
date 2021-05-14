@@ -28,11 +28,8 @@ Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
 Route::get('/posts/store', function () {
     return view('createpost');
 });
-Route::get('/posts/{id}', function ($id) {
-    $postId = Post::where('id', $id)->where('user_id', auth()->user()->id)->first();
-    abort_if(!$postId, 403, 'Unauthorized access');
-    return view('editpost', ['userPost' => $postId]);
-})->name('posts.edit');
+
+Route::get('/posts/{id}', [PostsController::class, 'show'])->name('posts.edit');
 
 Route::put('/posts/update/{id}', [PostsController::class, 'update'])->name('posts.update');
 Route::delete('/posts/delete/{id}', [PostsController::class, 'delete'])->name('posts.delete');

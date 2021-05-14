@@ -7,25 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Post extends Model
+class PostImage extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'title',
-        'description',
+        'post_id',
         'original_name',
-        'path'
+        'path',
+        'processed'
     ];
 
-    public function user(): BelongsTo
+    public function post(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Post::class);
     }
 
-    public function image(): HasOne
-    {
-        return $this->hasOne(PostImage::class);
-    }
 }

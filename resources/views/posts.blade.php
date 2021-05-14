@@ -18,11 +18,11 @@
                                 <div class="row">
                                    <div class="col-md-3 border-right">
                                        <div class="d-flex justify-content-center">
-                                           <img src="{{ $users->path ? asset('storage/'.$users->path) : asset('images/default-post.gif') }}" alt='post image' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 100px; height: 100px;">
+                                           <img src="{{ $users->image ? asset('storage/'.$users->image->path) : asset('images/default-post.gif') }}" alt='post image' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 100px; height: 100px;">
                                        </div>
                                    </div>
                                     <div class="col-md-9">
-                                        {{ $users->description }}
+                                        {{ Str::limit($users->description, 250) }}
                                     </div>
                                 </div>
                             </div>
