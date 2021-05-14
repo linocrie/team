@@ -77,6 +77,7 @@ class PostsController extends Controller
 
     public function delete(Request $request): RedirectResponse
     {
+        PostImage::where('post_id', $request->id)->delete();
         Post::where('id', $request->id)->delete();
         return redirect()->route('posts.index');
     }
