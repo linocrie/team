@@ -37,16 +37,17 @@ class PostsController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function update(PostRequest $request, $id): RedirectResponse
+    public function update(PostRequest $request): RedirectResponse
     {
         $user = auth()->user();
+        $postId = $request->id;
 
         if ($user->load(['posts'])->posts) {
-            Storage::delete(Post::select('path')->where('id', $id)->first()->path);
+            Storage::delete(Post::select('path')->where('id', $postId)->first()->path);
         }
 
         $file = $request->file('image')->store('postimages');
-        Post::where('id', $id)->update(
+        Post::where('id', $postId)->update(
             [
                 'title'   => $request->title,
                 'description' => $request->description,
@@ -57,8 +58,9 @@ class PostsController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function delete(): RedirectResponse
+    public function delete(Request $request): RedirectResponse
     {
-
+        Post::where('id', $request->id)->delete();
+        return redirect()->route('posts.index');
     }
 }

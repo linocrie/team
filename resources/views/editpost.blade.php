@@ -5,17 +5,26 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
+                    <div class="text-right mr-2">
+                        <form method="POST" action="{{ route('posts.delete', ['id' => request('id')]) }}">
+                            @csrf
+
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-white p-1">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('posts.update', ['id' => request('id')]) }}" enctype="multipart/form-data">
                             @csrf
 
                             @method('PUT')
-{{--                            <input type="hidden" name="postId" value="{{ $users->id }}">--}}
                             <div class="form-group row">
                                 <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="title" type="text" class="form-control" name="title" required autofocus>
+                                    <input id="title" type="text" class="form-control" name="title" value="{{ $userPost->title }}" required autofocus>
                                 </div>
                             </div>
 
@@ -23,7 +32,7 @@
                                 <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea class="form-control" id="textarea" name="description" rows="3" required autofocus></textarea>
+                                    <textarea class="form-control" id="textarea" name="description" rows="3" required autofocus>{{ $userPost->description }}</textarea>
                                 </div>
                             </div>
 
