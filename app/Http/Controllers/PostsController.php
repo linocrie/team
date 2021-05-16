@@ -21,7 +21,7 @@ class PostsController extends Controller
     public function index(): View
     {
         return view('posts')
-            ->with('user', Post::get()->where('user_id', auth()->user()->id)->load(['image']));
+            ->with('user', Post::where('user_id', auth()->user()->id)->get()->load(['image']));
     }
 
     public function showCreate(): View
