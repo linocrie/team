@@ -95,6 +95,6 @@ class PostsController extends Controller
         PostImage::where('post_id', $postId)->delete();
         $post->where('user_id', auth()->user()->id)->first()->post_professions()->detach($request->postProfession);
         $post->delete();
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index')->with('success', 'Post successfully deleted');
     }
 }
