@@ -32,7 +32,7 @@ class PostsController extends Controller
 
     public function showEdit(Post $id): View
     {
-        $postId = Post::where('id', $id->id)->where('user_id', auth()->user()->id)->first()->load(['post_professions']);
+        $postId = Post::where('id', $id->id)->where('user_id', auth()->user()->id)->first();
         abort_if(!$postId, 403, 'Unauthorized access');
         return view('editpost')
             ->with('userPost', $id)
@@ -41,9 +41,8 @@ class PostsController extends Controller
 
     public function store(PostRequest $request): RedirectResponse
     {
-        $lastPostId = Post::where('user_id', auth()->user()->id)->select('id')->orderBy('id', 'DESC');
         $file = $request->file('image')->store('postimages');
-        Post::Create(
+        $lastPost = Post::Create(
             [
                 'user_id'     => auth()->user()->id,
                 'title'       => $request->title,
@@ -52,14 +51,14 @@ class PostsController extends Controller
         );
         PostImage::Create(
             [
-                'post_id'       => $lastPostId->first()->id,
+                'post_id'       => $lastPost->id,
                 'user_id'       => auth()->user()->id,
                 'original_name' => $request->file('image')->getClientOriginalName(),
                 'path' => $file
             ]
         );
 
-        $lastPostId->first()->post_professions()->attach($request->postProfession);
+        $lastPost->post_professions()->attach($request->postProfession);
         return redirect()->route('posts.index')->with('success', 'Post successfully created');
     }
 
