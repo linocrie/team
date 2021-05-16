@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Models\PostProfession;
 use App\Models\PostImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,19 +21,27 @@ class PostsController extends Controller
     public function index(): View
     {
         return view('posts')
-            ->with('user', Post::select('id', 'title', 'description')->where('user_id', auth()->user()->id)->get()->load(['image']));
+            ->with('user', Post::get()->where('user_id', auth()->user()->id)->load(['image']));
     }
 
-    public function show(Post $id): View
+    public function showCreate(): View
     {
-        $postId = Post::where('id', $id->id)->where('user_id', auth()->user()->id)->first();
+        return view('createpost')
+            ->with('postProfessions', PostProfession::all());
+    }
+
+    public function showEdit(Post $id): View
+    {
+        $postId = Post::where('id', $id->id)->where('user_id', auth()->user()->id)->first()->load(['post_professions']);
         abort_if(!$postId, 403, 'Unauthorized access');
         return view('editpost')
-            ->with('userPost', $id);
+            ->with('userPost', $id)
+            ->with('postProfession', PostProfession::all());
     }
 
     public function store(PostRequest $request): RedirectResponse
     {
+        $lastPostId = Post::where('user_id', auth()->user()->id)->select('id')->orderBy('id', 'DESC');
         $file = $request->file('image')->store('postimages');
         Post::Create(
             [
@@ -43,24 +52,27 @@ class PostsController extends Controller
         );
         PostImage::Create(
             [
-                'post_id'       => Post::where('user_id', auth()->user()->id)->select('id')->orderBy('id', 'DESC')->first()->id,
+                'post_id'       => $lastPostId->first()->id,
                 'user_id'       => auth()->user()->id,
                 'original_name' => $request->file('image')->getClientOriginalName(),
                 'path' => $file
             ]
         );
-        return redirect()->route('posts.index');
+
+        $lastPostId->first()->post_professions()->attach($request->postProfession);
+        return redirect()->route('posts.index')->with('success', 'Post successfully created');
     }
 
     public function update(PostRequest $request): RedirectResponse
     {
         $postId = $request->id;
-        if ($postImage = Post::where('id', $postId)->first()->load(['image'])->image) {
+        $post = Post::where('id', $postId);
+        if ($postImage = $post->first()->load(['image'])->image) {
             Storage::delete($postImage->path);
         }
 
         $file = $request->file('image')->store('postimages');
-        Post::where('id', $postId)->update(
+        $post->update(
             [
                 'title'       => $request->title,
                 'description' => $request->description
@@ -72,13 +84,17 @@ class PostsController extends Controller
                 'path'          => $file
             ]
         );
-        return redirect()->route('posts.index');
+        $post->where('user_id', auth()->user()->id)->first()->post_professions()->sync($request->postProfession);
+        return redirect()->route('posts.index')->with('success', 'Post successfully updated');
     }
 
     public function delete(Request $request): RedirectResponse
     {
-        PostImage::where('post_id', $request->id)->delete();
-        Post::where('id', $request->id)->delete();
+        $postId = $request->id;
+        $post = Post::where('id', $postId);
+        PostImage::where('post_id', $postId)->delete();
+        $post->where('user_id', auth()->user()->id)->first()->post_professions()->detach($request->postProfession);
+        $post->delete();
         return redirect()->route('posts.index');
     }
 }

@@ -152,9 +152,9 @@
                                 <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
 
                                 <div class="col-md-6">
-                                    <select name="profession[]" multiple="multiple" id="multiSelect">
+                                    <select name="userProfession[]" multiple="multiple" id="multiSelect">
                                         @foreach ($professions as $profession)
-                                            <option value="{{ $profession->id }}" @if(in_array($profession->id, $user->professions->pluck('id')->all())) selected @endif>{{ $profession->name }}</option>
+                                            <option value="{{ $profession->id }}" @if($user->user_professions->contains($profession->id)) selected @endif>{{ $profession->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DetailRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Avatar;
-use App\Models\Profession;
+use App\Models\UserProfession;
 use Illuminate\Http\Request;
 use App\Models\Detail;
 use Illuminate\Support\Facades\Auth;
@@ -23,8 +23,8 @@ class ProfileController extends Controller
     public function index(): View
     {
         return view('profile')
-            ->with('user', auth()->user()->load(['professions', 'detail', 'avatar']))
-            ->with('professions', Profession::all());
+            ->with('user', auth()->user()->load(['user_professions', 'detail', 'avatar']))
+            ->with('professions', UserProfession::all());
     }
 
     public function updateProfile(ProfileRequest $request): RedirectResponse
@@ -51,7 +51,7 @@ class ProfileController extends Controller
             'country' => $request->country
         ]
         );
-        $user->professions()->sync($request->profession);
+        $user->user_professions()->sync($request->userProfession);
         return back()
             ->with('success', 'Profile successfully updated');
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserProfession extends Migration
+class CreateUserProfessionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateUserProfession extends Migration
      */
     public function up()
     {
-        Schema::create('user_profession', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('user_profession_id')->constrained();
+        Schema::create('user_professions', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +27,6 @@ class CreateUserProfession extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_profession');
+        Schema::dropIfExists('user_professions');
     }
 }

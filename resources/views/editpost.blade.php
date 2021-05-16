@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="text-right mr-2">
-                        <form method="POST" action="{{ route('posts.delete', ['id' => request('id')]) }}">
+                        <form method="POST" action="{{ route('posts.delete', ['id' => $userPost->id]) }}">
                             @csrf
 
                             @method('DELETE')
@@ -16,7 +16,7 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('posts.update', ['id' => request('id')]) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('posts.update', ['id' => $userPost->id]) }}" enctype="multipart/form-data">
                             @csrf
 
                             @method('PUT')
@@ -33,6 +33,16 @@
 
                                 <div class="col-md-6">
                                     <textarea class="form-control" id="textarea" name="description" rows="3" required autofocus>{{ $userPost->description }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-4">
+                                    <select name="postProfession[]" multiple="multiple" id="multiSelect">
+                                        @foreach ($postProfession as $postProfessions)
+                                        <option value="{{ $postProfessions->id }}" @if($userPost->post_professions->contains($postProfessions->id)) selected @endif>{{ $postProfessions->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 

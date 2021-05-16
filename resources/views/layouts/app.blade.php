@@ -56,7 +56,7 @@
                         @else
                             @if (Route::has('posts.index'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('posts.store') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <a class="nav-link" href="{{ route('posts.create') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ __('Create post') }}
                                     </a>
                                 </li>

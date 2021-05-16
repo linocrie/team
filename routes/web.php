@@ -25,11 +25,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
-Route::get('/posts/store', function () {
-    return view('createpost');
-});
-
-Route::get('/posts/{id}', [PostsController::class, 'show'])->name('posts.edit');
+Route::get('/posts/store', [PostsController::class, 'showCreate'])->name('posts.create');
+Route::get('/posts/{id}', [PostsController::class, 'showEdit'])->name('posts.edit');
 
 Route::put('/posts/update/{id}', [PostsController::class, 'update'])->name('posts.update');
 Route::delete('/posts/delete/{id}', [PostsController::class, 'delete'])->name('posts.delete');

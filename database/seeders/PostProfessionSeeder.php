@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Profession;
+use App\Models\PostProfession;
 
-class ProfessionSeeder extends Seeder
+class PostProfessionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class ProfessionSeeder extends Seeder
      */
     public function run()
     {
-        Profession::factory(15)->create();
+        PostProfession::factory(15)->create();
     }
 }

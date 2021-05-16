@@ -2,7 +2,10 @@
 
 @section('content')
     <div class="container">
-        @if(!$user)
+        @if(session('success'))
+            <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
+        @endif
+        @if(!$user->first())
             <h2 class = "d-flex justify-content-center text-secondary">No posts created so far</h2>
         @endif
         @foreach($user as $users)
