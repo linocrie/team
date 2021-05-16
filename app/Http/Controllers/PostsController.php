@@ -41,10 +41,11 @@ class PostsController extends Controller
 
     public function store(PostRequest $request): RedirectResponse
     {
+        $userId = auth()->user()->id;
         $file = $request->file('image')->store('postimages');
         $lastPost = Post::Create(
             [
-                'user_id'     => auth()->user()->id,
+                'user_id'     => $userId,
                 'title'       => $request->title,
                 'description' => $request->description,
             ]
@@ -52,7 +53,7 @@ class PostsController extends Controller
         PostImage::Create(
             [
                 'post_id'       => $lastPost->id,
-                'user_id'       => auth()->user()->id,
+                'user_id'       => $userId,
                 'original_name' => $request->file('image')->getClientOriginalName(),
                 'path' => $file
             ]
