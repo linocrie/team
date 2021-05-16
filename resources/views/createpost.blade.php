@@ -32,7 +32,8 @@
                             </div>
 
                             <div class="form-group row">
-                                <div class="col-md-6 offset-4">
+                                <label for="pProfession" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
+                                <div class="col-md-6">
                                     <select name="postProfession[]" multiple="multiple" id="multiSelect">
                                         @foreach ($postProfessions as $profession)
                                             <option value="{{ $profession->id }}">{{ $profession->name }}</option>
@@ -42,7 +43,8 @@
                             </div>
 
                             <div class="form-group row">
-                                <div class="col-md-6 offset-4">
+                                <label for="pImage" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
+                                <div class="col-md-6">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input @error('image') is-invalid @enderror" name="image" id="image">
 

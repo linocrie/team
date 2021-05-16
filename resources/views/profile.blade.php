@@ -149,7 +149,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
+                                <label for="uProfession" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
 
                                 <div class="col-md-6">
                                     <select name="userProfession[]" multiple="multiple" id="multiSelect">
