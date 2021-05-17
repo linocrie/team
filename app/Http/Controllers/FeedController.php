@@ -32,6 +32,7 @@ class FeedController extends Controller
             }
             $query->whereIn('profession_id', $arr);
         })->simplePaginate(5);
-        return view('feed', ['postsProfession' => $postsProfession]);
+        return view('feed')
+            ->with('postsProfession', $postsProfession);
     }
 }
