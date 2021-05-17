@@ -5,12 +5,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="text-right mr-2">
+                    <div class="text-right mr-2 mt-2">
                         <form method="POST" action="{{ route('posts.delete', ['id' => $userPost->id]) }}">
                             @csrf
 
                             @method('DELETE')
-                            <button type="submit" class="btn btn-white p-1">
+                            <button type="submit" class="btn btn-danger p-1">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </form>
