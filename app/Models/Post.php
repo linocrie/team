@@ -30,8 +30,8 @@ class Post extends Model
         return $this->hasOne(PostImage::class);
     }
 
-    public function post_professions(): BelongsToMany
+    public function professions(): BelongsToMany
     {
-        return $this->belongsToMany(PostProfession::class, 'post_profession');
+        return $this->belongsToMany(Profession::class, 'post_profession');
     }
 }

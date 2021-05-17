@@ -41,7 +41,7 @@
                                 <div class="col-md-6">
                                     <select name="postProfession[]" multiple="multiple" id="multiSelect">
                                         @foreach ($postProfession as $postProfessions)
-                                        <option value="{{ $postProfessions->id }}" @if($userPost->post_professions->contains($postProfessions->id)) selected @endif>{{ $postProfessions->name }}</option>
+                                        <option value="{{ $postProfessions->id }}" @if($userPost->professions->contains($postProfessions->id)) selected @endif>{{ $postProfessions->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

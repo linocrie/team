@@ -9,7 +9,7 @@
             <h2 class = "d-flex justify-content-center text-secondary">No posts created so far</h2>
         @endif
         @foreach($user as $users)
-            <a href="{{ route('posts.edit', ['id' => $users->id]) }}" class="text-decoration-none text-secondary">
+            <a href="{{ route('posts.edit', ['post' => $users->id]) }}" class="text-decoration-none text-secondary">
                 <div class="row justify-content-center mb-5">
                     <div class="col-md-8">
                         <div class="card">

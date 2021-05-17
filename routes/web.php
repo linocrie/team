@@ -3,7 +3,7 @@
 use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Models\Post;
+use App\Http\Controllers\FeedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,11 +22,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/feed', [FeedController::class, 'index'])->name('feed');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
 Route::get('/posts/store', [PostsController::class, 'showCreate'])->name('posts.create');
-Route::get('/posts/{id}', [PostsController::class, 'showEdit'])->name('posts.edit');
+Route::get('/posts/{post}', [PostsController::class, 'showEdit'])->name('posts.edit');
 
 Route::put('/posts/update/{id}', [PostsController::class, 'update'])->name('posts.update');
 Route::delete('/posts/delete/{id}', [PostsController::class, 'delete'])->name('posts.delete');

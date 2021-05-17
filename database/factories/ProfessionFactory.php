@@ -3,17 +3,17 @@
 namespace Database\Factories;
 
 use App\Models\Model;
-use App\Models\UserProfession;
+use App\Models\Profession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UserProfessionFactory extends Factory
+class ProfessionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = UserProfession::class;
+    protected $model = Profession::class;
 
     /**
      * Define the model's default state.
