@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    @if(!$postsProfession->first())
+        <h2 class = "d-flex justify-content-center text-secondary">No posts matches your profession</h2>
+    @endif
     @foreach($postsProfession as $posts)
         <div class="row justify-content-center mb-5">
             <div class="col-md-8">
