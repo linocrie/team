@@ -24,15 +24,14 @@ class PostsController extends Controller
             ->with('user', Post::where('user_id', auth()->user()->id)->get()->load(['image']));
     }
 
-    public function showCreate(): View
+    public function create(): View
     {
         return view('createpost')
             ->with('postProfessions', Profession::all());
     }
 
-    public function showEdit(Post $post): View
+    public function edit(Post $post): View
     {
-//        $postId = Post::where('id', $post->id)->where('user_id', auth()->user()->id)->first();
         abort_if($post->user_id !== auth()->user()->id, 403, 'Unauthorized access');
         return view('editpost')
             ->with('userPost', $post)

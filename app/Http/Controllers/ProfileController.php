@@ -27,7 +27,7 @@ class ProfileController extends Controller
             ->with('professions', Profession::all());
     }
 
-    public function updateProfile(ProfileRequest $request): RedirectResponse
+    public function profile(ProfileRequest $request): RedirectResponse
     {
         $user = auth()->user();
         $user->update([
@@ -39,7 +39,7 @@ class ProfileController extends Controller
             ->with('success', 'Profile successfully updated');
     }
 
-    public function updateDetail(DetailRequest $request): RedirectResponse
+    public function detail(DetailRequest $request): RedirectResponse
     {
         $user = auth()->user();
         Detail::updateOrCreate(

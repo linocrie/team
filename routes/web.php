@@ -25,13 +25,13 @@ Auth::routes();
 Route::get('/feed', [FeedController::class, 'index'])->name('feed');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
-Route::get('/posts/store', [PostsController::class, 'showCreate'])->name('posts.create');
-Route::get('/posts/{post}', [PostsController::class, 'showEdit'])->name('posts.edit');
+Route::get('/posts/store', [PostsController::class, 'create'])->name('posts.create');
+Route::get('/posts/{post}', [PostsController::class, 'edit'])->name('posts.edit');
 
 Route::put('/posts/update/{id}', [PostsController::class, 'update'])->name('posts.update');
 Route::delete('/posts/delete/{id}', [PostsController::class, 'delete'])->name('posts.delete');
 Route::post('/posts/store', [PostsController::class, 'store'])->name('posts.store');
-Route::put('/profile/updateProfile', [ProfileController::class, 'updateProfile'])->name('profile.update.profile');
-Route::put('/profile/updateDetail', [ProfileController::class, 'updateDetail'])->name('profile.update.detail');
+Route::put('/profile/update/profile', [ProfileController::class, 'profile'])->name('profile.update.profile');
+Route::put('/profile/update/detail', [ProfileController::class, 'detail'])->name('profile.update.detail');
 Route::put('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
 
