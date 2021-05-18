@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DetailRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Avatar;
+use App\Models\Gallery;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use App\Models\Detail;
@@ -24,6 +25,7 @@ class ProfileController extends Controller
     {
         return view('profile')
             ->with('user', auth()->user()->load(['professions', 'detail', 'avatar']))
+            ->with('userGallery', Gallery::where('user_id', auth()->user()->id)->get())
             ->with('professions', Profession::all());
     }
 

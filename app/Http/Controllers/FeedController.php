@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\View\View;
 
 class FeedController extends Controller
 {
@@ -22,15 +23,10 @@ class FeedController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(): View
     {
-        $postsProfession = Post::whereHas('professions', function (Builder $query) {
-            $userProfession = auth()->user()->load(['professions'])->professions;
-            $arr = [];
-            foreach ($userProfession as $professions) {
-                array_push($arr, $professions->id);
-            }
-            $query->whereIn('profession_id', $arr);
+        $postsProfession = Post::where('user_id', '!=', auth()->user()->id)->whereHas('professions', function (Builder $query) {
+            $query->whereIn('profession_id', auth()->user()->professions->pluck('id'));
         })->simplePaginate(5);
         return view('feed')
             ->with('postsProfession', $postsProfession);

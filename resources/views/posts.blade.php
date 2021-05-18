@@ -1,5 +1,11 @@
 @extends('layouts.app')
-
+@section("navbar")
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('posts.create') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+            {{ __('Create post') }}
+        </a>
+    </li>
+@endsection
 @section('content')
     <div class="container">
         @if(session('success'))
@@ -10,12 +16,12 @@
         @endif
         @foreach($user as $users)
             <a href="{{ route('posts.edit', ['post' => $users->id]) }}" class="text-decoration-none text-secondary">
-                <div class="row justify-content-center mb-5">
+                <div class="row justify-content-center mb-4">
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-header">
                                 <p class = "float-left mb-0">{{ $users->title }}</p>
-                                <p class = "float-right mb-0">{{ $users->updated_at }}</p>
+                                <p class = "float-right mb-0">{{ Str::substr($users->updated_at, 0, 10) }}</p>
                             </div>
                             <div class="card-body">
                                 <div class="row">

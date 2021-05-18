@@ -54,16 +54,15 @@
                                 </li>
                             @endif
                         @else
-                            @if (Route::has('posts.index'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('posts.create') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ __('Create post') }}
-                                    </a>
-                                </li>
-                            @endif
+                            @yield('navbar')
                             <li class="nav-item">
                                 <a id="posts" class="nav-link" href="{{ route('posts.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ __('Posts') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="posts" class="nav-link" href="{{ route('feed') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ __('Feed') }}
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
@@ -72,10 +71,6 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
-                                    <a class="dropdown-item" href="{{ route('feed') }}">
-                                        {{ __('Home') }}
-                                    </a>
 
                                     <a class="dropdown-item" href="{{ route('profile.index') }}">
                                         {{ __('Profile') }}

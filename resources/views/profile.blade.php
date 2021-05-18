@@ -1,5 +1,11 @@
 @extends('layouts.app')
-
+@section("navbar")
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('gallery.create') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+            {{ __('Create gallery') }}
+        </a>
+    </li>
+@endsection
 @section('content')
     <div class="container-fluid">
         @if(session('success'))
@@ -172,5 +178,20 @@
                 </div>
             </div>
         </div>
+
+            <div class="row">
+                <div class="col-md-8 offset-3">
+                    @foreach($userGallery as $gallery)
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <span class="d-flex justify-content-center">{{ $gallery->title }}</span>
+                            </div>
+                            <div class="card-body d-flex justify-content-center">
+                                <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
     </div>
 @endsection

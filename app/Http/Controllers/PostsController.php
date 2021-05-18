@@ -6,6 +6,8 @@ use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\Profession;
 use App\Models\PostImage;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +40,23 @@ class PostsController extends Controller
             ->with('postProfession', Profession::all());
     }
 
+    public function detail(Post $post): View
+    {
+        $postsProfession = Post::where('user_id', '!=', auth()->user()->id)->whereHas('professions', function (Builder $query) {
+            $query->whereIn('profession_id', auth()->user()->professions->pluck('id'));
+        })->pluck('id');
+        abort_if(!$postsProfession->contains($post->id), 403, 'Unauthorized access');
+        return view('detailpost')
+            ->with('postDetail', $post)
+            ->with('author', $post->user()->first());
+    }
+
+    public function profile(User $user): View
+    {
+        return view('postuserprofile')
+            ->with('postUser', $user->load(['avatar', 'detail']));
+    }
+
     public function store(PostRequest $request): RedirectResponse
     {
         $userId = auth()->user()->id;
@@ -58,7 +77,9 @@ class PostsController extends Controller
             ]
         );
         $lastPost->professions()->attach($request->postProfession);
-        return redirect()->route('posts.index')->with('success', 'Post successfully created');
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post successfully created');
     }
 
     public function update(PostRequest $request): RedirectResponse
@@ -87,7 +108,9 @@ class PostsController extends Controller
             ]
         );
         $post->where('user_id', auth()->user()->id)->first()->professions()->sync($request->postProfession);
-        return redirect()->route('posts.index')->with('success', 'Post successfully updated');
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post successfully updated');
     }
 
     public function delete(Request $request): RedirectResponse
@@ -97,6 +120,8 @@ class PostsController extends Controller
         PostImage::where('post_id', $postId)->delete();
         $post->where('user_id', auth()->user()->id)->first()->professions()->detach($request->postProfession);
         $post->delete();
-        return redirect()->route('posts.index')->with('success', 'Post successfully deleted');
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post successfully deleted');
     }
 }

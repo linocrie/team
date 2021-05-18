@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\PostsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,15 +25,29 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/feed', [FeedController::class, 'index'])->name('feed');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
-Route::get('/posts/store', [PostsController::class, 'create'])->name('posts.create');
-Route::get('/posts/{post}', [PostsController::class, 'edit'])->name('posts.edit');
 
-Route::put('/posts/update/{id}', [PostsController::class, 'update'])->name('posts.update');
-Route::delete('/posts/delete/{id}', [PostsController::class, 'delete'])->name('posts.delete');
-Route::post('/posts/store', [PostsController::class, 'store'])->name('posts.store');
-Route::put('/profile/update/profile', [ProfileController::class, 'profile'])->name('profile.update.profile');
-Route::put('/profile/update/detail', [ProfileController::class, 'detail'])->name('profile.update.detail');
-Route::put('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostsController::class, 'index'])->name('posts.index');
+    Route::get('/store', [PostsController::class, 'create'])->name('posts.create');
+    Route::get('/{post}', [PostsController::class, 'edit'])->name('posts.edit');
+    Route::get('/detail/{post}', [PostsController::class, 'detail'])->name('posts.detail');
+    Route::get('/profile/{user}', [PostsController::class, 'profile'])->name('posts.profile');
+    Route::post('/store', [PostsController::class, 'store'])->name('posts.store');
+    Route::put('/update/{id}', [PostsController::class, 'update'])->name('posts.update');
+    Route::delete('/delete/{id}', [PostsController::class, 'delete'])->name('posts.delete');
+});
+
+Route::prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/update/profile', [ProfileController::class, 'profile'])->name('profile.update.profile');
+    Route::put('/update/detail', [ProfileController::class, 'detail'])->name('profile.update.detail');
+    Route::put('/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+});
+
+Route::prefix('gallery')->group(function () {
+    Route::get('/create', [GalleryController::class, 'create'])->name('gallery.create');
+    Route::put('/store', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::put('/update/detail', [GalleryController::class, 'detail'])->name('profile.update.detail');
+    Route::put('/upload', [GalleryController::class, 'upload'])->name('profile.upload');
+});
 
