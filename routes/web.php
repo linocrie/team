@@ -46,8 +46,10 @@ Route::prefix('profile')->group(function () {
 
 Route::prefix('gallery')->group(function () {
     Route::get('/create', [GalleryController::class, 'create'])->name('gallery.create');
-    Route::put('/store', [GalleryController::class, 'store'])->name('gallery.store');
-    Route::put('/update/detail', [GalleryController::class, 'detail'])->name('profile.update.detail');
-    Route::put('/upload', [GalleryController::class, 'upload'])->name('profile.upload');
+    Route::get('/edit/{id}', [GalleryController::class, 'edit'])->name('gallery.edit');
+    Route::post('/store', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::put('/{id}', [GalleryController::class, 'update'])->name('gallery.update');
+    Route::delete('/delete/{id}', [GalleryController::class, 'delete'])->name('images.delete');
+    Route::delete('/destroy/{id}', [GalleryController::class, 'destroy'])->name('gallery.delete');
 });
 

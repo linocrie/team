@@ -179,19 +179,18 @@
             </div>
         </div>
 
-            <div class="row">
-                <div class="col-md-8 offset-3">
-                    @foreach($userGallery as $gallery)
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                <span class="d-flex justify-content-center">{{ $gallery->title }}</span>
-                            </div>
-                            <div class="card-body d-flex justify-content-center">
-                                <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
-                            </div>
-                        </div>
-                    @endforeach
+        <div class="row border-top">
+            <h3 class="card-header w-100 d-flex justify-content-center mb-3">Galleries</h3>
+            @foreach($userGallery as $gallery)
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-center">
+                        <a href="{{ route('gallery.edit', ['id' => $gallery->id]) }}" class="text-decoration-none text-secondary">
+                            <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
+                        </a>
+                    </div>
+                    <strong class="d-flex justify-content-center">{{ $gallery->title }}</strong>
                 </div>
-            </div>
+            @endforeach
+        </div>
     </div>
 @endsection

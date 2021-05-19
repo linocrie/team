@@ -9,7 +9,6 @@
                         <form method="POST" action="{{ route('gallery.store') }}" enctype="multipart/form-data">
                             @csrf
 
-                            @method('PUT')
                             <div class="form-group row">
                                 <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
 
@@ -22,13 +21,10 @@
                                 <label for="pImage" class="col-md-4 col-form-label text-md-right">{{ __('Multiple image') }}</label>
                                 <div class="col-md-6">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input @error('image') is-invalid @enderror" name="gallery[]" id="gallery" multiple>
-
-                                        @error('image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                                        <input type="file" class="custom-file-input" name="gallery[]" id="gallery" multiple>
+                                        @foreach ($errors->all() as $error)
+                                            <strong class="text-danger">{{ $error }}</strong>
+                                        @endforeach
                                         <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
                                     </div>
                                 </div>

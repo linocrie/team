@@ -117,7 +117,9 @@ class PostsController extends Controller
     {
         $postId = $request->id;
         $post = Post::where('id', $postId);
-        PostImage::where('post_id', $postId)->delete();
+        $postImage = PostImage::where('post_id', $postId);
+        Storage::delete($postImage->first()->path);
+        $postImage->delete();
         $post->where('user_id', auth()->user()->id)->first()->professions()->detach($request->postProfession);
         $post->delete();
 
