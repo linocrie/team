@@ -18,7 +18,6 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-//        $this->middleware('admin');
     }
 
     public function index(): View
@@ -37,6 +36,7 @@ class ProfileController extends Controller
             'email'    => $request->email,
             'password' => $request->password ? bcrypt($request->password) : $user->password
         ]);
+
         return back()
             ->with('success', 'Profile successfully updated');
     }

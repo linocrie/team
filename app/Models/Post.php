@@ -2,21 +2,17 @@
 
 namespace App\Models;
 
-//use App\Scopes\PostScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
     use HasFactory;
-
-//    public function scopeAuthorize($query)
-//    {
-//        return $query->where('user_id', auth()->user()->id);
-//    }
 
     protected $fillable = [
         'user_id',
@@ -25,6 +21,11 @@ class Post extends Model
         'original_name',
         'path'
     ];
+
+    public function scopeEdit($query)
+    {
+        return $query->where('user_id', auth()->user()->id);
+    }
 
     public function user(): BelongsTo
     {

@@ -26,5 +26,30 @@
                 </div>
             </div>
         </div>
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center">Galleries</div>
+                    <div class="card-body">
+                        @if($postUser->galleries->isEmpty())
+                            <h2 class = "text-secondary d-flex justify-content-center">No gallery available</h2>
+                        @endif
+                        <div class="row">
+                            @foreach($postUser->galleries as $gallery)
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-center">
+                                        <a href="{{ route('gallery.show', ['gallery' => $gallery]) }}" class="text-decoration-none text-secondary">
+                                            <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
+                                        </a>
+                                    </div>
+                                    <strong class="d-flex justify-content-center">{{ $gallery->title }}</strong>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

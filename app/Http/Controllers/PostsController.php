@@ -34,9 +34,8 @@ class PostsController extends Controller
 
     public function edit(Post $post): View
     {
-        abort_if($post->user_id !== auth()->user()->id, 403, 'Unauthorized access');
         return view('editpost')
-            ->with('userPost', $post)
+            ->with('userPost', $post->edit()->first())
             ->with('postProfession', Profession::all());
     }
 
@@ -54,7 +53,7 @@ class PostsController extends Controller
     public function profile(User $user): View
     {
         return view('postuserprofile')
-            ->with('postUser', $user->load(['avatar', 'detail']));
+            ->with('postUser', $user->load(['avatar', 'detail', 'galleries']));
     }
 
     public function store(PostRequest $request): RedirectResponse
@@ -118,7 +117,9 @@ class PostsController extends Controller
         $postId = $request->id;
         $post = Post::where('id', $postId);
         $postImage = PostImage::where('post_id', $postId);
-        Storage::delete($postImage->first()->path);
+        if($image = $postImage->first()) {
+            Storage::delete($image->path);
+        }
         $postImage->delete();
         $post->where('user_id', auth()->user()->id)->first()->professions()->detach($request->postProfession);
         $post->delete();

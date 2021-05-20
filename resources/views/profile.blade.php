@@ -20,7 +20,6 @@
                     <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
-                    @method('PUT')
                         <div class="custom-file mt-1">
                             <input type="file" class="custom-file-input @error('image') is-invalid @enderror"  name="image" id="imageName">
 
@@ -179,18 +178,30 @@
             </div>
         </div>
 
-        <div class="row border-top">
-            <h3 class="card-header w-100 d-flex justify-content-center mb-3">Galleries</h3>
-            @foreach($userGallery as $gallery)
-                <div class="col-md-4">
-                    <div class="d-flex justify-content-center">
-                        <a href="{{ route('gallery.edit', ['id' => $gallery->id]) }}" class="text-decoration-none text-secondary">
-                            <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
-                        </a>
+        <div class="row mb-4">
+            <div class="col-md-8 offset-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center">Galleries</div>
+                    <div class="card-body">
+                        @if($userGallery->isEmpty())
+                            <h2 class = "text-secondary d-flex justify-content-center">No gallery available</h2>
+                        @endif
+                        <div class="row">
+                            @foreach($userGallery as $gallery)
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-center">
+                                        <a href="{{ route('gallery.edit', ['id' => $gallery->id]) }}" class="text-decoration-none text-secondary">
+                                            <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
+                                        </a>
+                                    </div>
+                                    <strong class="d-flex justify-content-center">{{ $gallery->title }}</strong>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <strong class="d-flex justify-content-center">{{ $gallery->title }}</strong>
                 </div>
-            @endforeach
+            </div>
+        </div>
         </div>
     </div>
 @endsection

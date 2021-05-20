@@ -2,9 +2,22 @@
 
 @section('content')
     <div class="container-fluid">
+        @if(session('success'))
+            <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
+                    <div class="text-right mt-2 mr-2">
+                        <form method="POST" action="{{ route('gallery.delete', ['id' => $gallery->id]) }}">
+                            @csrf
+
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('gallery.update', ['id' => $gallery->id]) }}" enctype="multipart/form-data">
                             @csrf
@@ -42,42 +55,39 @@
                     </div>
                 </div>
             </div>
-
-            <div>
-                <form method="POST" action="{{ route('gallery.delete', ['id' => $gallery->id]) }}">
-                    @csrf
-
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">
-                        Delete
-                    </button>
-                </form>
-            </div>
         </div>
 
-        <div class="row mt-4">
-            <h3 class="card-header w-100 d-flex justify-content-center mb-3">Gallery Images</h3>
-            @if($gallery->galleryImages->isEmpty())
-                <h2 class = "text-secondary m-auto">No images in this gallery</h2>
-            @endif
-            @foreach($gallery->galleryImages as $images)
-                <div class="col-md-4">
-                    <div class="text-right mr-5">
-                        <form method="POST" action="{{ route('images.delete', ['id' => $images->id]) }}">
-                            @csrf
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-center">Gallery Images</div>
+                    <div class="card-body">
+                        @if($gallery->galleryImages->isEmpty())
+                            <h2 class = "text-secondary m-auto">No images in this gallery</h2>
+                        @endif
+                        <div class="row">
+                            @foreach($gallery->galleryImages as $images)
+                                <div class="col-md-6">
+                                    <div class="text-right mr-5">
+                                        <form method="POST" action="{{ route('images.delete', ['id' => $images->id]) }}">
+                                            @csrf
 
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-white">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                        </form>
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-white">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <img src="{{ asset('storage/'.$images->path) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
+                                    </div>
+                                    <strong class="d-flex justify-content-center">{{ $images->original_name }}</strong>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <img src="{{ asset('storage/'.$images->path) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
-                    </div>
-                    <strong class="d-flex justify-content-center">{{ $images->original_name }}</strong>
                 </div>
-            @endforeach
+            </div>
         </div>
     </div>
 @endsection

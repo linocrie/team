@@ -6,7 +6,7 @@ use App\Http\Requests\GalleryRequest;
 use App\Models\Gallery;
 use App\Models\GalleryImages;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -46,6 +46,14 @@ class GalleryController extends Controller
             ->with('gallery', Gallery::where('id', $id)->first()->load(['galleryImages']));
     }
 
+    public function show(Gallery $gallery): View
+    {
+        abort_if($gallery->user_id !== Gallery::first()->user()->first()->id, 403, 'Unauthorized access');
+
+        return view('postuserimages')
+            ->with('postUserImages', $gallery->load(['galleryImages']));
+    }
+
     public function update(GalleryRequest $request, $id): RedirectResponse
     {
         Gallery::where('id', $id)->update([
@@ -73,7 +81,7 @@ class GalleryController extends Controller
         Storage::delete($galleryImages->first()->path);
         $galleryImages->delete();
 
-        return redirect()->route('profile.index')
+        return back()
             ->with('success', 'Image successfully deleted');
     }
 
@@ -82,9 +90,7 @@ class GalleryController extends Controller
         $galleryImages = GalleryImages::where('gallery_id', $id);
 
         if($galleryImages->get()) {
-            foreach ($galleryImages->get() as $images) {
-                Storage::delete($images->path);
-            }
+            Storage::delete($galleryImages->pluck('path')->all());
             $galleryImages->delete();
         }
 

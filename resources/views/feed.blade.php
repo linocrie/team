@@ -12,7 +12,7 @@
                     <div class="card">
                         <div class="card-header">
                             <p class = "float-left mb-0">{{ $posts->title }}</p>
-                            <p class = "float-right mb-0">{{ Str::substr($posts->updated_at, 0, 10) }}</p>
+                            <p class = "float-right mb-0">{{ Str::substr($posts->updated_at, 0, 16) }}</p>
                         </div>
                         <div class="card-body">
                             <div class="row">
