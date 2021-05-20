@@ -6,7 +6,6 @@ use App\Http\Requests\GalleryRequest;
 use App\Models\Gallery;
 use App\Models\GalleryImages;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
