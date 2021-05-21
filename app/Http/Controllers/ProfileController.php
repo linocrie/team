@@ -54,6 +54,7 @@ class ProfileController extends Controller
         ]
         );
         $user->professions()->sync($request->userProfession);
+
         return back()
             ->with('success', 'Profile successfully updated');
     }

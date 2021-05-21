@@ -22,7 +22,7 @@ class Post extends Model
         'path'
     ];
 
-    public function scopeEdit($query)
+    public function scopeAuthorize($query)
     {
         return $query->where('user_id', auth()->user()->id);
     }

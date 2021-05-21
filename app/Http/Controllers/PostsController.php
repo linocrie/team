@@ -23,7 +23,7 @@ class PostsController extends Controller
     public function index(): View
     {
         return view('posts')
-            ->with('user', Post::where('user_id', auth()->user()->id)->get()->load(['image']));
+            ->with('user', Post::where('user_id', auth()->user()->id)->get()->load('image'));
     }
 
     public function create(): View
@@ -35,16 +35,12 @@ class PostsController extends Controller
     public function edit(Post $post): View
     {
         return view('editpost')
-            ->with('userPost', $post->edit()->first())
+            ->with('userPost', $post->authorize()->first())
             ->with('postProfession', Profession::all());
     }
 
     public function detail(Post $post): View
     {
-        $postsProfession = Post::where('user_id', '!=', auth()->user()->id)->whereHas('professions', function (Builder $query) {
-            $query->whereIn('profession_id', auth()->user()->professions->pluck('id'));
-        })->pluck('id');
-        abort_if(!$postsProfession->contains($post->id), 403, 'Unauthorized access');
         return view('detailpost')
             ->with('postDetail', $post)
             ->with('author', $post->user()->first());
@@ -86,7 +82,7 @@ class PostsController extends Controller
         $postId = $request->id;
         $post = Post::where('id', $postId);
 
-        if ($postImage = $post->first()->load(['image'])->image) {
+        if ($postImage = $post->first()->load('image')->image) {
             Storage::delete($postImage->path);
         }
 

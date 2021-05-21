@@ -39,7 +39,7 @@
                             @foreach($postUser->galleries as $gallery)
                                 <div class="col-md-6">
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ route('gallery.show', ['gallery' => $gallery]) }}" class="text-decoration-none text-secondary">
+                                        <a href="{{ route('gallery.show', ['id' => $gallery->id]) }}" class="text-decoration-none text-secondary">
                                             <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
                                         </a>
                                     </div>

@@ -47,7 +47,7 @@ Route::prefix('profile')->group(function () {
 Route::prefix('gallery')->group(function () {
     Route::get('/create', [GalleryController::class, 'create'])->name('gallery.create');
     Route::get('/edit/{id}', [GalleryController::class, 'edit'])->name('gallery.edit');
-    Route::get('/show/{gallery}', [GalleryController::class, 'show'])->name('gallery.show');
+    Route::get('/show/{id}', [GalleryController::class, 'show'])->name('gallery.show');
     Route::post('/store', [GalleryController::class, 'store'])->name('gallery.store');
     Route::put('/{id}', [GalleryController::class, 'update'])->name('gallery.update');
     Route::delete('/delete/{id}', [GalleryController::class, 'delete'])->name('images.delete');

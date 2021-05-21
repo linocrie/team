@@ -11,6 +11,10 @@ use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function create(): View
     {
@@ -42,15 +46,13 @@ class GalleryController extends Controller
     public function edit($id): View
     {
         return view('editgallery')
-            ->with('gallery', Gallery::where('id', $id)->first()->load(['galleryImages']));
+            ->with('gallery', Gallery::where('id', $id)->first()->load('galleryImages'));
     }
 
-    public function show(Gallery $gallery): View
+    public function show($id): View
     {
-        abort_if($gallery->user_id !== Gallery::first()->user()->first()->id, 403, 'Unauthorized access');
-
         return view('postuserimages')
-            ->with('postUserImages', $gallery->load(['galleryImages']));
+            ->with('postUserImages', GalleryImages::where('gallery_id', $id)->get());
     }
 
     public function update(GalleryRequest $request, $id): RedirectResponse
