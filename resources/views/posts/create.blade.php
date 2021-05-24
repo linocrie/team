@@ -35,7 +35,7 @@
                                 <label for="pProfession" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
                                 <div class="col-md-6">
                                     <select name="postProfession[]" multiple="multiple" id="multiSelect">
-                                        @foreach ($postProfessions as $profession)
+                                        @foreach ($professions as $profession)
                                             <option value="{{ $profession->id }}">{{ $profession->name }}</option>
                                         @endforeach
                                     </select>

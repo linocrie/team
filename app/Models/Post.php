@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\PostUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,11 @@ class Post extends Model
     use SoftDeletes;
     use HasFactory;
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new PostUser);
+    }
+
     protected $fillable = [
         'user_id',
         'title',
@@ -21,11 +27,6 @@ class Post extends Model
         'original_name',
         'path'
     ];
-
-    public function scopeAuthorize($query)
-    {
-        return $query->where('user_id', auth()->user()->id);
-    }
 
     public function user(): BelongsTo
     {

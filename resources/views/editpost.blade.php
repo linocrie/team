@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="text-right mr-2 mt-2">
-                        <form method="POST" action="{{ route('posts.delete', ['id' => $userPost->id]) }}">
+                        <form method="POST" action="{{ route('posts.delete', ['post' => $userPost->id]) }}">
                             @csrf
 
                             @method('DELETE')

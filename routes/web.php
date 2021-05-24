@@ -30,11 +30,11 @@ Route::prefix('posts')->group(function () {
     Route::get('/', [PostsController::class, 'index'])->name('posts.index');
     Route::get('/store', [PostsController::class, 'create'])->name('posts.create');
     Route::get('/{post}', [PostsController::class, 'edit'])->name('posts.edit');
-    Route::get('/detail/{post}', [PostsController::class, 'detail'])->name('posts.detail');
+    Route::get('/detail/{post}', [PostsController::class, 'show'])->name('posts.detail');
     Route::get('/profile/{user}', [PostsController::class, 'profile'])->name('posts.profile');
     Route::post('/store', [PostsController::class, 'store'])->name('posts.store');
-    Route::put('/update/{id}', [PostsController::class, 'update'])->name('posts.update');
-    Route::delete('/delete/{id}', [PostsController::class, 'delete'])->name('posts.delete');
+    Route::put('/update/{post}', [PostsController::class, 'update'])->name('posts.update');
+    Route::delete('/delete/{post}', [PostsController::class, 'delete'])->name('posts.delete');
 });
 
 Route::prefix('profile')->group(function () {
