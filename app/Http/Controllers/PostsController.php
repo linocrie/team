@@ -5,11 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\Profession;
-use App\Models\PostImage;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -22,9 +19,10 @@ class PostsController extends Controller
 
     public function index(): View
     {
-        $posts = Post::with(['image'])->get();
+        $posts = Post::with(['image'])->authorize()->get();
 
-        return view('posts')->with('posts', $posts);
+        return view('posts.posts')
+            ->with('posts', $posts);
     }
 
     public function create(): View
@@ -35,21 +33,23 @@ class PostsController extends Controller
 
     public function edit(Post $post): View
     {
-        return view('editpost')
+        abort_if($post->user_id !== auth()->id(), 403, "Unauthorized access");
+
+        return view('posts.edit')
             ->with('post', $post)
             ->with('professions', Profession::all());
     }
 
     public function show(Post $post): View
     {
-        return view('show')
+        return view('posts.show')
             ->with('post', $post->load('user'));
     }
 
     public function profile(User $user): View
     {
-        return view('postuserprofile')
-            ->with('postUser', $user->load(['avatar', 'detail', 'galleries']));
+        return view('posts.profile')
+            ->with('user', $user->load(['avatar', 'detail', 'galleries']));
     }
 
     public function store(PostRequest $request): RedirectResponse
@@ -71,13 +71,19 @@ class PostsController extends Controller
 
         $post->professions()->attach($request->postProfession);
 
-        return redirect()->route('posts.index')->with('success', 'Post successfully created');
+        return redirect()
+            ->route('posts.index')
+            ->with('success', 'Post successfully created');
     }
 
     public function update(PostRequest $request, Post $post): RedirectResponse
     {
+        abort_if($post->user_id !== auth()->id(), 403, "Unauthorized access");
+
         if ($post->image()->exists()) {
-            Storage::delete($post->image->path);
+            if(Storage::exists($path = $post->image->path)) {
+                Storage::delete($path);
+            }
         }
 
         $file = $request->file('image')->store('postimages');
@@ -87,7 +93,7 @@ class PostsController extends Controller
             'description' => $request->description
         ]);
 
-        PostImage::updateOrCreate(
+        $post->image()->updateOrCreate(
             ['post_id' => $post->id],
             [
                 'original_name' => $request->file('image')->getClientOriginalName(),
@@ -104,16 +110,20 @@ class PostsController extends Controller
 
     public function delete(Post $post): RedirectResponse
     {
-        if ($post->image()->exists()) {
-            Storage::delete($post->image->path);
+        abort_if($post->user_id !== auth()->id(), 403, "Unauthorized access");
 
+        if ($post->image()->exists()) {
+            if(Storage::exists($path = $post->image->path)) {
+                Storage::delete($path);
+            }
             $post->image()->delete();
         }
 
         $post->professions()->detach();
         $post->delete();
 
-        return redirect()->route('posts.index')
+        return redirect()
+            ->route('posts.index')
             ->with('success', 'Post successfully deleted');
     }
 }

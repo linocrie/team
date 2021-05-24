@@ -21,7 +21,7 @@ class Gallery extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function galleryImages(): HasMany
+    public function images(): HasMany
     {
         return $this->hasMany(GalleryImages::class);
     }

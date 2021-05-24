@@ -9,7 +9,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="text-right mt-2 mr-2">
-                        <form method="POST" action="{{ route('gallery.delete', ['id' => $gallery->id]) }}">
+                        <form method="POST" action="{{ route('gallery.delete', ['gallery' => $gallery->id]) }}">
                             @csrf
 
                             @method('DELETE')
@@ -19,7 +19,7 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('gallery.update', ['id' => $gallery->id]) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('gallery.update', ['gallery' => $gallery->id]) }}" enctype="multipart/form-data">
                             @csrf
 
                             @method('PUT')
@@ -62,14 +62,14 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-center">Gallery Images</div>
                     <div class="card-body">
-                        @if($gallery->galleryImages->isEmpty())
-                            <h2 class = "text-secondary m-auto">No images in this gallery</h2>
+                        @if($gallery->images->isEmpty())
+                            <h2 class = "text-secondary d-flex justify-content-center">No images in this gallery</h2>
                         @endif
                         <div class="row">
-                            @foreach($gallery->galleryImages as $images)
-                                <div class="col-md-6">
+                            @foreach($gallery->images as $images)
+                                <div class="col-md-6 mb-3">
                                     <div class="text-right mr-5">
-                                        <form method="POST" action="{{ route('images.delete', ['id' => $images->id]) }}">
+                                        <form method="POST" action="{{ route('images.delete', ['images' => $images->id]) }}">
                                             @csrf
 
                                             @method('DELETE')

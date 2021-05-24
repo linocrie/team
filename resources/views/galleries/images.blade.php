@@ -7,14 +7,14 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-center">Gallery Images</div>
                     <div class="card-body">
-                        @if($postUserImages->isEmpty())
+                        @if($images->isEmpty())
                             <h2 class = "text-secondary m-auto">No images in this gallery</h2>
                         @endif
                         <div class="row">
-                            @foreach($postUserImages as $images)
-                                <div class="col-md-6">
+                            @foreach($images as $image)
+                                <div class="col-md-6 mb-3">
                                     <div class="d-flex justify-content-center">
-                                        <img src="{{ asset('storage/'.$images->path) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
+                                        <img src="{{ asset('storage/'.$image->path) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
                                     </div>
                                 </div>
                             @endforeach

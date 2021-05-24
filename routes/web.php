@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\DetailController;
+use App\Http\Controllers\UploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,18 +41,18 @@ Route::prefix('posts')->group(function () {
 
 Route::prefix('profile')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
-    Route::put('/update/profile', [ProfileController::class, 'profile'])->name('profile.update.profile');
-    Route::put('/update/detail', [ProfileController::class, 'detail'])->name('profile.update.detail');
-    Route::post('/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+    Route::put('/update/profile', [ProfileController::class, 'update'])->name('profile.update.profile');
+    Route::put('/update/detail', [DetailController::class, 'update'])->name('profile.update.detail');
+    Route::post('/upload', [UploadController::class, 'update'])->name('profile.upload');
 });
 
 Route::prefix('gallery')->group(function () {
     Route::get('/create', [GalleryController::class, 'create'])->name('gallery.create');
-    Route::get('/edit/{id}', [GalleryController::class, 'edit'])->name('gallery.edit');
+    Route::get('/edit/{gallery}', [GalleryController::class, 'edit'])->name('gallery.edit');
     Route::get('/show/{id}', [GalleryController::class, 'show'])->name('gallery.show');
     Route::post('/store', [GalleryController::class, 'store'])->name('gallery.store');
-    Route::put('/{id}', [GalleryController::class, 'update'])->name('gallery.update');
-    Route::delete('/delete/{id}', [GalleryController::class, 'delete'])->name('images.delete');
-    Route::delete('/destroy/{id}', [GalleryController::class, 'destroy'])->name('gallery.delete');
+    Route::put('/update/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
+    Route::delete('/delete/{images}', [GalleryController::class, 'delete'])->name('images.delete');
+    Route::delete('/destroy/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.delete');
 });
 

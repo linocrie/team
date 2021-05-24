@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Scopes\PostUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 
@@ -25,10 +26,10 @@ class FeedController extends Controller
      */
     public function index(): View
     {
-        $postsProfession = Post::where('user_id', '!=', auth()->user()->id)->whereHas('professions', function (Builder $query) {
+        $posts = Post::where('user_id', '!=', auth()->id())->whereHas('professions', function (Builder $query) {
             $query->whereIn('profession_id', auth()->user()->professions->pluck('id'));
         })->simplePaginate(5);
         return view('feed')
-            ->with('postsProfession', $postsProfession);
+            ->with('posts', $posts);
     }
 }

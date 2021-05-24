@@ -18,12 +18,12 @@ class GalleryController extends Controller
 
     public function create(): View
     {
-        return view('creategallery');
+        return view('galleries.create');
     }
 
     public function store(GalleryRequest $request): RedirectResponse
     {
-        $lastGallery = Gallery::create([
+        $gallery = Gallery::create([
             'user_id' => auth()->user()->id,
             'title'   => $request->title
         ]);
@@ -31,73 +31,74 @@ class GalleryController extends Controller
         if($files = $request->file('gallery')) {
             foreach ($files as $file) {
                 $fileName = $file->store('galleryImages');;
-                GalleryImages::create([
-                    'gallery_id' => $lastGallery->id,
+                $gallery->images()->create([
                     'original_name' => $file->getClientOriginalName(),
                     'path' => $fileName
                 ]);
             }
         }
 
-        return redirect()->route('profile.index')
+        return redirect()
+            ->route('profile.index')
             ->with('success', 'Gallery successfully created');
     }
 
-    public function edit($id): View
+    public function edit(Gallery $gallery): View
     {
-        return view('editgallery')
-            ->with('gallery', Gallery::where('id', $id)->first()->load('galleryImages'));
+        return view('galleries.edit')
+            ->with('gallery', $gallery->load('images'));
     }
 
     public function show($id): View
     {
-        return view('postuserimages')
-            ->with('postUserImages', GalleryImages::where('gallery_id', $id)->get());
+        return view('galleries.images')
+            ->with('images', GalleryImages::where('gallery_id', $id)->get());
     }
 
-    public function update(GalleryRequest $request, $id): RedirectResponse
+    public function update(GalleryRequest $request, Gallery $gallery): RedirectResponse
     {
-        Gallery::where('id', $id)->update([
+        $gallery->update([
             'title'   => $request->title
         ]);
 
         if($files = $request->file('gallery')) {
             foreach ($files as $file) {
                 $fileName = $file->store('galleryImages');;
-                GalleryImages::create([
-                    'gallery_id' => $id,
+                $gallery->images()->create([
                     'original_name' => $file->getClientOriginalName(),
                     'path' => $fileName
                 ]);
             }
         }
 
-        return redirect()->route('profile.index')
+        return redirect()
+            ->route('profile.index')
             ->with('success', 'Gallery successfully updated');
     }
 
-    public function delete($id): RedirectResponse
+    public function delete(GalleryImages $images): RedirectResponse
     {
-        $galleryImages = GalleryImages::where('id', $id);
-        Storage::delete($galleryImages->first()->path);
-        $galleryImages->delete();
+        if(Storage::exists($path = $images->path)) {
+            Storage::delete($path);
+        }
+
+        $images->delete();
 
         return back()
             ->with('success', 'Image successfully deleted');
     }
 
-    public function destroy($id): RedirectResponse
+    public function destroy(Gallery $gallery): RedirectResponse
     {
-        $galleryImages = GalleryImages::where('gallery_id', $id);
-
-        if($galleryImages->get()) {
-            Storage::delete($galleryImages->pluck('path')->all());
-            $galleryImages->delete();
+        if($gallery->images()->exists()) {
+            Storage::delete($gallery->images->pluck('path')->all());
+            $gallery->images()->delete();
         }
 
-        Gallery::where('id', $id)->delete();
+        $gallery->delete();
 
-        return redirect()->route('profile.index')
+        return redirect()
+            ->route('profile.index')
             ->with('success', 'Gallery successfully deleted');
     }
 }

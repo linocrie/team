@@ -15,11 +15,6 @@ class Post extends Model
     use SoftDeletes;
     use HasFactory;
 
-    protected static function booted()
-    {
-        static::addGlobalScope(new PostUser);
-    }
-
     protected $fillable = [
         'user_id',
         'title',
@@ -41,5 +36,10 @@ class Post extends Model
     public function professions(): BelongsToMany
     {
         return $this->belongsToMany(Profession::class, 'post_profession');
+    }
+
+    public function scopeAuthorize($query)
+    {
+        return $query->where('user_id', auth()->id());
     }
 }

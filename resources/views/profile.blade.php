@@ -183,14 +183,14 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-center">Galleries</div>
                     <div class="card-body">
-                        @if($userGallery->isEmpty())
+                        @if($user->galleries->isEmpty())
                             <h2 class = "text-secondary d-flex justify-content-center">No gallery available</h2>
                         @endif
                         <div class="row">
-                            @foreach($userGallery as $gallery)
-                                <div class="col-md-6">
+                            @foreach($user->galleries as $gallery)
+                                <div class="col-md-6 mb-3">
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ route('gallery.edit', ['id' => $gallery->id]) }}" class="text-decoration-none text-secondary">
+                                        <a href="{{ route('gallery.edit', ['gallery' => $gallery->id]) }}" class="text-decoration-none text-secondary">
                                             <h3 class="text-white display-1 font-weight-bold rounded-circle d-flex justify-content-center align-items-center overflow-hidden bg-dark" style="width: 200px;height: 200px;">{{ $gallery->title[0] }} </h3>
                                         </a>
                                     </div>

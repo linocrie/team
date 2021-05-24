@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="text-right mr-2 mt-2">
-                        <form method="POST" action="{{ route('posts.delete', ['post' => $userPost->id]) }}">
+                        <form method="POST" action="{{ route('posts.delete', ['post' => $post->id]) }}">
                             @csrf
 
                             @method('DELETE')
@@ -16,7 +16,7 @@
                         </form>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('posts.update', ['id' => $userPost->id]) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('posts.update', ['post' => $post->id]) }}" enctype="multipart/form-data">
                             @csrf
 
                             @method('PUT')
@@ -24,7 +24,7 @@
                                 <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="title" type="text" class="form-control" name="title" value="{{ $userPost->title }}" required autofocus>
+                                    <input id="title" type="text" class="form-control" name="title" value="{{ $post->title }}" required autofocus>
                                 </div>
                             </div>
 
@@ -32,7 +32,7 @@
                                 <label for="description" class="col-md-4 col-form-label text-md-right">{{ __('Description') }}</label>
 
                                 <div class="col-md-6">
-                                    <textarea class="form-control" id="textarea" name="description" rows="3" required autofocus>{{ $userPost->description }}</textarea>
+                                    <textarea class="form-control" id="textarea" name="description" rows="3" required autofocus>{{ $post->description }}</textarea>
                                 </div>
                             </div>
 
@@ -40,8 +40,8 @@
                                 <label for="pProfession" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
                                 <div class="col-md-6">
                                     <select name="postProfession[]" multiple="multiple" id="multiSelect">
-                                        @foreach ($postProfession as $postProfessions)
-                                        <option value="{{ $postProfessions->id }}" @if($userPost->professions->contains($postProfessions->id)) selected @endif>{{ $postProfessions->name }}</option>
+                                        @foreach ($professions as $profession)
+                                        <option value="{{ $profession->id }}" @if($post->professions->contains($profession->id)) selected @endif>{{ $profession->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
