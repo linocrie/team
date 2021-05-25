@@ -28,7 +28,7 @@ Auth::routes();
 
 Route::get('/feed', [FeedController::class, 'index'])->name('feed');
 
-Route::prefix('posts')->group(function () {
+Route::prefix('/posts')->group(function () {
     Route::get('/', [PostsController::class, 'index'])->name('posts.index');
     Route::get('/store', [PostsController::class, 'create'])->name('posts.create');
     Route::get('/{post}', [PostsController::class, 'edit'])->name('posts.edit');
@@ -39,14 +39,14 @@ Route::prefix('posts')->group(function () {
     Route::delete('/delete/{post}', [PostsController::class, 'delete'])->name('posts.delete');
 });
 
-Route::prefix('profile')->group(function () {
+Route::prefix('/profile')->group(function () {
     Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/update/profile', [ProfileController::class, 'update'])->name('profile.update.profile');
     Route::put('/update/detail', [DetailController::class, 'update'])->name('profile.update.detail');
     Route::post('/upload', [UploadController::class, 'update'])->name('profile.upload');
 });
 
-Route::prefix('gallery')->group(function () {
+Route::prefix('/gallery')->group(function () {
     Route::get('/create', [GalleryController::class, 'create'])->name('gallery.create');
     Route::get('/edit/{gallery}', [GalleryController::class, 'edit'])->name('gallery.edit');
     Route::get('/show/{id}', [GalleryController::class, 'show'])->name('gallery.show');
@@ -54,5 +54,9 @@ Route::prefix('gallery')->group(function () {
     Route::put('/update/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
     Route::delete('/delete/{images}', [GalleryController::class, 'delete'])->name('images.delete');
     Route::delete('/destroy/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.delete');
+});
+
+Route::prefix('/admin')->group(function () {
+    //
 });
 
