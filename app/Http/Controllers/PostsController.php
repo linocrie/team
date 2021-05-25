@@ -94,7 +94,7 @@ class PostsController extends Controller
         ]);
 
         $post->image()->updateOrCreate(
-            ['post_id' => $post->id],
+            ['post_id'          => $post->id],
             [
                 'original_name' => $request->file('image')->getClientOriginalName(),
                 'path'          => $file

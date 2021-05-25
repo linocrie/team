@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profession;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -16,8 +17,10 @@ class ProfileController extends Controller
 
     public function index(): View
     {
+        $user = auth()->user()->load(['professions', 'detail', 'avatar', 'galleries']);
+
         return view('profile')
-            ->with('user', auth()->user()->load(['professions', 'detail', 'avatar', 'galleries']))
+            ->with('user', $user)
             ->with('professions', Profession::all());
     }
 

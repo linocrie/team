@@ -24,7 +24,7 @@ class GalleryController extends Controller
     public function store(GalleryRequest $request): RedirectResponse
     {
         $gallery = Gallery::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->id(),
             'title'   => $request->title
         ]);
 
