@@ -32,10 +32,10 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="pImage" class="col-md-4 col-form-label text-md-right">{{ __('Multiple image') }}</label>
+                                <label for="galleries" class="col-md-4 col-form-label text-md-right">{{ __('Multiple image') }}</label>
                                 <div class="col-md-6">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="gallery[]" id="gallery" multiple>
+                                        <input type="file" class="custom-file-input" name="galleries[]" id="galleries" multiple>
                                         @foreach ($errors->all() as $error)
                                             <strong class="text-danger">{{ $error }}</strong>
                                         @endforeach

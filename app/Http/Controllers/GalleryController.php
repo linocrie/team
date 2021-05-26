@@ -28,12 +28,12 @@ class GalleryController extends Controller
             'title'   => $request->title
         ]);
 
-        if($files = $request->file('gallery')) {
-            foreach ($files as $file) {
-                $fileName = $file->store('galleryImages');;
+        if($request->hasFile('galleries')) {
+            foreach ($request->file('galleries') as $images) {
+                $path = $images->store('galleryImages');
                 $gallery->images()->create([
-                    'original_name' => $file->getClientOriginalName(),
-                    'path' => $fileName
+                    'original_name' => $images->getClientOriginalName(),
+                    'path' => $path
                 ]);
             }
         }
@@ -45,6 +45,8 @@ class GalleryController extends Controller
 
     public function edit(Gallery $gallery): View
     {
+        abort_if($gallery->user_id !== auth()->id(), 403, 'Unauthorized action.');
+
         return view('galleries.edit')
             ->with('gallery', $gallery->load('images'));
     }
@@ -61,12 +63,12 @@ class GalleryController extends Controller
             'title'   => $request->title
         ]);
 
-        if($files = $request->file('gallery')) {
-            foreach ($files as $file) {
-                $fileName = $file->store('galleryImages');;
+        if($request->hasFile('galleries')) {
+            foreach ($request->file('galleries') as $images) {
+                $path = $images->store('galleryImages');
                 $gallery->images()->create([
-                    'original_name' => $file->getClientOriginalName(),
-                    'path' => $fileName
+                    'original_name' => $images->getClientOriginalName(),
+                    'path' => $path
                 ]);
             }
         }

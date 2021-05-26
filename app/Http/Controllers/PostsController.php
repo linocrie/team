@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\Profession;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -43,13 +44,13 @@ class PostsController extends Controller
     public function show(Post $post): View
     {
         return view('posts.show')
-            ->with('post', $post->load('user'));
+            ->with('post', $post->load(['user', 'professions']));
     }
 
     public function profile(User $user): View
     {
         return view('posts.profile')
-            ->with('user', $user->load(['avatar', 'detail', 'galleries']));
+            ->with('user', $user->load(['avatar', 'detail', 'galleries', 'professions']));
     }
 
     public function store(PostRequest $request): RedirectResponse
@@ -64,44 +65,56 @@ class PostsController extends Controller
         ]);
 
         $post->image()->create([
-            'user_id'       => $userId,
             'original_name' => $request->file('image')->getClientOriginalName(),
             'path'          => $file
         ]);
 
-        $post->professions()->attach($request->postProfession);
+        $post->professions()->sync($request->postProfession);
 
         return redirect()
             ->route('posts.index')
             ->with('success', 'Post successfully created');
     }
 
-    public function update(PostRequest $request, Post $post): RedirectResponse
+    public function update(Request $request, Post $post): RedirectResponse
     {
         abort_if($post->user_id !== auth()->id(), 403, "Unauthorized access");
 
-        if ($post->image()->exists()) {
-            if(Storage::exists($path = $post->image->path)) {
-                Storage::delete($path);
-            }
-        }
-
-        $file = $request->file('image')->store('postimages');
-
-        $post->update([
-            'title'       => $request->title,
-            'description' => $request->description
+        $request->validate([
+            'title'       => 'required|string|max:191',
+            'description' => 'required|string',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $post->image()->updateOrCreate(
-            ['post_id'          => $post->id],
+        $post->update(
             [
-                'original_name' => $request->file('image')->getClientOriginalName(),
-                'path'          => $file
+                'title' => $request->title,
+                'description' => $request->description,
+                'profession'
             ]
         );
 
-        $post->professions()->sync($request->professions);
+        if($request->hasFile('image')) {
+
+            if ($post->image()->exists()) {
+
+                if(Storage::exists($path = $post->image->path)) {
+                    Storage::delete($path);
+                }
+            }
+
+            $path = $request->file('image')->store('postimages');
+
+            $post->image()->updateOrCreate(
+                ['post_id'          => $post->id],
+                [
+                    'original_name' => $request->file('image')->getClientOriginalName(),
+                    'path'          => $path,
+                ]
+            );
+        }
+
+        $post->professions()->sync($request->postProfession);
 
         return redirect()
             ->route('posts.index')

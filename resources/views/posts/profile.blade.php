@@ -20,6 +20,11 @@
                                 <p class="mb-0"><span class="text-danger">City: </span> {{ $user->detail->city }}</p>
                                 <p class="mb-0"><span class="text-danger">Address: </span> {{ $user->detail->address }}</p>
                                 <p class="mb-0"><span class="text-danger">Country: </span> {{ $user->detail->country }}</p>
+                                <p class="mb-0"><span class="text-danger">Professions: </span>
+                                    @foreach($user->professions as $profession)
+                                        {{ $profession->name . "," }}
+                                    @endforeach
+                                </p>
                             </div>
                         </div>
                     </div>
