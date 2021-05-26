@@ -4,9 +4,9 @@
 
     <div class="container">
         <div class="row">
-            <div class="card border mb-3">
-                <div class="card-header">
-                    <a href="{{ route('posts.profile', ['user' => $post->user->id]) }}" class="text-decoration-none text-dark">
+            <div class="card mb-3 bg-secondary">
+                <div class="card-header border-dark">
+                    <a href="{{ route('posts.profile', ['user' => $post->user->id]) }}" class="text-decoration-none" style="color:black">
                         <p class="font-weight-bold">Post Creator: {{$post->user->name}}</p>
                     </a>
                 </div>
@@ -20,24 +20,23 @@
                     <div class="post m-4 col-md-9">
                         <div class="post-side">
                             <div class="font-weight-bold">
-                                <h2>{{$post->title}}</h2>
+                                <h2 style="color:black">{{$post->title}}</h2>
                             </div>
                             <div>
-                                <p class="font-weight-bold">Updated: {{substr($post->updated_at, 11, -3)}}</p>
+                                <p class="font-weight-bold" style="color:black">Updated: {{substr($post->updated_at, 11, -3)}}</p>
                             </div>
                             <div>
-                                <p class="font-weight-bold mr-2">Description:</p>
-                                <p>{{$post->description}}</p>
-                            </div>
-                            <div class="d-flex flex-wrap">
-                                <p class="font-weight-bold mr-2">Professions: </p>
-                                @foreach($post->professions as $profession)
-                                    <p class="mr-3">{{$profession->name}}</p>
-                                @endforeach
+                                <p class="font-weight-bold mr-2" style="color:black">Description:</p>
+                                <p style="color:black">{{$post->description}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="mt-2">
+                @foreach($post->professions as $profession)
+                    <span style="color:black" class="p-1 bg-secondary text-black mr-2 rounded">#{{ $profession->name }}</span>
+                @endforeach
             </div>
         </div>
     </div>

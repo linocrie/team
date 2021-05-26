@@ -4,8 +4,8 @@
     <div class="container-fluid">
         <div class="row justify-content-center mt-4">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-center">Gallery Images</div>
+                <div class="card bg-secondary">
+                    <div class="card-header d-flex justify-content-center" style="color:black;font-size: 20px">Gallery Images</div>
                     <div class="card-body">
                         @if($images->isEmpty())
                             <h2 class = "text-secondary m-auto">No images in this gallery</h2>

@@ -21,11 +21,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
-<body>
+<body class="bg-dark">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand text-danger font-weight-bold" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -44,39 +44,39 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link text-danger font-weight-bold" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link text-danger font-weight-bold" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
                             @yield('navbar')
                             <li class="nav-item">
-                                <a id="posts" class="nav-link" href="{{ route('posts.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="posts" class="nav-link font-weight-bold text-danger" href="{{ route('posts.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ __('Posts') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a id="posts" class="nav-link" href="{{ route('feed') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="posts" class="nav-link font-weight-bold text-danger" href="{{ route('feed') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ __('Feed') }}
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle font-weight-bold text-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-right bg-secondary" aria-labelledby="navbarDropdown">
 
-                                    <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                    <a class="dropdown-item font-weight-bold" href="{{ route('profile.index') }}">
                                         {{ __('Profile') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item font-weight-bold" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
