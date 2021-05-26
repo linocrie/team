@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section("navbar")
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('gallery.create') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+        <a class="nav-link text-danger font-weight-bold" href="{{ route('gallery.create') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
             {{ __('Create gallery') }}
         </a>
     </li>
@@ -28,16 +28,16 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
-                            <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+                            <label class="custom-file-label font-weight-bold" for="inputGroupFile02">Choose file</label>
                         </div>
-                        <button id = "uploadButton" type="submit" class="btn btn-success w-100 mt-1" disabled>Upload</button>
+                        <button id = "uploadButton" type="submit" class="btn btn-light text-danger font-weight-bold w-100 mt-1" disabled>Upload</button>
                     </form>
                 </div>
             </div>
 
             <div class="col-md-8">
-                <div class="card mb-5">
-                    <div class="card-header">Hello {{ Auth::user()->name }}</div>
+                <div class="card bg-secondary mb-5">
+                    <div class="card-header font-weight-bold" style="font-size: 20px">Hello {{ Auth::user()->name }}</div>
 
                     <div class="card-body">
 
@@ -46,18 +46,18 @@
 
                             @method('PUT')
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autofocus>
+                                    <input id="email" type="text" class="form-control border-dark @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autofocus>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('New E-mail Address') }}</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('New E-mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autofocus>
+                                    <input id="email" type="email" class="form-control border-dark @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autofocus>
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -68,16 +68,16 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                                    <input id="password" type="password" class="form-control border-dark @error('password') is-invalid @enderror" name="password">
                                 </div>
                             </div>
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-dark text-danger font-weight-bold">
                                         {{ __('Update') }}
                                     </button>
                                 </div>
@@ -90,7 +90,7 @@
 
         <div class="row">
             <div class="col-md-8 offset-3">
-                <div class="card mb-5">
+                <div class="card bg-secondary mb-5">
                     <div class="card-body">
 
                         <form method="POST" action="{{ route('profile.update.detail') }}">
@@ -98,10 +98,10 @@
 
                             @method('PUT')
                             <div class="form-group row">
-                                <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+                                <label for="phone" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ optional($user->detail)->phone }}" autofocus>
+                                    <input id="phone" type="text" class="form-control border-dark @error('phone') is-invalid @enderror" name="phone" value="{{ optional($user->detail)->phone }}" autofocus>
 
                                     @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -112,10 +112,10 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
+                                <label for="address" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ optional($user->detail)->address }}" autofocus>
+                                    <input id="address" type="text" class="form-control border-dark @error('address') is-invalid @enderror" name="address" value="{{ optional($user->detail)->address }}" autofocus>
 
                                     @error('address')
                                     <span class="invalid-feedback" role="alert">
@@ -126,10 +126,10 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
+                                <label for="city" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('City') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ optional($user->detail)->city }}" autofocus>
+                                    <input id="city" type="text" class="form-control border-dark @error('city') is-invalid @enderror" name="city" value="{{ optional($user->detail)->city }}" autofocus>
 
                                     @error('city')
                                     <span class="invalid-feedback" role="alert">
@@ -140,10 +140,10 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
+                                <label for="country" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ optional($user->detail)->country }}" autofocus>
+                                    <input id="country" type="text" class="form-control border-dark @error('country') is-invalid @enderror" name="country" value="{{ optional($user->detail)->country }}" autofocus>
 
                                     @error('country')
                                     <span class="invalid-feedback" role="alert">
@@ -154,7 +154,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="uProfession" class="col-md-4 col-form-label text-md-right">{{ __('Profession') }}</label>
+                                <label for="uProfession" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Profession') }}</label>
 
                                 <div class="col-md-6">
                                     <select name="userProfession[]" multiple="multiple" id="multiSelect">
@@ -167,7 +167,7 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-dark text-danger font-weight-bold">
                                         {{ __('Update') }}
                                     </button>
                                 </div>
@@ -180,11 +180,11 @@
 
         <div class="row mb-4">
             <div class="col-md-8 offset-3">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-center">Galleries</div>
+                <div class="card bg-secondary">
+                    <div class="card-header d-flex justify-content-center font-weight-bold" style="font-size: 20px">Galleries</div>
                     <div class="card-body">
                         @if($user->galleries->isEmpty())
-                            <h2 class = "text-secondary d-flex justify-content-center">No gallery available</h2>
+                            <h2 class = "text-dark d-flex justify-content-center">No gallery available</h2>
                         @endif
                         <div class="row">
                             @foreach($user->galleries as $gallery)
