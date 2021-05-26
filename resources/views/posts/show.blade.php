@@ -28,7 +28,7 @@
                 </div>
                 <div class="mt-3">
                     @foreach($post->professions as $profession)
-                        <span class="p-1 bg-secondary text-white mr-2 rounded">#{{ $profession->name }}</span>
+                        <span class="p-1 bg-secondary text-white mr-2 rounded">#{{ $profession->name }}</span> 
                     @endforeach
                 </div>
             </div>
