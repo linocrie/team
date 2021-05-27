@@ -25,34 +25,39 @@
                 <table class="table table-striped table-dark">
                     <thead>
                     <tr>
-                        <th scope="col">User_id</th>
+                        <th scope="col">User id</th>
+                        <th scope="col">User name</th>
+                        <th scope="col">Post id</th>
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Image</th>
+                        <th scope="col">Profession(s)</th>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                    </tbody>
+                    @foreach($posts as $post)
+                        <tbody>
+                        <tr>
+                            <th scope="row">{{ $post->user->id }}</th>
+                            <th scope="row">{{ $post->user->name }}</th>
+                            <th scope="row">{{ $post->id }}</th>
+                            <th scope="row">{{ $post->title }}</th>
+                            <th scope="row">{{ $post->description }}</th>
+                            <th scope="row">
+                                <div class="d-flex flex-wrap">
+                                @foreach($post->professions as $profession)
+                                    <div class="mr-4">
+                                        {{ $profession->name }}
+                                    </div>
+                                @endforeach
+                                </div>
+                            </th>
+                        </tr>
+                        </tbody>
+                    @endforeach
                 </table>
             </div>
         </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $posts->links('pagination::bootstrap-4') }}
     </div>
 
 
