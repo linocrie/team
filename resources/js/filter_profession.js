@@ -7,7 +7,7 @@ $(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'POST',
-            url: '/admin/professionFilter',
+            url: '/admin/profession/filter',
             data: {
                 profession: selected
             },
@@ -18,8 +18,8 @@ $(function () {
                     let result =
                         "<tr><td>" + value.id + "</td>" +
                         "<td>" + value.name + "</td>" +
-                        "<td>" + (value.created_at) + "</td>" +
-                        "<td>" + (value.updated_at) + "</td>" +
+                        "<td>" + (value.created_at).substring(0, 19) + "</td>" +
+                        "<td>" + (value.updated_at).substring(0, 19) + "</td>" +
                         "<td>" +
                             "<form method='post' action='/admin/professions/delete/" + value.id + "'>" +
                                 "<input type='hidden' name='_token' value='QWm0w0fYGver7UEtYNMRxCoEYe4bI5SasMxjTLuZ'>" +

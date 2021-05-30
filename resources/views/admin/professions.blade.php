@@ -15,9 +15,8 @@
                             <label for="professions" class="form-label font-weight-bold">{{ __('Filter') }}</label>
                             <div class="col-md-6">
                                 <select name="professions[]" multiple="multiple" id="filterMultiSelect">
-                                    @foreach ($filterProfessions as $profession)
-                                        <option value="{{ $profession->id }}">{{ $profession->name }}</option>
-                                    @endforeach
+                                    <option value="1">Professions selected by users</option>
+                                    <option value="2">Professions selected by posts</option>
                                 </select>
                             </div>
                         </div>
@@ -60,10 +59,10 @@
                         </table>
                     </div>
                 </div>
+                <div class="d-flex justify-content-center mb-4" id="pagination">
+                    {{ $professions->links() }}
+                </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            {{ $professions->links() }}
         </div>
     </div>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profession;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -19,9 +20,21 @@ class ProfessionController extends Controller
 
     public function index(): View
     {
+//        dd(Profession::simplePaginate(5));
         return view('admin.professions')
-            ->with('filterProfessions', Profession::all())
             ->with('professions', Profession::simplePaginate(5));
+    }
+
+    public function pagination(Request $request)
+    {
+        if($request->ajax()) {
+            return response()
+                ->json(['success' => true, 'message' => Profession::where('name', 'LIKE', "%{$request->search}%")
+                    ->orWhere('id', 'LIKE', "%{$request->search}%")
+                    ->orWhere('created_at', 'LIKE', "%{$request->search}%")
+                    ->orWhere('updated_at', 'LIKE', "%{$request->search}%")
+                    ->simplePaginate(5)]);
+        }
     }
 
     public function search(Request $request): JsonResponse
@@ -30,8 +43,9 @@ class ProfessionController extends Controller
             ->orWhere('id', 'LIKE', "%{$request->txt}%")
             ->orWhere('created_at', 'LIKE', "%{$request->txt}%")
             ->orWhere('updated_at', 'LIKE', "%{$request->txt}%")
-            ->get();
-        if(!$professions->isEmpty()) {
+            ->simplePaginate(5);
+
+        if (!$professions->isEmpty()) {
             return response()
                 ->json(['success' => true, 'message' => $professions]);
         }
@@ -41,30 +55,35 @@ class ProfessionController extends Controller
         }
     }
 
-    public function filter(Request $request): JsonResponse
+    public function filter(Request $request)
     {
-        if(!$request->profession) {
-            return response()
-                ->json(['success' => true, 'message' => Profession::all()]);
+        $options = collect($request->profession);
+        if($options->isEmpty()) {
+            return back()
+                ->with('professions', Profession::simplePaginate(5));
         }
         else {
-            $professions = Profession::whereIn('id', $request->profession)
-                ->get();
-            return response()
-                ->json(['success' => true, 'message' => $professions]);
+            if ($options->count() == 1) {
+                if ($options->contains("1")) {
+                    return response()
+                        ->json(['success' => true, 'message' => Profession::whereHas('users')->get()]);
+                } else {
+                    return response()
+                        ->json(['success' => true, 'message' => Profession::whereHas('posts')->get()]);
+                }
+            } elseif ($options->count() == 2) {
+                return response()
+                    ->json(['success' => true, 'message' => Profession::whereHas('posts')->whereHas('users')->get()]);
+            } else {
+                return view('admin.professions')
+                    ->with('professions', Profession::simplePaginate(5));
+            }
         }
     }
 
     public function destroy(Profession $profession): RedirectResponse
     {
-        if($profession->posts()->exists()) {
-            $profession->posts()->detach();
-        }
-
-        if($profession->users()->exists()) {
-            $profession->users()->detach();
-        }
-
+        // onDelete cascade in migrations
         $profession->delete();
 
         return back()
