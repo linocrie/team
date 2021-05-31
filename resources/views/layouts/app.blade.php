@@ -69,13 +69,15 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle font-weight-bold text-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-right bg-secondary" aria-labelledby="navbarDropdown">
-
                                     <a class="dropdown-item font-weight-bold" href="{{ route('profile.index') }}">
                                         {{ __('Profile') }}
                                     </a>
-
+                                    @if(auth()->user()->is_admin)
+                                        <a class="dropdown-item font-weight-bold" href="{{ route('admin.users.index') }}">
+                                            {{ __('Admin') }}
+                                        </a>
+                                    @endif
                                     <a class="dropdown-item font-weight-bold" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

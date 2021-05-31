@@ -14,6 +14,7 @@ class ProfileController extends Controller
     {
         $this->middleware('is_admin');
         $this->middleware('auth');
+//        $this->middleware('is_admin');
     }
 
     public function index(): View

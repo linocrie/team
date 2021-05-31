@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\GalleriesController;
+use App\Http\Controllers\Admin\ProfessionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -57,6 +61,9 @@ Route::prefix('/gallery')->group(function () {
 });
 
 Route::prefix('/admin')->group(function () {
-    //
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
+    Route::get('/galleries', [GalleriesController::class, 'index'])->name('admin.galleries.index');
+    Route::get('/professions', [ProfessionController::class, 'index'])->name('admin.professions.index');
 });
 

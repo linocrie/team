@@ -33,9 +33,11 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-2">
+            <div class="d-flex flex-wrap">
                 @foreach($post->professions as $profession)
-                    <span style="color:black" class="p-1 bg-secondary text-black mr-2 rounded">#{{ $profession->name }}</span>
+                   <div class="m-2">
+                       <span style="color:black" class="p-1 bg-secondary text-black rounded">#{{ $profession->name }}</span>
+                   </div>
                 @endforeach
             </div>
         </div>
