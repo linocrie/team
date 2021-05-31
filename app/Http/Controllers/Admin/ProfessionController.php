@@ -37,22 +37,28 @@ class ProfessionController extends Controller
         }
     }
 
-    public function search(Request $request): JsonResponse
+    public function search(Request $request)
     {
-        $professions = Profession::where('name', 'LIKE', "%{$request->txt}%")
-            ->orWhere('id', 'LIKE', "%{$request->txt}%")
-            ->orWhere('created_at', 'LIKE', "%{$request->txt}%")
-            ->orWhere('updated_at', 'LIKE', "%{$request->txt}%")
+
+        $professions = Profession::where('name', 'LIKE', "%{$request->search}%")
+            ->orWhere('id', 'LIKE', "%{$request->search}%")
+            ->orWhere('created_at', 'LIKE', "%{$request->search}%")
+            ->orWhere('updated_at', 'LIKE', "%{$request->search}%")
             ->simplePaginate(5);
 
-        if (!$professions->isEmpty()) {
-            return response()
-                ->json(['success' => true, 'message' => $professions]);
-        }
-        else {
-            return response()
-                ->json(['success' => false, 'message' => "No professions found"]);
-        }
+//        if (!$professions->isEmpty()) {
+//            return response()
+//                ->json(['success' => true, 'message' => $professions]);
+//        }
+
+//        if (!$professions->isEmpty()) {
+            return view('admin.professions')
+                ->with('professions', $professions);
+//        }
+//        else {
+//            return view('admin.professions')
+//                ->with('professions', "$professions");
+//        }
     }
 
     public function filter(Request $request)

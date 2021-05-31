@@ -37,6 +37,9 @@
                             </tr>
                             </thead>
                             <tbody id="professionBody">
+                            @if($professions->isEmpty())
+                                <h3 class="d-flex justify-content-center">No professions found</h3>
+                            @endif
                             @foreach($professions as $profession)
                                 <tr>
                                     <td>{{ $profession->id }}</td>
@@ -44,7 +47,7 @@
                                     <td>{{ $profession->created_at }}</td>
                                     <td>{{ $profession->updated_at }}</td>
                                     <td>
-                                        <form method="POST" action="{{ route('admin.profession.delete', ['profession' => $profession->id]) }}">
+                                        <form method="POST" action="{{ route('admin.profession.delete', ['profession' => $profession->id]) }}" id="deleteForm">
                                             @csrf
 
                                             @method('DELETE')

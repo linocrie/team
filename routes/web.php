@@ -65,9 +65,9 @@ Route::prefix('/admin')->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
     Route::get('/galleries', [GalleriesController::class, 'index'])->name('admin.galleries.index');
     Route::get('/professions', [ProfessionController::class, 'index'])->name('admin.professions.index');
-    Route::get('/professions/search', [ProfessionController::class, 'pagination'])->name('admin.professions.pagination');
-    Route::post('/profession/search', [ProfessionController::class, 'search'])->name('admin.professions.search');
-    Route::post('/profession/filter', [ProfessionController::class, 'filter'])->name('admin.professions.filter');
+//    Route::get('/professions/search', [ProfessionController::class, 'pagination'])->name('admin.professions.pagination');
+    Route::get('/profession/search', [ProfessionController::class, 'search'])->name('admin.professions.search');
+    Route::get('/profession/filter', [ProfessionController::class, 'filter'])->name('admin.professions.filter');
     Route::delete('/professions/delete/{profession}', [ProfessionController::class, 'destroy'])->name('admin.profession.delete');
 });
 
