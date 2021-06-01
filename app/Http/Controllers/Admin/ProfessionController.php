@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profession;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,11 +19,36 @@ class ProfessionController extends Controller
 //        $this->middleware('is_admin');
     }
 
-    public function index(): View
+    public function index(Request $request)
     {
-//        dd(Profession::simplePaginate(5));
-        return view('admin.professions')
-            ->with('professions', Profession::simplePaginate(5));
+        if ($request->expectsJson()) {
+
+            $professions = Profession
+                ::when($request->filter !== '', function($query) use ($request) {
+
+                    if ($request->filter == "1") {
+                        $query->whereHas('users');
+                    }
+                    elseif ($request->filter == "2") {
+                        $query->whereHas('posts');
+                    }
+                    elseif($request->filter == "3") {
+                        $query->has('users', '>', '5');
+                    }
+                    else {
+                        $query->has('posts', '>', '5');
+                    }
+
+                })
+                ->where('name', 'LIKE' ,'%'.$request->search.'%')
+                ->paginate($request->perPage);
+
+            return response()->json($professions);
+
+
+        }
+
+        return view('admin.professions');
     }
 
     public function pagination(Request $request)
@@ -37,53 +63,39 @@ class ProfessionController extends Controller
         }
     }
 
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
-
         $professions = Profession::where('name', 'LIKE', "%{$request->search}%")
             ->orWhere('id', 'LIKE', "%{$request->search}%")
             ->orWhere('created_at', 'LIKE', "%{$request->search}%")
             ->orWhere('updated_at', 'LIKE', "%{$request->search}%")
             ->simplePaginate(5);
 
-//        if (!$professions->isEmpty()) {
-//            return response()
-//                ->json(['success' => true, 'message' => $professions]);
-//        }
-
-//        if (!$professions->isEmpty()) {
-            return view('admin.professions')
-                ->with('professions', $professions);
-//        }
-//        else {
-//            return view('admin.professions')
-//                ->with('professions', "$professions");
-//        }
+        return response()
+                ->json(['success' => true, 'message' => $professions]);
     }
 
-    public function filter(Request $request)
+    public function filter(Request $request): JsonResponse
     {
-        $options = collect($request->profession);
-        if($options->isEmpty()) {
-            return back()
-                ->with('professions', Profession::simplePaginate(5));
+        if($request->filter) {
+            if ($request->filter == "1") {
+                $professions = Profession::whereHas('users')->simplePaginate(5);
+            }
+            elseif ($request->filter == "2") {
+                $professions = Profession::whereHas('posts')->simplePaginate(5);
+            }
+            elseif($request->filter == "3") {
+                $professions = Profession::has('users', '>', '5')->simplePaginate(5);
+            }
+            else {
+                $professions = Profession::has('posts', '>', '5')->simplePaginate(5);
+            }
+            return response()
+                ->json(['success' => true, 'message' => $professions]);
         }
         else {
-            if ($options->count() == 1) {
-                if ($options->contains("1")) {
-                    return response()
-                        ->json(['success' => true, 'message' => Profession::whereHas('users')->get()]);
-                } else {
-                    return response()
-                        ->json(['success' => true, 'message' => Profession::whereHas('posts')->get()]);
-                }
-            } elseif ($options->count() == 2) {
-                return response()
-                    ->json(['success' => true, 'message' => Profession::whereHas('posts')->whereHas('users')->get()]);
-            } else {
-                return view('admin.professions')
-                    ->with('professions', Profession::simplePaginate(5));
-            }
+            return response()
+                ->json(['success' => true, 'message' => Profession::simplePaginate(5)]);
         }
     }
 
