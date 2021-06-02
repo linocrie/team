@@ -64,59 +64,49 @@ $(function() {
                     fetch_data(value.id);
                 });
             });
-
-            $('.next').attr('href', response.next_page_url);
-            $('.previous').attr('href', response.prev_page_url);
-
-            let pageSize = response.last_page;
-            let currentPage = response.current_page;
-            let pagedResults = [];
-            let totalResults = (response.data).length;
-
-                var end = (currentPage * pageSize);
-                var start = (end - pageSize);
-                pagedResults = response
-                console.log(pagedResults);
-                console.log(response.length);
-                if (currentPage === 1) {
-                    $('.previous').replaceWith(function(){
-                        return $("<span class='previous'/>").append($(this).contents());
-                    });
-                }
-                else {
-                    $('.previous').replaceWith(function(){
-                        return $("<a href=" +response.prev_page_url + " class='previous'/>").append($(this).contents());
-                    });
-                }
-                if (currentPage === pageSize) {
-                    $('.next').replaceWith(function(){
-                        return $("<span class='next'/>").append($(this).contents());
-                    });
-                }
-                else {
-                    $('.next').replaceWith(function(){
-                        return $("<a href=" +response.next_page_url + " class='next'/>").append($(this).contents());
-                    });
-                }
-
-            $('.next').click(function(e){
-                console.log("next")
-                e.preventDefault();
-                let page = $('.next').attr('href').split('page=')[1];
-                // if ((currentPage * pageSize) <= totalResults) currentPage++;
-                fetch_data(page);
-            });
-            $('.previous').click(function(e){
-                e.preventDefault()
-                let page = $('.previous').attr('href').split('page=')[1];
-                // if (currentPage > 1) currentPage--;
-                fetch_data(page);
-            });
         }
-    };
+    }
 
     function buildPagination(response) {
+        $('.next').attr('href', response.next_page_url);
+        $('.previous').attr('href', response.prev_page_url);
 
+        let pageSize = response.last_page;
+        let currentPage = response.current_page;
+        if (currentPage === 1) {
+            $('.previous').replaceWith(function(){
+                return $("<span class='previous'/>").append($(this).contents());
+            });
+        }
+        else {
+            $('.previous').replaceWith(function(){
+                return $("<a href=" +response.prev_page_url + " class='previous'/>").append($(this).contents());
+            });
+        }
+        if (currentPage === pageSize) {
+            $('.next').replaceWith(function(){
+                return $("<span class='next'/>").append($(this).contents());
+            });
+        }
+        else {
+            $('.next').replaceWith(function(){
+                return $("<a href=" +response.next_page_url + " class='next'/>").append($(this).contents());
+            });
+        }
+
+        $('.next').click(function(e){
+            e.preventDefault();
+            let page = $('.next').attr('href').split('page=')[1];
+            // if ((currentPage * pageSize) <= totalResults) currentPage++;
+            fetch_data(page);
+        });
+
+        $('.previous').click(function(e){
+            e.preventDefault()
+            let page = $('.previous').attr('href').split('page=')[1];
+            // if (currentPage > 1) currentPage--;
+            fetch_data(page);
+        });
     }
 });
 
