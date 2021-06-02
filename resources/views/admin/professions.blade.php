@@ -50,8 +50,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="pagination">
-                    <ul> </ul>
+                <div id="paginate">
+                    <a href="" class="previous"> << Previous</a>
+                    <a href="" class="next">Next >></a>
                 </div>
             </div>
         </div>
