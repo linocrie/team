@@ -79,11 +79,25 @@ $(function() {
                 console.log(pagedResults);
                 console.log(response.length);
                 if (currentPage === 1) {
-                    $('.previous').remove();
+                    $('.previous').replaceWith(function(){
+                        return $("<span class='previous'/>").append($(this).contents());
+                    });
                 }
-                if ((currentPage * pageSize) >= totalResults) {
-                    $('.next').prop("disabled", true); }
-                else { $('.next').prop("disabled", false); }
+                else {
+                    $('.previous').replaceWith(function(){
+                        return $("<a href=" +response.prev_page_url + " class='previous'/>").append($(this).contents());
+                    });
+                }
+                if (currentPage === pageSize) {
+                    $('.next').replaceWith(function(){
+                        return $("<span class='next'/>").append($(this).contents());
+                    });
+                }
+                else {
+                    $('.next').replaceWith(function(){
+                        return $("<a href=" +response.next_page_url + " class='next'/>").append($(this).contents());
+                    });
+                }
 
             $('.next').click(function(e){
                 console.log("next")
