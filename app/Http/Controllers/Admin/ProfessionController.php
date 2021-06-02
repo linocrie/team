@@ -21,31 +21,19 @@ class ProfessionController extends Controller
 
     public function index(Request $request)
     {
+
         if ($request->expectsJson()) {
 
+            if($deletedId = $request->deleteId) {
+                Profession::where('id', $deletedId)->delete();
+            }
+
             $professions = Profession
-                ::when($request->filter !== '', function($query) use ($request) {
-
-                    if ($request->filter == "1") {
-                        $query->whereHas('users');
-                    }
-                    elseif ($request->filter == "2") {
-                        $query->whereHas('posts');
-                    }
-                    elseif($request->filter == "3") {
-                        $query->has('users', '>', '5');
-                    }
-                    else {
-                        $query->has('posts', '>', '5');
-                    }
-
-                })
-                ->where('name', 'LIKE' ,'%'.$request->search.'%')
+                ::filterByRelation()
+                ->searchName()
                 ->paginate($request->perPage);
 
             return response()->json($professions);
-
-
         }
 
         return view('admin.professions');

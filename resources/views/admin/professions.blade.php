@@ -11,14 +11,24 @@
                 <input type="hidden" id="hidden_page" value="1">
                 <div class="card-body">
                     <div class="section d-flex justify-content-between mt-3">
-                        <div class="filter form-group w-25">
-                            <select name="filter_profession" class="custom-select" id="filterProfession">
-                                <option selected disabled>filter</option>
-                                <option value="1">Professions selected by users</option>
-                                <option value="2">Professions selected by posts</option>
-                                <option value="3">Professions selected by more than 5 users</option>
-                                <option value="4">Professions selected by more than 5 posts</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-4 form-group w-25">
+                                <select name="filter_profession" class="custom-select" id="filterProfession">
+                                    <option value="all" selected>All professions</option>
+                                    <option value="withUsers">Professions selected by users</option>
+                                    <option value="withPosts">Professions selected by posts</option>
+                                    <option value="moreFiveUsers">Professions selected by more than 5 users</option>
+                                    <option value="moreFivePosts">Professions selected by more than 5 posts</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <select name="paginate" class="custom-select" id="paginate">
+                                    <option value="3" selected>3</option>
+                                    <option value="5">5</option>
+                                    <option value="7">7</option>
+                                    <option value="15">15</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="search">
                             <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="professionSearch" id="professionSearch">
@@ -40,7 +50,8 @@
                         </table>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center mb-4" id="pagination">
+                <div class="pagination">
+                    <ul> </ul>
                 </div>
             </div>
         </div>
