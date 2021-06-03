@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
     <component name="ProjectModuleManager">
         <modules>
             <module fileurl="file://$PROJECT_DIR$/.idea/teamLaravel.iml"
                     filepath="$PROJECT_DIR$/.idea/teamLaravel.iml"/>
         </modules>
     </component>
+=======
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/team.iml" filepath="$PROJECT_DIR$/.idea/team.iml" />
+    </modules>
+  </component>
+>>>>>>> 1b9427a6196db21c44e528868ce92a81e99f2e66
 </project>

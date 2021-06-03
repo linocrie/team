@@ -79,7 +79,7 @@
                                         </form>
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <img src="{{ asset('storage/'.$images->path) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
+                                        <img src="{{ asset('storage/'.$images->path) }}" alt='image' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
                                     </div>
                                     <strong class="d-flex justify-content-center">{{ $images->original_name }}</strong>
                                 </div>
