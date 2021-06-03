@@ -49,8 +49,7 @@ class PostsController extends Controller
 
     public function profile(User $user): View
     {
-//        dd($user);
-//        dd($user->load(['avatar', 'detail', 'galleries', 'professions']));
+
         return view('posts.profile')
             ->with('user', $user->load(['avatar', 'detail', 'galleries', 'professions']));
     }

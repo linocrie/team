@@ -1,5 +1,5 @@
 require('./bootstrap');
-require('./gallery_search');
-require('./gallery_filter');
+require('./gallery_filter_search');
 require('./multiselect');
 require('./disablebutton');
+

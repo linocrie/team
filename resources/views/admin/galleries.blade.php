@@ -1,64 +1,58 @@
 @extends('layouts.admin')
-
 @section('admin_content')
     <div class="container">
-        <div class="">
-            <div class="section d-flex justify-content-between mt-3">
-                <div class="filter form-group row">
-                    <label for="galleries" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Filter') }}</label>
-                    <div class="col-md-6">
-                        <select name="filter"  id="multiSelect">
-                            <option value="0">all</option>
-                            <option value="1">has 5 and more images</option>
-                            <option value="2">created last 7 days</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="search">
-                    <input  id ='search' class="form-control" type="text" placeholder="Search" aria-label="Search">
-                </div>
-            </div>
-            <div class="col-md-12 mt-5">
-                <table class="table table-striped table-dark">
-                    <thead>
-                    <tr>
-                        <th scope="col">Gallery_id</th>
-                        <th scope="col">User Name</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Created At</th>
-                        <th scope="col">Updated At</th>
-                        <th scope="col">Delete</th>
+        @if(session('success'))
+            <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
+        @endif
+        <div class="mt-5">
+            <div class="card bg-secondary mb-5">
+                <div class="card-header font-weight-bold" style="font-size: 20px">Gallery list</div>
+                <input type="hidden" id="hidden_page" value="1">
+                <div class="card-body">
+                    <div class="section d-flex justify-content-between mt-3">
+                        <div class="row">
+                            <div class="col-md-8 form-group w-25">
+                                <select name="filter_profession" class="custom-select" id="filterProfession">
+                                    <option value="all" selected>All professions</option>
+                                    <option value="moreImages">has 5 and more images</option>
+                                    <option value="lastDays">created last 7 days</option>
 
-                    </tr>
-                    </thead>
-                    <tbody id ="table">
-                    @foreach($galleries as $gallery)
-                        <tr>
-                            <th scope="row">{{$gallery->id}}</th>
-                            <td>{{$gallery->user->name}}</td>
-                            <td>{{$gallery->title}}</td>
-                            <td>{{$gallery->created_at}}</td>
-                            <td>{{$gallery->updated_at}}</td>
-                            <td>
-                                <form action="{{route('admin.gallery.delete',['gallery' => $gallery->id])}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                <div class="d-flex justify-content-center">
-                    {{ $galleries->links('pagination::bootstrap-4') }}
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <select name="paginate" class="custom-select" id="paginate">
+                                    <option value="3" selected>3</option>
+                                    <option value="5">5</option>
+                                    <option value="7">7</option>
+                                    <option value="15">15</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="search">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="professionSearch" id="professionSearch">
+                        </div>
+                    </div>
+                    <h3 class="d-flex justify-content-center" id="noProfession"></h3>
+                    <div class="col-md-12 mt-2" id="tableProf">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                            <tr>
+                                <th scope="col">Gallery_id</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Created at</th>
+                                <th scope="col">Updated at</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="professionBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="paginate" class="d-flex justify-content-between ml-4 mr-4 mb-2">
+                        <a href="" id="previous" class="text-decoration-none p-1 mr-2 bg-dark text-white rounded"> << Previous</a>
+                        <a href="" id="next" class="text-decoration-none p-1 ml-2 bg-dark text-white rounded">Next >></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 @endsection
-

@@ -25,6 +25,7 @@
         "datatables.net": "^1.10.24",
         "datatables.net-dt": "^1.10.24",
         "lodash.debounce": "^4.0.8",
-        "multiple-select": "^1.5.2"
+        "multiple-select": "^1.5.2",
+        "paginationjs": "^2.1.5"
     }
 }

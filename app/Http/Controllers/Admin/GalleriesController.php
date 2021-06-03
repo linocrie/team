@@ -20,49 +20,28 @@ class GalleriesController extends Controller
         $this->middleware('auth');
     }
 
-    public function  index()
+    public function  index(Request $request)
     {
-        return view('admin.galleries')
-            ->with('galleries',Gallery::with('user')->paginate(3));
+        if ($request->expectsJson())
+        {
+            $professions = Gallery
+                ::filterByRelation()
+                ->searchName()
+                ->paginate($request->perPage);
+            return response()->json($professions);
+        }
+        return view('admin.galleries');
     }
 
-    public function search(Request $request): JsonResponse
-    {
-        $x = Gallery::with('user')->where('title', 'LIKE',"%{$request->search}%")->paginate(3);
-        return response()->json($x);
-    }
 
-    public function delete(Gallery $gallery)
-    {
-        if($gallery->images()->exists()) {
-            Storage::delete($gallery->images->pluck('path')->all());
-            $gallery->images()->delete();
-        }
-
-        $gallery->delete();
-
-        return back()
-            ->with('success', 'Post successfully deleted');
-    }
-
-    public function filter(Request $request): JsonResponse
-    {
-        if ($request->filter == 0)
+    public function destroy (Request $request){
+        $imagePaths = GalleryImages::whereHas("gallery", function (Builder $query) use($request)
         {
-            $result = Gallery::with('user')->get();
-        }
-
-        if ($request->filter == 1)
-        {
-            $result = Gallery::with('user')->has('images','>','2')->get();
-        }
-
-        if ($request->filter == 2)
-        {
-            $date = Carbon::today()->subDays(7);
-            $result = Gallery::with('user')->where('created_at','>=',$date)->get();
-        }
-
-        return response()->json($result);
+                $query->where("id" , $request->deleteId);
+        })->get()->pluck("path");
+        Storage::delete($imagePaths);
+        Gallery::where('id', $request->deleteId)->first()->images()->delete();
+        Gallery::where('id', $request->deleteId)->delete();
     }
 }
+
