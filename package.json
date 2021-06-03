@@ -22,14 +22,6 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
-<<<<<<< HEAD
-        "bootstrap-select": "^1.13.18",
-=======
-        "datatables.net": "^1.10.24",
-        "datatables.net-dt": "^1.10.24",
-        "lodash.debounce": "^4.0.8",
->>>>>>> 1b9427a6196db21c44e528868ce92a81e99f2e66
-        "multiple-select": "^1.5.2",
-        "paginationjs": "^2.1.5"
+        "bootstrap-select": "^1.13.18"
     }
 }
