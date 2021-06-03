@@ -54,7 +54,7 @@ $(function() {
                 );
                 $(`#${value.id}`).on('click', function () {
                     $(`.${value.id}`).remove();
-                    fetch_data(value.id);
+                    fetch_data(1, value.id);
                 });
             });
         }
