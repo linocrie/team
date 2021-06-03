@@ -1,4 +1,3 @@
 $(function () {
     $('#multiSelect').multipleSelect();
 });
-

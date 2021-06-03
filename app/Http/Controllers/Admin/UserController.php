@@ -2,18 +2,48 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+
+use App\Models\User;
+use App\Models\Detail;
+
+//use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-//        $this->middleware('is_admin');
+        $this->middleware('is_admin');
     }
 
-    public function  index() {
+    public function index(Request $request)
+    {
+        if ($request->expectsJson()) {
+            $users = User::with('detail')
+                ->filterUsers()
+                ->searchUsers()
+                ->paginate($request->perPage);
+
+            return $users->toJSON();
+        }
+        return view('admin.users');
+    }
+
+    public function delete(Request $request)
+    {
+        if ($request->expectsJson()) {
+            $deletedId = $request->deleteId;
+            User::where('id', $deletedId)->delete();
+            $users = User::with('detail')
+                ->filterUsers()
+                ->searchUsers()
+                ->paginate($request->perPage);
+
+            return $users->toJSON();
+        }
         return view('admin.users');
     }
 }
