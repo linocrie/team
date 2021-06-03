@@ -32,18 +32,9 @@ class UserController extends Controller
         return view('admin.users');
     }
 
-    public function delete(Request $request)
+    public function delete(User $user)
     {
-        if ($request->expectsJson()) {
-            $deletedId = $request->deleteId;
-            User::where('id', $deletedId)->delete();
-            $users = User::with('detail')
-                ->filterUsers()
-                ->searchUsers()
-                ->paginate($request->perPage);
-
-            return $users->toJSON();
-        }
-        return view('admin.users');
+        $user->delete();
+        return response()->json([]);
     }
 }

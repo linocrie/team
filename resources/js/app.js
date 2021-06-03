@@ -1,4 +1,4 @@
 require('./bootstrap');
 require('./multiselect');
 require('./disablebutton');
-require('./search_filter');
+require('./users_filter_search');

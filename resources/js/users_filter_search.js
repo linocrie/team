@@ -1,20 +1,34 @@
 $(function () {
-    fetch_data();
-    $('#search').keyup(function () {
-        fetch_data();
-    });
-    $("#filter").change(function () {
-        fetch_data();
-    });
-    $("#paginate").change(function () {
-        fetch_data();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            'Content-Type': 'application/json',
+        }
     });
 
+    $(document).ready(function() {
+        fetch_data();
+
+        $('#search').keyup(function () {
+            fetch_data();
+        });
+
+        $("#filter").change(function () {
+            fetch_data();
+        });
+
+        $("#paginate").change(function () {
+            fetch_data();
+        });
+
+        $(document).on('click', '.delete-action', function() {
+            const userId = $(this).data('id');
+            deleteUser(userId);
+        });
+    });
+    let ajax = null;
     function fetch_data(page, id) {
-        $.ajax({
-            headers: {
-                'Content-Type': 'application/json',
-            },
+        ajax = $.ajax({
             data: {
                 search: $("#search").val(),
                 filter: $("#filter").val(),
@@ -22,12 +36,28 @@ $(function () {
                 page: page,
                 deleteId: id
             },
-            url: !id ? '/admin/users' : '/admin/users/delete',
+            url: '/admin/users',
             method: "GET",
             dataType: "json",
+            beforeSend: function(){
+                if(ajax != null){
+                    ajax.abort();
+                }
+            },
             success: function (response) {
                 buildTable(response)
                 buildPagination(response)
+            }
+        });
+    }
+
+    function deleteUser(userId) {
+        $.ajax({
+            url: `/admin/users/${userId}`,
+            method: 'DELETE',
+            dataType: 'json',
+            success: function (response) {
+                fetch_data();
             }
         });
     }
@@ -36,7 +66,7 @@ $(function () {
         $('#rowSearch').empty();
         $.each(response.data, function (key, value) {
             $('#rowSearch').append(
-                `<tr class="${value.id} text-center">
+                `<tr class="text-center">
                         <th> ${value.id} </th>
                         <th> ${value.name} </th>
                         <th> ${(value.email)}</th>
@@ -45,17 +75,12 @@ $(function () {
                         <th> ${(value.detail ? value.detail.city : '-')} </th>
                         <th> ${(value.detail ? value.detail.country : '-')} </th>
                         <th>
-                            <button class='btn btn-danger p-1' data-id=${value.id} id="${value.id}">
+                            <button class='btn btn-danger p-1 delete-action' data-id='${value.id}'>
                                 <i class='far fa-trash-alt text-white'></i>
                             </button>
                         </th>
                     </tr>`
             );
-            $(`#${value.id}`).on('click', function () {
-                $(`.${value.id}`).remove();
-                let page = 1;
-                fetch_data(page, value.id);
-            });
         })
     }
 
@@ -79,10 +104,9 @@ $(function () {
         if (currentPage === 1) {
             console.log(123);
             $('.previous').replaceWith(function () {
-                return $("<span class='previous'></span>").append($(this).contents());
+                return $("<span class='previous btn btn-dark'></span>").append($(this).contents());
             });
         } else {
-
             $('.previous').replaceWith(function () {
                 return $("<a href=" + response.prev_page_url + " class='previous btn btn-dark'></a>").append($(this).contents());
             });

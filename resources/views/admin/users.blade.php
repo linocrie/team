@@ -3,37 +3,42 @@
 @section('admin_content')
     <div class="container">
         <div class="card-body bg-secondary mt-5 mb-5">
-            <div class="section d-flex justify-content-between mt-3">
-                <div class="filter form-group row">
-                    <div class="col-md-5">
-                        <select class="custom-select" name="filter" id="filter">
-                            <option name="all_users" value="all" selected>All users</option>
-                            <option name="have_post" value="1">Have a post</option>
-                            <option name="doesnt_have_post" value="2">Doesn't have a post</option>
-                            <option name="have_gallery" value="3">Have a gallery</option>
-                            <option name="doesnt_have_gallery" value="4">Doesn't have a gallery</option>
-                            <option name="have_profession" value="5">Have a profession</option>
-                            <option name="doesnt_have_profession" value="6">Doesn't have a profession</option>
-                            <option name="have_avatar" value="7">Have an avatar</option>
-                            <option name="doesnt_have_avatar" value="8">Doesn't have an avatar</option>
-                        </select>
+            <div class="section mt-3">
+                <div class="filter d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="form-group">
+                            <select class="custom-select" name="filter" id="filter">
+                                <option name="all_users" value="all" selected>All users</option>
+                                <option name="have_post" value="1">Have a post</option>
+                                <option name="doesnt_have_post" value="2">Doesn't have a post</option>
+                                <option name="have_gallery" value="3">Have a gallery</option>
+                                <option name="doesnt_have_gallery" value="4">Doesn't have a gallery</option>
+                                <option name="have_profession" value="5">Have a profession</option>
+                                <option name="doesnt_have_profession" value="6">Doesn't have a profession</option>
+                                <option name="have_avatar" value="7">Have an avatar</option>
+                                <option name="doesnt_have_avatar" value="8">Doesn't have an avatar</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group ml-2">
+                            <select name="paginate" class="custom-select" id="paginate">
+                                <option value="3" selected>3</option>
+                                <option value="5">5</option>
+                                <option value="7">7</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-3 form-group">
-                        <select name="paginate" class="custom-select" id="paginate">
-                            <option value="3" selected>3</option>
-                            <option value="5">5</option>
-                            <option value="7">7</option>
-                            <option value="15">15</option>
-                        </select>
+
+                    <div class="search">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="search"
+                               name="search">
                     </div>
-                </div>
-                <div class="search">
-                    <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="search"
-                           name="search">
                 </div>
             </div>
-            <div class="col-md-12 mt-3" id="users_block">
-                <table class="table table-striped table-dark" id="movies_list">
+
+            <div class="mt-3 table-responsive" id="users_block">
+                <table class="table table-dark w-100">
                     <thead>
                     <tr class="text-center">
                         <th scope="col">User_id</th>
@@ -46,7 +51,7 @@
                         <th scope="col"></th>
                     </tr>
                     </thead>
-                    <tbody id="rowSearch" class="row_filter"></tbody>
+                    <tbody id="rowSearch"></tbody>
                 </table>
             </div>
             <div id="pagination">
