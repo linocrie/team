@@ -2,35 +2,29 @@
 
 @section('admin_content')
     <div class="container">
-        @if(session('success'))
-            <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
-        @endif
         <div class="mt-5">
             <div class="card bg-secondary mb-5">
                 <div class="card-header font-weight-bold" style="font-size: 20px">Profession list</div>
-                <input type="hidden" id="hidden_page" value="1">
                 <div class="card-body">
-                    <div class="section d-flex justify-content-between mt-3">
-                        <div class="row">
-                            <div class="col-md-4 form-group w-25">
-                                <select name="filter_profession" class="custom-select" id="filterProfession">
-                                    <option value="all" selected>All professions</option>
-                                    <option value="withUsers">Professions selected by users</option>
-                                    <option value="withPosts">Professions selected by posts</option>
-                                    <option value="moreFiveUsers">Professions selected by more than 5 users</option>
-                                    <option value="moreFivePosts">Professions selected by more than 5 posts</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 form-group">
-                                <select name="paginate" class="custom-select" id="paginate">
-                                    <option value="3" selected>3</option>
-                                    <option value="5">5</option>
-                                    <option value="7">7</option>
-                                    <option value="15">15</option>
-                                </select>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3 form-group w-25">
+                            <select name="filter_profession" class="custom-select" id="filterProfession">
+                                <option value="all" selected>All professions</option>
+                                <option value="withUsers">Professions selected by users</option>
+                                <option value="withPosts">Professions selected by posts</option>
+                                <option value="moreFiveUsers">Professions selected by more than 5 users</option>
+                                <option value="moreFivePosts">Professions selected by more than 5 posts</option>
+                            </select>
                         </div>
-                        <div class="search">
+                        <div class="col-md-1 w-25 form-group">
+                            <select name="perPage" class="custom-select" id="perPage">
+                                <option value="3" selected>3</option>
+                                <option value="5">5</option>
+                                <option value="7">7</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 w-50 ml-auto">
                             <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="professionSearch" id="professionSearch">
                         </div>
                     </div>
@@ -50,9 +44,11 @@
                         </table>
                     </div>
                 </div>
-                <div id="paginate">
-                    <a href="" class="previous"> << Previous</a>
-                    <a href="" class="next">Next >></a>
+                <div id="pageNone">
+                    <div id="paginate" class="d-flex justify-content-between ml-4 mr-4 mb-2">
+                        <a href="" id="previous" class="text-decoration-none p-1 mr-2 bg-dark text-white rounded"> << Previous</a>
+                        <a href="" id="next" class="text-decoration-none p-1 ml-2 bg-dark text-white rounded">Next >></a>
+                    </div>
                 </div>
             </div>
         </div>

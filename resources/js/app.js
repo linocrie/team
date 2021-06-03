@@ -1,5 +1,5 @@
 require('./bootstrap');
 require('./multiselect');
 require('./disablebutton');
-require('./filter_search');
+require('./profession_filter_search');
 
