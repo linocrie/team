@@ -14,8 +14,8 @@ class CreatePostProfession extends Migration
     public function up()
     {
         Schema::create('post_profession', function (Blueprint $table) {
-            $table->foreignId('post_id')->constrained();
-            $table->foreignId('profession_id')->constrained();
+            $table->foreignId('post_id')->constrained()->onDelete('cascade');
+            $table->foreignId('profession_id')->constrained()->onDelete('cascade');
         });
     }
 

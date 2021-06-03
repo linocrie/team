@@ -14,8 +14,8 @@ class CreateUserProfession extends Migration
     public function up()
     {
         Schema::create('user_profession', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('profession_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('profession_id')->constrained()->onDelete('cascade');
         });
     }
 

@@ -67,5 +67,6 @@ Route::prefix('/admin')->group(function () {
     Route::get('/galleries', [GalleriesController::class, 'index'])->name('admin.galleries.index');
     Route::get('/galleries/destroy', [GalleriesController::class, 'destroy']);
     Route::get('/professions', [ProfessionController::class, 'index'])->name('admin.professions.index');
+    Route::delete('/professions/{profession}', [ProfessionController::class, 'destroy'])->name('admin.profession.delete');
 });
 
