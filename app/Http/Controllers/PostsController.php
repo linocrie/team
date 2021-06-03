@@ -49,19 +49,20 @@ class PostsController extends Controller
 
     public function profile(User $user): View
     {
-//        dd($user);
-//        dd($user->load(['avatar', 'detail', 'galleries', 'professions']));
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2bf98e461e4d45b162cdd5732ff2071510397fa2
         return view('posts.profile')
             ->with('user', $user->load(['avatar', 'detail', 'galleries', 'professions']));
     }
 
     public function store(PostRequest $request): RedirectResponse
     {
-        $userId = auth()->id();
         $file = $request->file('image')->store('postimages');
 
         $post = Post::create([
-            'user_id'     => $userId,
+            'user_id'     => auth()->id(),
             'title'       => $request->title,
             'description' => $request->description,
         ]);
@@ -91,15 +92,12 @@ class PostsController extends Controller
         $post->update(
             [
                 'title' => $request->title,
-                'description' => $request->description,
-                'profession'
+                'description' => $request->description
             ]
         );
 
         if($request->hasFile('image')) {
-
             if ($post->image()->exists()) {
-
                 if(Storage::exists($path = $post->image->path)) {
                     Storage::delete($path);
                 }
@@ -111,7 +109,7 @@ class PostsController extends Controller
                 ['post_id'          => $post->id],
                 [
                     'original_name' => $request->file('image')->getClientOriginalName(),
-                    'path'          => $path,
+                    'path'          => $path
                 ]
             );
         }

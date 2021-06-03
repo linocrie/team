@@ -23,4 +23,30 @@ class Profession extends Model
     {
         return $this->belongsToMany(Post::class, 'post_profession');
     }
+
+    public function scopeFilterByRelation($query)
+    {
+        switch (request()->filter) {
+            case "all":
+                return $query;
+            case "withUsers":
+                return $query->whereHas('users');
+            case "withPosts":
+                return $query->whereHas('posts');
+            case "moreFiveUsers":
+                return $query->has('users', '>', '5');
+            default:
+                return $query->has('posts', '>', '5');
+        }
+    }
+
+    public function scopeSearchName($query)
+    {
+
+        if (request()->search === '') {
+            return $query;
+        }
+
+        return $query->where('name', 'LIKE' ,"%". request()->search . "%");
+    }
 }

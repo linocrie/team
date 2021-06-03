@@ -5,20 +5,25 @@ $(function () {
             'Content-Type': 'application/json',
         }
     });
+
     $(document).ready(function() {
         fetch_data();
+
         $('#search').keyup(function () {
             fetch_data();
         });
+
         $("#filter").change(function () {
             fetch_data();
         });
+
         $("#paginate").change(function () {
             fetch_data();
         });
+
         $(document).on('click', '.delete-action', function() {
-            const postId = $(this).data('id');
-            deletePost(postId);
+            const userId = $(this).data('id');
+            deleteUser(userId);
         });
     });
     let ajax = null;
@@ -31,7 +36,7 @@ $(function () {
                 page: page,
                 deleteId: id
             },
-            url: '/admin/posts',
+            url: '/admin/users',
             method: "GET",
             dataType: "json",
             beforeSend: function(){
@@ -45,9 +50,10 @@ $(function () {
             }
         });
     }
-    function deletePost(postId) {
+
+    function deleteUser(userId) {
         $.ajax({
-            url: `/admin/posts/${postId}`,
+            url: `/admin/users/${userId}`,
             method: 'DELETE',
             dataType: 'json',
             success: function (response) {
@@ -55,40 +61,31 @@ $(function () {
             }
         });
     }
+
     function buildTable(response) {
-        if((response.data).length === 0) {
-            $("#postsBody").empty();
-        }
-        else {
-            $('#postsBody').empty();
-
-            $.each(response.data, function (key, value) {
-
-                let arr = [];
-                $.each(value.professions, function (key, profession) {
-                    arr.push(profession.name);
-                })
-                $('#postsBody').append(
-                    `<tr class="${value.id}"><td> ${value.id} </td>
-                    <th scope="row"> ${value.title} </th>
-                    <th scope="row"> ${(value.description)} </th>
-                    <th scope="row">`
-                    + arr.toString() +
-                    `</th>
-                    <th>
-                        <button class='btn btn-danger p-1 delete-action' data-id='${value.id}'>
+        $('#rowSearch').empty();
+        $.each(response.data, function (key, value) {
+            $('#rowSearch').append(
+                `<tr class="text-center">
+                        <th> ${value.id} </th>
+                        <th> ${value.name} </th>
+                        <th> ${(value.email)}</th>
+                        <th> ${(value.detail ? value.detail.phone : '-')} </th>
+                        <th class="text-center"> ${(value.detail ? value.detail.address : '-')} </th>
+                        <th> ${(value.detail ? value.detail.city : '-')} </th>
+                        <th> ${(value.detail ? value.detail.country : '-')} </th>
+                        <th>
+                            <button class='btn btn-danger p-1 delete-action' data-id='${value.id}'>
                                 <i class='far fa-trash-alt text-white'></i>
-                        </button>
-                    </th></tr>`
-                );
-                $(`#${value.id}`).on('click', function() {
-                    $(`.${value.id}`).remove();
-                    fetch_data(1, value.id);
-                });
-            });
-        }
+                            </button>
+                        </th>
+                    </tr>`
+            );
+        })
     }
+
     function buildPagination(response) {
+        console.log(response);
         let pageSize = response.last_page;
         let currentPage = response.current_page;
         let totalPages = response.total;
@@ -105,6 +102,7 @@ $(function () {
             });
         }
         if (currentPage === 1) {
+            console.log(123);
             $('.previous').replaceWith(function () {
                 return $("<span class='previous btn btn-dark'></span>").append($(this).contents());
             });
@@ -123,6 +121,7 @@ $(function () {
             let page = $('.next').attr('href').split('page=')[1];
             fetch_data(page);
         });
+
         $('.previous').click(function (event) {
             event.preventDefault()
             let page = $('.previous').attr('href').split('page=')[1];
