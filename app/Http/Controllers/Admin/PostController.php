@@ -10,7 +10,7 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('is_admin');
+//        $this->middleware('is_admin');
     }
 
     public function  index() {
