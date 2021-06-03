@@ -8,10 +8,10 @@ $(function() {
 
     $(document).ready(function() {
         fetch_data();
-        $('#search').keyup(function () {
+        $('#professionSearch').keyup(function () {
             fetch_data();
         });
-        $("#filter").change(function () {
+        $("#filterProfession").change(function () {
             fetch_data();
         });
         $("#paginate").change(function () {
@@ -20,7 +20,7 @@ $(function() {
 
         $(document).on('click', '.delete-action', function() {
             const professionId = $(this).data('id');
-            deleteUser(professionId);
+            deleteProfession(professionId);
         });
     });
 
@@ -49,7 +49,7 @@ $(function() {
         });
     }
 
-    function deleteUser(professionId) {
+    function deleteProfession(professionId) {
         $.ajax({
             url: `/admin/professions/${professionId}`,
             method: 'DELETE',
@@ -70,6 +70,7 @@ $(function() {
             $('#noProfession').empty();
             $('#professionBody').empty();
             $.each(response.data, function (key, value) {
+                console.log("hello");
                 $('#professionBody').append(
                     `<tr class="${value.id}"><td> ${value.id} </td>
                     <td> ${value.name} </td>
