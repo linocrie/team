@@ -22,14 +22,13 @@ $(function () {
         });
     });
     let ajax = null;
-    function fetch_data(page, id) {
+    function fetch_data(page) {
         ajax = $.ajax({
             data: {
                 search: $("#searchPosts").val(),
                 filter: $("#filterPosts").val(),
                 perPage: $("#paginatePosts").val(),
-                page: page,
-                deleteId: id
+                page: page
             },
             url: '/admin/posts',
             method: "GET",
