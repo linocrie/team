@@ -12,7 +12,7 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-//        $this->middleware('is_admin');
+        $this->middleware('is_admin');
     }
 
     public function  index(Request $request)
@@ -31,26 +31,16 @@ class PostController extends Controller
 
     public function delete(Post $postId)
     {
-        if (request()->expectsJson()) {
-
-            if ($postImage = $postId->image()->first()) {
-                if(Storage::exists($path = $postImage->path)) {
-                    Storage::delete($path);
-                }
-                $postId->image()->delete();
+        if ($postImage = $postId->image()->first()) {
+            if(Storage::exists($path = $postImage->path)) {
+                Storage::delete($path);
             }
-
-            $postId->professions()->detach();
-            $postId->delete();
-
-            $posts = Post::with('professions')
-                ->filterPosts()
-                ->searchPosts()
-                ->paginate(request()->perPage);
-
-            return $posts->toJSON();
+            $postId->image()->delete();
         }
 
-        return view('admin.posts');
+        $postId->professions()->detach();
+        $postId->delete();
+
+        return response()->json([]);
     }
 }
