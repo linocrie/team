@@ -20,7 +20,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4 form-group">
-                                <select name="paginate" class="custom-select" id="paginate">
+                                <select name="paginatee" class="custom-select" id="paginatee">
                                     <option value="3" selected>3</option>
                                     <option value="5">5</option>
                                     <option value="7">7</option>

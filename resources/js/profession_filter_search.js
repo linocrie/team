@@ -14,7 +14,7 @@ $(function() {
         $("#filterProfession").change(function () {
             fetch_data();
         });
-        $("#paginate").change(function () {
+        $("#perPage").change(function () {
             fetch_data();
         });
 

@@ -1,3 +1,4 @@
+const Swal = require("sweetalert2");
 $(function () {
     $.ajaxSetup({
         headers: {
@@ -21,20 +22,36 @@ $(function () {
             fetch_data();
         });
 
-        $(document).on('click', '.delete-action', function() {
+        $(document).on('click', '.delete-action-user', function() {
             const userId = $(this).data('id');
-            deleteUser(userId);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085D6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteUser(userId);
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                }
+            })
         });
     });
     let ajax = null;
-    function fetch_data(page, id) {
+    function fetch_data(page) {
         ajax = $.ajax({
             data: {
                 search: $("#search").val(),
                 filter: $("#filter").val(),
                 perPage: $("#paginate").val(),
                 page: page,
-                deleteId: id
             },
             url: '/admin/users',
             method: "GET",
@@ -56,7 +73,7 @@ $(function () {
             url: `/admin/users/${userId}`,
             method: 'DELETE',
             dataType: 'json',
-            success: function (response) {
+            success: function () {
                 fetch_data();
             }
         });
@@ -75,7 +92,7 @@ $(function () {
                         <th> ${(value.detail ? value.detail.city : '-')} </th>
                         <th> ${(value.detail ? value.detail.country : '-')} </th>
                         <th>
-                            <button class='btn btn-danger p-1 delete-action' data-id='${value.id}'>
+                            <button class='btn btn-danger p-1 delete-action-user' data-id='${value.id}'>
                                 <i class='far fa-trash-alt text-white'></i>
                             </button>
                         </th>
@@ -85,7 +102,6 @@ $(function () {
     }
 
     function buildPagination(response) {
-        console.log(response);
         let pageSize = response.last_page;
         let currentPage = response.current_page;
         let totalPages = response.total;
@@ -102,7 +118,6 @@ $(function () {
             });
         }
         if (currentPage === 1) {
-            console.log(123);
             $('.previous').replaceWith(function () {
                 return $("<span class='previous btn btn-dark'></span>").append($(this).contents());
             });
