@@ -49,10 +49,6 @@ class PostsController extends Controller
 
     public function profile(User $user): View
     {
-<<<<<<< HEAD
-=======
-
->>>>>>> 2bf98e461e4d45b162cdd5732ff2071510397fa2
         return view('posts.profile')
             ->with('user', $user->load(['avatar', 'detail', 'galleries', 'professions']));
     }
