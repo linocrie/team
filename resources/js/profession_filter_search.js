@@ -70,7 +70,6 @@ $(function() {
             $('#noProfession').empty();
             $('#professionBody').empty();
             $.each(response.data, function (key, value) {
-                console.log("hello");
                 $('#professionBody').append(
                     `<tr class="${value.id}"><td> ${value.id} </td>
                     <td> ${value.name} </td>

@@ -9,31 +9,29 @@
                 <div class="card-header font-weight-bold" style="font-size: 20px">Gallery list</div>
                 <input type="hidden" id="hidden_page" value="1">
                 <div class="card-body">
-                    <div class="section d-flex justify-content-between mt-3">
-                        <div class="row">
-                            <div class="col-md-8 form-group w-25">
-                                <select name="filter_profession" class="custom-select" id="filterProfession">
-                                    <option value="all" selected>All professions</option>
-                                    <option value="moreImages">has 5 and more images</option>
-                                    <option value="lastDays">created last 7 days</option>
-
-                                </select>
-                            </div>
-                            <div class="col-md-4 form-group">
-                                <select name="paginatee" class="custom-select" id="paginatee">
-                                    <option value="3" selected>3</option>
-                                    <option value="5">5</option>
-                                    <option value="7">7</option>
-                                    <option value="15">15</option>
-                                </select>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3 form-group w-25">
+                            <select name="filter_gallery" class="custom-select" id="filterGallery">
+                                <option value="all" selected>All galleries</option>
+                                <option value="moreImages">has 5 and more images</option>
+                                <option value="lastDays">created last 7 days</option>
+                            </select>
                         </div>
-                        <div class="search">
-                            <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="professionSearch" id="professionSearch">
+                        <div class="col-md-1 w-25 form-group">
+                             <select name="paginate" class="custom-select" id="page">
+                                <option value="3" selected>3</option>
+                                <option value="5">5</option>
+                                <option value="7">7</option>
+                                <option value="15">15</option>
+                             </select>
+                        </div>
+                        <div class="col-md-4 w-50 ml-auto">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search"
+                                   name="gallerySearch" id="gallerySearch">
                         </div>
                     </div>
-                    <h3 class="d-flex justify-content-center" id="noProfession"></h3>
-                    <div class="col-md-12 mt-2" id="tableProf">
+                    <h3 class="d-flex justify-content-center" id="noGallery"></h3>
+                    <div class="col-md-12 mt-2" id="tableGallery">
                         <table class="table table-striped table-dark">
                             <thead>
                             <tr>
@@ -44,12 +42,16 @@
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
-                            <tbody id="professionBody"></tbody>
+                            <tbody id="galleryBody"></tbody>
                         </table>
                     </div>
-                    <div id="paginate" class="d-flex justify-content-between ml-4 mr-4 mb-2">
-                        <a href="" id="previous" class="text-decoration-none p-1 mr-2 bg-dark text-white rounded"> << Previous</a>
-                        <a href="" id="next" class="text-decoration-none p-1 ml-2 bg-dark text-white rounded">Next >></a>
+                    <div id="empty">
+                        <div id="paginate" class="d-flex justify-content-between ml-4 mr-4 mb-2">
+                            <a href="" id="previousPage"
+                               class="text-decoration-none p-1 mr-2 bg-dark text-white rounded"> << Previous</a>
+                            <a href="" id="nextPage" class="text-decoration-none p-1 ml-2 bg-dark text-white rounded">Next
+                                >></a>
+                        </div>
                     </div>
                 </div>
             </div>

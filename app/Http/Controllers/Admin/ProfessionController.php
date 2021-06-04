@@ -17,7 +17,6 @@ class ProfessionController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->expectsJson()) {
             $professions = Profession
                 ::filterByRelation()
