@@ -24,24 +24,26 @@ class GalleriesController extends Controller
     {
         if ($request->expectsJson())
         {
-            $professions = Gallery
+            $gallery = Gallery
                 ::filterByRelation()
                 ->searchName()
                 ->paginate($request->perPage);
-            return response()->json($professions);
+            return response()->json($gallery);
         }
         return view('admin.galleries');
     }
 
 
-    public function destroy (Request $request){
-        $imagePaths = GalleryImages::whereHas("gallery", function (Builder $query) use($request)
+    public function destroy (Gallery $gallery){
+        $imagePaths = GalleryImages::whereHas("gallery", function (Builder $query) use($gallery)
         {
-                $query->where("id" , $request->deleteId);
+                $query->where("id" , $gallery->id);
+
         })->get()->pluck("path");
         Storage::delete($imagePaths);
-        Gallery::where('id', $request->deleteId)->first()->images()->delete();
-        Gallery::where('id', $request->deleteId)->delete();
+        $gallery->images()->delete();
+        $gallery->delete();
+        return response()->json([]);
     }
 }
 
