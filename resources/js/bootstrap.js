@@ -11,6 +11,7 @@ try {
     require('bootstrap');
     require('multiple-select/dist/multiple-select');
     require('sweetalert2');
+    window.NProgress  = require('nprogress');
 } catch (e) {}
 
 /**
