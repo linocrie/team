@@ -29,17 +29,17 @@ class PostController extends Controller
         return view('admin.posts');
     }
 
-    public function delete(Post $postId)
+    public function delete(Post $post)
     {
-        if ($postImage = $postId->image()->first()) {
+        if ($postImage = $post->image()->first()) {
             if(Storage::exists($path = $postImage->path)) {
                 Storage::delete($path);
             }
-            $postId->image()->delete();
+            $post->image()->delete();
         }
 
-        $postId->professions()->detach();
-        $postId->delete();
+        $post->professions()->detach();
+        $post->delete();
 
         return response()->json([]);
     }
