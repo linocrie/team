@@ -24,9 +24,5 @@
     "dependencies": {
         "multiple-select": "^1.5.2",
         "sweetalert2": "^11.0.16"
-<<<<<<< HEAD
-
-=======
->>>>>>> d72b878f816a18d2283a76c0404c932e587b16a7
     }
 }
