@@ -2,64 +2,55 @@
 
 @section('admin_content')
     <div class="container">
-        <div class="">
-            <div class="section d-flex justify-content-between mt-3">
-                <div class="filter form-group row">
-                    <label for="posts" class="col-md-4 col-form-label text-md-right font-weight-bold">{{ __('Filter') }}</label>
-                    <div class="col-md-6">
-                        <select name="posts[]" multiple="multiple" id="multiSelect">
-                            <option value="123">123</option>
-                            <option value="456">123</option>
-                            <option value="789">786</option>
-                            {{--                            @foreach ($professions as $profession)--}}
-                            {{--                                <option value="{{ $profession->id }}" @if($user->professions->contains($profession->id)) selected @endif>{{ $profession->name }}</option>--}}
-                            {{--                            @endforeach--}}
-                        </select>
+        <div class="card-body bg-secondary mt-5 mb-5">
+            <div class="section mt-3">
+                <div class="filter d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="form-group">
+                            <select class="custom-select" name="filterPosts" id="filterPosts">
+                                <option name="default" value="default" selected>Default (no filter)</option>
+                                <option name="haveProfessions" value="haveProfessions">Have profession(s)</option>
+                                <option name="haveNotProfessions" value="haveNotProfessions">Doesn't have profession(s)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group ml-2">
+                            <select name="paginatePosts" class="custom-select" id="paginatePosts">
+                                <option value="3" selected>3</option>
+                                <option value="5">5</option>
+                                <option value="7">7</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="search">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="searchPosts"
+                               name="searchPosts">
                     </div>
                 </div>
-                <div class="search">
-                    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                </div>
             </div>
-            <div class="col-md-12 mt-5">
-                <table class="table table-striped table-dark">
+
+            <div class="mt-3 table-responsive" id="users_block">
+                <table class="table table-dark w-100">
                     <thead>
-                    <tr>
-                        <th scope="col">User id</th>
-                        <th scope="col">User name</th>
-                        <th scope="col">Post id</th>
+                    <tr class="text-center">
+                        <th scope="col">Post_id</th>
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
                         <th scope="col">Profession(s)</th>
+                        <th scope="col">Action</th>
+                    </tr>
                     </thead>
-                    @foreach($posts as $post)
-                        <tbody>
-                        <tr>
-                            <th scope="row">{{ $post->user->id }}</th>
-                            <th scope="row">{{ $post->user->name }}</th>
-                            <th scope="row">{{ $post->id }}</th>
-                            <th scope="row">{{ $post->title }}</th>
-                            <th scope="row">{{ $post->description }}</th>
-                            <th scope="row">
-                                <div class="d-flex flex-wrap">
-                                @foreach($post->professions as $profession)
-                                    <div class="mr-4">
-                                        {{ $profession->name }}
-                                    </div>
-                                @endforeach
-                                </div>
-                            </th>
-                        </tr>
-                        </tbody>
-                    @endforeach
+                    <tbody id="postsBody"></tbody>
                 </table>
+            </div>
+            <div id="paginationPosts">
+                <div class="text-center mt-5 mb-2 d-flex justify-content-between">
+                    <a href="" class="btn btn-dark previous"><<Previous</a>
+                    <a href="" class="btn btn-dark next">Next>></a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center">
-        {{ $posts->links('pagination::bootstrap-4') }}
-    </div>
-
-
 @endsection
-

@@ -85,7 +85,6 @@ $(function () {
     }
 
     function buildPagination(response) {
-        console.log(response);
         let pageSize = response.last_page;
         let currentPage = response.current_page;
         let totalPages = response.total;
@@ -102,7 +101,6 @@ $(function () {
             });
         }
         if (currentPage === 1) {
-            console.log(123);
             $('.previous').replaceWith(function () {
                 return $("<span class='previous btn btn-dark'></span>").append($(this).contents());
             });

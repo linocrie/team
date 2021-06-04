@@ -27,7 +27,6 @@ $(function() {
             method: "GET",
             dataType: "json",
             success: function (response) {
-                console.log(response);
                 buildTable(response)
                 buildPagination(response)
             }

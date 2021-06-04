@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Scopes\PostUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,5 +40,29 @@ class Post extends Model
     public function scopeAuthorize($query)
     {
         return $query->where('user_id', auth()->id());
+    }
+
+    public function scopeFilterPosts($query)
+    {
+        switch (request()->filter) {
+            case 'haveProfessions':
+                return $query->whereHas('professions');
+            case 'haveNotProfessions':
+                return $query->whereDoesntHave('professions');
+            default:
+                return $query;
+        }
+    }
+
+    public function scopeSearchPosts($query)
+    {
+        if (request()->search === '') {
+            return $query;
+        }
+        return $query
+            ->where(function($query) {
+                $query->where('title', 'LIKE', '%' . request()->search . '%');
+                $query->orWhere('description', 'LIKE', '%' . request()->search . '%');
+            });
     }
 }
