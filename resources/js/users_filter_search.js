@@ -44,6 +44,7 @@ $(function () {
             })
         });
     });
+
     let ajax = null;
     function fetch_data(page) {
         ajax = $.ajax({

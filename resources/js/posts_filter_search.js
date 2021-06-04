@@ -7,16 +7,16 @@ $(function () {
     });
     $(document).ready(function() {
         fetch_data();
-        $('#search').keyup(function () {
+        $('#searchPosts').keyup(function () {
             fetch_data();
         });
-        $("#filter").change(function () {
+        $("#filterPosts").change(function () {
             fetch_data();
         });
-        $("#paginate").change(function () {
+        $("#paginatePosts").change(function () {
             fetch_data();
         });
-        $(document).on('click', '.delete-action', function() {
+        $(document).on('click', '.delete-action-post', function() {
             const postId = $(this).data('id');
             deletePost(postId);
         });
@@ -25,9 +25,9 @@ $(function () {
     function fetch_data(page, id) {
         ajax = $.ajax({
             data: {
-                search: $("#search").val(),
-                filter: $("#filter").val(),
-                perPage: $("#paginate").val(),
+                search: $("#searchPosts").val(),
+                filter: $("#filterPosts").val(),
+                perPage: $("#paginatePosts").val(),
                 page: page,
                 deleteId: id
             },
@@ -76,7 +76,7 @@ $(function () {
                     + arr.toString() +
                     `</th>
                     <th>
-                        <button class='btn btn-danger p-1 delete-action' data-id='${value.id}'>
+                        <button class='btn btn-danger p-1 delete-action-post' data-id='${value.id}'>
                                 <i class='far fa-trash-alt text-white'></i>
                         </button>
                     </th></tr>`
@@ -114,9 +114,9 @@ $(function () {
             });
         }
         if (totalPages <= 3 || response.data.length == 0) {
-            $('#pagination').addClass('d-none');
+            $('#paginatePosts').addClass('d-none');
         } else {
-            $('#pagination').removeClass('d-none');
+            $('#paginatePosts').removeClass('d-none');
         }
         $('.next').click(function (event) {
             event.preventDefault();
