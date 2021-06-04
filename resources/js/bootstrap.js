@@ -10,6 +10,7 @@ try {
     window.$ = window.jQuery = require('jquery');
     require('bootstrap');
     require('multiple-select/dist/multiple-select');
+    require('sweetalert2');
 } catch (e) {}
 
 /**
