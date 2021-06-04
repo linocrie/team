@@ -57,6 +57,7 @@ $(function() {
             method: "GET",
             dataType: "json",
             beforeSend: function() {
+                NProgress.start();
                 if(xhr != null) {
                     xhr.abort();
                 }
@@ -64,6 +65,7 @@ $(function() {
             success: function (response) {
                 buildTable(response)
                 buildPagination(response)
+                NProgress.done();
             }
         });
     }
@@ -73,8 +75,10 @@ $(function() {
             url: `/admin/galleries/${gallery}`,
             method: 'DELETE',
             dataType: 'json',
+            beforeSend: function (){NProgress.start()},
             success: function () {
                 fetch_data();
+                NProgress.done();
             }
         });
     }
