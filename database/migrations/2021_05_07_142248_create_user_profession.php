@@ -15,7 +15,7 @@ class CreateUserProfession extends Migration
     {
         Schema::create('user_profession', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('profession_id')->constrained()->onDelete('cascade');
+            $table->foreignId('profession_id')->constrained();
         });
     }
 

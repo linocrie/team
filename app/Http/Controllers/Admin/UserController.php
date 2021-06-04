@@ -16,7 +16,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-//        $this->middleware('is_admin');
+
     }
 
     public function index(Request $request)
@@ -32,7 +32,7 @@ class UserController extends Controller
         return view('admin.users');
     }
 
-    public function delete(User $user)
+    public function destroy(User $user)
     {
         $user->delete();
         return response()->json([]);

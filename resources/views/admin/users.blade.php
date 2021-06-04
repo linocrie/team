@@ -57,7 +57,7 @@
             <div id="pagination">
                 <div class="text-center mt-5 mb-2 d-flex justify-content-between">
                     <a href="" class="btn btn-dark previous"><< Previous</a>
-                    <a href="" class="btn btn-dark next">Next>></a>
+                    <a href="" class="btn btn-dark next">Next >></a>
                 </div>
             </div>
         </div>

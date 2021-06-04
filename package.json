@@ -22,7 +22,8 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
-        "bootstrap-select": "^1.13.18",
-        "multiple-select": "^1.5.2"
+        "multiple-select": "^1.5.2",
+        "nprogress": "^0.2.0",
+        "sweetalert2": "^11.0.16"
     }
 }

@@ -29,7 +29,7 @@ class PostController extends Controller
         return view('admin.posts');
     }
 
-    public function delete(Post $post)
+    public function destroy(Post $post)
     {
         if ($postImage = $post->image()->first()) {
             if(Storage::exists($path = $postImage->path)) {

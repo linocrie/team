@@ -22,19 +22,19 @@ $(function () {
         });
     });
     let ajax = null;
-    function fetch_data(page, id) {
+    function fetch_data(page) {
         ajax = $.ajax({
             data: {
                 search: $("#searchPosts").val(),
                 filter: $("#filterPosts").val(),
                 perPage: $("#paginatePosts").val(),
-                page: page,
-                deleteId: id
+                page: page
             },
             url: '/admin/posts',
             method: "GET",
             dataType: "json",
-            beforeSend: function(){
+            beforeSend: function() {
+                NProgress.start();
                 if(ajax != null){
                     ajax.abort();
                 }
@@ -42,6 +42,7 @@ $(function () {
             success: function (response) {
                 buildTable(response)
                 buildPagination(response)
+                NProgress.done();
             }
         });
     }
@@ -50,8 +51,12 @@ $(function () {
             url: `/admin/posts/${postId}`,
             method: 'DELETE',
             dataType: 'json',
+            beforeSend: function () {
+                NProgress.start()
+            },
             success: function (response) {
                 fetch_data();
+                NProgress.done();
             }
         });
     }
