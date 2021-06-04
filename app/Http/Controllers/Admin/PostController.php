@@ -12,7 +12,7 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('is_admin');
+
     }
 
     public function  index(Request $request)
@@ -29,7 +29,7 @@ class PostController extends Controller
         return view('admin.posts');
     }
 
-    public function delete(Post $post)
+    public function destroy(Post $post)
     {
         if ($postImage = $post->image()->first()) {
             if(Storage::exists($path = $postImage->path)) {

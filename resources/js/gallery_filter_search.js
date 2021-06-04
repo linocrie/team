@@ -1,3 +1,4 @@
+const Swal = require("sweetalert2");
 $(function() {
     $.ajaxSetup({
         headers: {
@@ -18,9 +19,27 @@ $(function() {
             fetch_data();
         });
 
-        $(document).on('click', '.delete-action-galley', function() {
+        $(document).on('click', '.delete-action-gallery', function() {
             const galleryId = $(this).data('id');
-            deleteGallery(galleryId);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085D6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteGallery(galleryId);
+                    Swal.fire(
+                        'Deleted!',
+                        'Profession has been deleted.',
+                        'success'
+                    )
+                }
+            })
+
         });
     });
 
@@ -76,7 +95,7 @@ $(function() {
                     <td> ${(value.created_at).replace("T", " ").substring(0, 19)} </td>
                     <td> ${(value.updated_at).replace("T", " ").substring(0, 19)} </td>
                     <td>
-                        <button class='btn btn-danger p-1 delete-action-galley' data-id='${value.id}'>
+                        <button class='btn btn-danger p-1 delete-action-gallery' data-id='${value.id}'>
                             <i class='far fa-trash-alt text-white'></i>
                         </button>
                     </td></tr>`
