@@ -1,3 +1,5 @@
+const Swal = require("sweetalert2");
+
 $(function() {
     $.ajaxSetup({
         headers: {
@@ -20,7 +22,24 @@ $(function() {
 
         $(document).on('click', '.delete-action-profession', function() {
             const professionId = $(this).data('id');
-            deleteProfession(professionId);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085D6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteProfession(professionId);
+                    Swal.fire(
+                        'Deleted!',
+                        'Profession has been deleted.',
+                        'success'
+                    )
+                }
+            })
         });
     });
 
