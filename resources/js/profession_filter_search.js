@@ -1,5 +1,4 @@
 $(function() {
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -9,31 +8,30 @@ $(function() {
 
     $(document).ready(function() {
         fetch_data();
-        $('#search').keyup(function () {
+        $('#professionSearch').keyup(function () {
             fetch_data();
         });
-        $("#filter").change(function () {
+        $("#filterProfession").change(function () {
             fetch_data();
         });
-        $("#paginate").change(function () {
+        $("#perPage").change(function () {
             fetch_data();
         });
 
-        $(document).on('click', '.delete-action', function() {
+        $(document).on('click', '.delete-action-profession', function() {
             const professionId = $(this).data('id');
-            deleteUser(professionId);
+            deleteProfession(professionId);
         });
     });
 
     let xhr = null;
-    function fetch_data(page, id) {
+    function fetch_data(page) {
         xhr = $.ajax({
             data: {
                 search: $("#professionSearch").val(),
                 filter: $("#filterProfession").val(),
                 perPage: $("#perPage").val(),
-                page: page,
-                deleteId: id
+                page: page
             },
             url: "/admin/professions",
             method: "GET",
@@ -50,7 +48,7 @@ $(function() {
         });
     }
 
-    function deleteUser(professionId) {
+    function deleteProfession(professionId) {
         $.ajax({
             url: `/admin/professions/${professionId}`,
             method: 'DELETE',
@@ -77,7 +75,7 @@ $(function() {
                     <td> ${(value.created_at).replace("T", " ").substring(0, 19)} </td>
                     <td> ${(value.updated_at).replace("T", " ").substring(0, 19)} </td>
                     <td>
-                        <button class='btn btn-danger p-1 delete-action' data-id='${value.id}'>
+                        <button class='btn btn-danger p-1 delete-action-profession' data-id='${value.id}'>
                             <i class='far fa-trash-alt text-white'></i>
                         </button>
                     </td></tr>`
@@ -101,33 +99,33 @@ $(function() {
         let pageSize = response.last_page;
         let currentPage = response.current_page;
         if (currentPage === 1) {
-            $('#previous').replaceWith(function(){
+            $('#previous').replaceWith(function() {
                 return $("<span id='previous' class='p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
         else {
-            $('#previous').replaceWith(function(){
+            $('#previous').replaceWith(function() {
                 return $("<a href=" +response.prev_page_url + " id='previous' class='text-decoration-none p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
         if (currentPage === pageSize) {
-            $('#next').replaceWith(function(){
+            $('#next').replaceWith(function() {
                 return $("<span id='next' class='p-1 ml-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
         else {
-            $('#next').replaceWith(function(){
+            $('#next').replaceWith(function() {
                 return $("<a href=" +response.next_page_url + " id='next' class='text-decoration-none p-1 ml-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
 
-        $('#next').click(function(e){
+        $('#next').click(function(e) {
             e.preventDefault();
             let page = $('#next').attr('href').split('page=')[1];
             fetch_data(page);
         });
 
-        $('#previous').click(function(e){
+        $('#previous').click(function(e) {
             e.preventDefault()
             let page = $('#previous').attr('href').split('page=')[1];
             fetch_data(page);

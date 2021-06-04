@@ -26,6 +26,7 @@ $(function () {
             deleteUser(userId);
         });
     });
+
     let ajax = null;
     function fetch_data(page, id) {
         ajax = $.ajax({
