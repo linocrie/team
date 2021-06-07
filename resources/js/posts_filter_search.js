@@ -5,22 +5,25 @@ $(function () {
             'Content-Type': 'application/json',
         }
     });
-    $(document).ready(function() {
-        fetch_data();
-        $('#searchPosts').keyup(function () {
+
+    if($('#tablePost').length) {
+        $(document).ready(function () {
             fetch_data();
-        });
-        $("#filterPosts").change(function () {
-            fetch_data();
-        });
-        $("#paginatePosts").change(function () {
-            fetch_data();
-        });
-        $(document).on('click', '.delete-action-post', function() {
-            const postId = $(this).data('id');
-            deletePost(postId);
-        });
-    });
+            $('#searchPosts').keyup(function () {
+                fetch_data();
+                $("#filterPosts").change(function () {
+                    fetch_data();
+                });
+                $("#paginatePosts").change(function () {
+                    fetch_data();
+                });
+                $(document).on('click', '.delete-action-post', function () {
+                    const postId = $(this).data('id');
+                    deletePost(postId);
+                });
+            });
+        })
+    }
     let ajax = null;
     function fetch_data(page) {
         ajax = $.ajax({
@@ -46,6 +49,7 @@ $(function () {
             }
         });
     }
+
     function deletePost(postId) {
         $.ajax({
             url: `/admin/posts/${postId}`,
