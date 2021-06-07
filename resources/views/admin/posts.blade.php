@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="mt-3 table-responsive" id="post_block">
+            <div class="mt-3 table-responsive" id="posts_block">
                 <table class="table table-dark w-100" id="tablePost">
                     <thead>
                     <tr class="text-center">
