@@ -62,9 +62,9 @@ Route::prefix('/gallery')->group(function () {
 
 Route::prefix('/admin')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
-    Route::delete('/users/{user}', [UserController::class, 'delete'])->name('admin.users.delete');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
     Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
-    Route::delete('/posts/{post}', [PostController::class, 'delete'])->name('admin.posts.delete');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
     Route::get('/galleries', [GalleriesController::class, 'index'])->name('admin.galleries.index');
     Route::delete('/galleries/{gallery}', [GalleriesController::class, 'destroy'])->name('admin.profession.delete');
     Route::get('/professions', [ProfessionController::class, 'index'])->name('admin.professions.index');
