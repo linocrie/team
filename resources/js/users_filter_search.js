@@ -1,4 +1,3 @@
-const Swal = require("sweetalert2");
 $(function () {
     $.ajaxSetup({
         headers: {
@@ -7,46 +6,48 @@ $(function () {
         }
     });
 
-    $(document).ready(function() {
-        fetch_data();
-
-        $('#search').keyup(function () {
+    if($('#tableUser').length) {
+        $(document).ready(function () {
             fetch_data();
-        });
 
-        $("#filter").change(function () {
-            fetch_data();
-        });
+            $('#search').keyup(function () {
+                fetch_data();
+            });
 
-        $("#paginate").change(function () {
-            fetch_data();
-        });
+            $("#filter").change(function () {
+                fetch_data();
+            });
 
-        $(document).on('click', '.delete-action-user', function() {
-            const userId = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085D6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteUser(userId);
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                }
-            })
-        });
-    });
+            $("#paginate").change(function () {
+                fetch_data();
+            });
 
+            $(document).on('click', '.delete-action-user', function () {
+                const userId = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085D6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteUser(userId);
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        });
+    }
     let ajax = null;
     function fetch_data(page) {
+        let NProgress = require("nprogress");
         ajax = $.ajax({
             data: {
                 search: $("#search").val(),
@@ -58,13 +59,17 @@ $(function () {
             method: "GET",
             dataType: "json",
             beforeSend: function(){
+                NProgress.start();
                 if(ajax != null){
                     ajax.abort();
                 }
             },
             success: function (response) {
-                buildTable(response)
-                buildPagination(response)
+                buildTable(response);
+                buildPagination(response);
+            },
+            complete: function () {
+                NProgress.done();
             }
         });
     }

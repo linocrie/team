@@ -11,16 +11,16 @@ $(function () {
             fetch_data();
             $('#searchPosts').keyup(function () {
                 fetch_data();
-                $("#filterPosts").change(function () {
-                    fetch_data();
-                });
-                $("#paginatePosts").change(function () {
-                    fetch_data();
-                });
-                $(document).on('click', '.delete-action-post', function () {
-                    const postId = $(this).data('id');
-                    deletePost(postId);
-                });
+            });
+            $("#filterPosts").change(function () {
+                fetch_data();
+            });
+            $("#paginatePosts").change(function () {
+                fetch_data();
+            });
+            $(document).on('click', '.delete-action-post', function () {
+                const postId = $(this).data('id');
+                deletePost(postId);
             });
         })
     }
