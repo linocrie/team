@@ -31,8 +31,8 @@
                 </div>
             </div>
 
-            <div class="mt-3 table-responsive" id="users_block">
-                <table class="table table-dark w-100">
+            <div class="mt-3 table-responsive" id="post_block">
+                <table class="table table-dark w-100" id="tablePost">
                     <thead>
                     <tr class="text-center">
                         <th scope="col">Post_id</th>

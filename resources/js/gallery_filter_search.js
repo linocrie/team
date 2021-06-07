@@ -1,4 +1,3 @@
-const Swal = require("sweetalert2");
 $(function() {
     $.ajaxSetup({
         headers: {
@@ -7,56 +6,58 @@ $(function() {
         }
     });
 
-    $(document).ready(function() {
-        fetch_data();
-        $('#gallerySearch').keyup(function () {
+    if($('#tableGallery').length) {
+        $(document).ready(function() {
             fetch_data();
-        });
-        $("#filterGallery").change(function () {
-            fetch_data();
-        });
-        $("#page").change(function () {
-            fetch_data();
-        });
+            $('#gallerySearch').keyup(function () {
+                fetch_data();
+            });
+            $("#filterGallery").change(function () {
+                fetch_data();
+            });
+            $("#page").change(function () {
+                fetch_data();
+            });
 
-        $(document).on('click', '.delete-action-gallery', function() {
-            const galleryId = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085D6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteGallery(galleryId);
-                    Swal.fire(
-                        'Deleted!',
-                        'Profession has been deleted.',
-                        'success'
-                    )
-                }
-            })
+            $(document).on('click', '.delete-action-gallery', function() {
+                const galleryId = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085D6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteGallery(galleryId);
+                        Swal.fire(
+                            'Deleted!',
+                            'Profession has been deleted.',
+                            'success'
+                        )
+                    }
+                })
 
+            });
         });
-    });
+    }
 
     let xhr = null;
-    function fetch_data(page, id) {
+    function fetch_data(page) {
         xhr = $.ajax({
             data: {
                 search: $("#gallerySearch").val(),
                 filter: $("#filterGallery").val(),
                 perPage: $("#page").val(),
                 page: page,
-                deleteId: id
             },
             url: "/admin/galleries",
             method: "GET",
             dataType: "json",
             beforeSend: function() {
+                NProgress.start();
                 if(xhr != null) {
                     xhr.abort();
                 }
@@ -64,6 +65,7 @@ $(function() {
             success: function (response) {
                 buildTable(response)
                 buildPagination(response)
+                NProgress.done();
             }
         });
     }
@@ -73,19 +75,21 @@ $(function() {
             url: `/admin/galleries/${gallery}`,
             method: 'DELETE',
             dataType: 'json',
+            beforeSend: function (){NProgress.start()},
             success: function () {
                 fetch_data();
+                NProgress.done();
             }
         });
     }
 
     function buildTable(response) {
         if((response.data).length === 0) {
-            $('#tableGallery').hide();
+            $('#gallery_block').hide();
             $('#noGallery').html("No gallery found");
         }
         else {
-            $('#tableGallery').show();
+            $('#gallery_block').show();
             $('#noGallery').empty();
             $('#galleryBody').empty();
             $.each(response.data, function (key, value) {

@@ -29,8 +29,8 @@
                         </div>
                     </div>
                     <h3 class="d-flex justify-content-center" id="noProfession"></h3>
-                    <div class="col-md-12 mt-2" id="tableProf">
-                        <table class="table table-striped table-dark">
+                    <div class="col-md-12 mt-2" id="profession_block">
+                        <table class="table table-striped table-dark" id="tableProfession">
                             <thead>
                             <tr>
                                 <th scope="col">Id</th>

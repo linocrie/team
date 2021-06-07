@@ -31,8 +31,8 @@
                         </div>
                     </div>
                     <h3 class="d-flex justify-content-center" id="noGallery"></h3>
-                    <div class="col-md-12 mt-2" id="tableGallery">
-                        <table class="table table-striped table-dark">
+                    <div class="col-md-12 mt-2" id="gallery_block">
+                        <table class="table table-striped table-dark" id="tableGallery">
                             <thead>
                             <tr>
                                 <th scope="col">Gallery_id</th>

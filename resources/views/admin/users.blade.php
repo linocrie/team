@@ -38,7 +38,7 @@
             </div>
 
             <div class="mt-3 table-responsive" id="users_block">
-                <table class="table table-dark w-100">
+                <table class="table table-dark w-100" id="tableUser">
                     <thead>
                     <tr class="text-center">
                         <th scope="col">User_id</th>

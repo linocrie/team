@@ -1,5 +1,3 @@
-const Swal = require("sweetalert2");
-
 $(function() {
     $.ajaxSetup({
         headers: {
@@ -8,40 +6,42 @@ $(function() {
         }
     });
 
-    $(document).ready(function() {
-        fetch_data();
-        $('#professionSearch').keyup(function () {
+    if($('#tableProfession').length){
+        $(document).ready(function () {
             fetch_data();
-        });
-        $("#filterProfession").change(function () {
-            fetch_data();
-        });
-        $("#perPage").change(function () {
-            fetch_data();
-        });
+            $('#professionSearch').keyup(function () {
+                fetch_data();
+            });
+            $("#filterProfession").change(function () {
+                fetch_data();
+            });
+            $("#perPage").change(function () {
+                fetch_data();
+            });
 
-        $(document).on('click', '.delete-action-profession', function() {
-            const professionId = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085D6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteProfession(professionId);
-                    Swal.fire(
-                        'Deleted!',
-                        'Profession has been deleted.',
-                        'success'
-                    )
-                }
-            })
+            $(document).on('click', '.delete-action-profession', function () {
+                const professionId = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085D6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteProfession(professionId);
+                        Swal.fire(
+                            'Deleted!',
+                            'Profession has been deleted.',
+                            'success'
+                        )
+                    }
+                })
+            });
         });
-    });
+    }
 
     let xhr = null;
     function fetch_data(page) {
@@ -80,11 +80,11 @@ $(function() {
 
     function buildTable(response) {
         if((response.data).length === 0) {
-            $('#tableProf').hide();
+            $('#profession_block').hide();
             $('#noProfession').html("No professions found");
         }
         else {
-            $('#tableProf').show();
+            $('#profession_block').show();
             $('#noProfession').empty();
             $('#professionBody').empty();
             $.each(response.data, function (key, value) {
