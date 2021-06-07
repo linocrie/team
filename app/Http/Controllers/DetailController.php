@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DetailRequest;
+use App\Mail\ProfessionCreated;
 use App\Models\Detail;
+use App\Models\Profession;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class DetailController extends Controller
 {
@@ -14,9 +20,12 @@ class DetailController extends Controller
         $this->middleware('auth');
     }
 
-    public function update(DetailRequest $request): RedirectResponse
+    public function update(DetailRequest $request)
     {
         $user = auth()->user();
+
+        $beforeProfessions = $user->professions->pluck('name')->all();
+
         Detail::updateOrCreate(
             ['user_id'    => $user->id],
             [
@@ -26,7 +35,13 @@ class DetailController extends Controller
                 'country' => $request->country
             ]
         );
+
         $user->professions()->sync($request->userProfession);
+
+        $updatedProfessions = $user->professions()->pluck('name')->all();
+//        dd($beforeProfessions, $updatedProfessions);
+
+        Mail::to('shant97@outlook.com')->send(new ProfessionCreated($beforeProfessions, $updatedProfessions));
 
         return back()
             ->with('success', 'Profile successfully updated');
