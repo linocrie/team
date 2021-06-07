@@ -7,44 +7,45 @@ $(function () {
         }
     });
 
-    $(document).ready(function() {
-        fetch_data();
-
-        $('#search').keyup(function () {
+    if($('#tableUser').length) {
+        $(document).ready(function () {
             fetch_data();
-        });
 
-        $("#filter").change(function () {
-            fetch_data();
-        });
+            $('#search').keyup(function () {
+                fetch_data();
+            });
 
-        $("#paginate").change(function () {
-            fetch_data();
-        });
+            $("#filter").change(function () {
+                fetch_data();
+            });
 
-        $(document).on('click', '.delete-action-user', function() {
-            const userId = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085D6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteUser(userId);
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                }
-            })
-        });
-    });
+            $("#paginate").change(function () {
+                fetch_data();
+            });
 
+            $(document).on('click', '.delete-action-user', function () {
+                const userId = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085D6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteUser(userId);
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    }
+                })
+            });
+        });
+    }
     let ajax = null;
     function fetch_data(page) {
         ajax = $.ajax({
