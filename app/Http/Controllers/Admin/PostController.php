@@ -13,7 +13,6 @@ class PostController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('is_admin');
-
     }
 
     public function  index(Request $request)

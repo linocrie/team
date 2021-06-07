@@ -5,54 +5,62 @@ $(function () {
             'Content-Type': 'application/json',
         }
     });
+
     if($('#tablePost').length) {
         $(document).ready(function () {
             fetch_data();
             $('#searchPosts').keyup(function () {
                 fetch_data();
+                $("#filterPosts").change(function () {
+                    fetch_data();
+                });
+                $("#paginatePosts").change(function () {
+                    fetch_data();
+                });
+                $(document).on('click', '.delete-action-post', function () {
+                    const postId = $(this).data('id');
+                    deletePost(postId);
+                });
             });
-            $("#filterPosts").change(function () {
-                fetch_data();
-            });
-            $("#paginatePosts").change(function () {
-                fetch_data();
-            });
-            $(document).on('click', '.delete-action-post', function () {
-                const postId = $(this).data('id');
-                deletePost(postId);
-            });
+        })
+    }
+    let ajax = null;
+    function fetch_data(page) {
+        ajax = $.ajax({
+            data: {
+                search: $("#searchPosts").val(),
+                filter: $("#filterPosts").val(),
+                perPage: $("#paginatePosts").val(),
+                page: page
+            },
+            url: '/admin/posts',
+            method: "GET",
+            dataType: "json",
+            beforeSend: function() {
+                NProgress.start();
+                if(ajax != null){
+                    ajax.abort();
+                }
+            },
+            success: function (response) {
+                buildTable(response)
+                buildPagination(response)
+                NProgress.done();
+            }
         });
     }
-        let ajax = null;
-        function fetch_data(page) {
-            ajax = $.ajax({
-                data: {
-                    search: $("#searchPosts").val(),
-                    filter: $("#filterPosts").val(),
-                    perPage: $("#paginatePosts").val(),
-                    page: page
-                },
-                url: '/admin/posts',
-                method: "GET",
-                dataType: "json",
-                beforeSend: function(){
-                    if(ajax != null){
-                        ajax.abort();
-                    }
-                },
-                success: function (response) {
-                    buildTable(response)
-                    buildPagination(response)
-                }
-            });
-        }
+
     function deletePost(postId) {
         $.ajax({
             url: `/admin/posts/${postId}`,
             method: 'DELETE',
             dataType: 'json',
+            beforeSend: function () {
+                NProgress.start()
+            },
             success: function (response) {
                 fetch_data();
+                NProgress.done();
             }
         });
     }
