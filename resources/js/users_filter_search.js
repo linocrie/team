@@ -47,6 +47,7 @@ $(function () {
     }
     let ajax = null;
     function fetch_data(page) {
+        let NProgress = require("nprogress");
         ajax = $.ajax({
             data: {
                 search: $("#search").val(),
@@ -58,13 +59,17 @@ $(function () {
             method: "GET",
             dataType: "json",
             beforeSend: function(){
+                NProgress.start();
                 if(ajax != null){
                     ajax.abort();
                 }
             },
             success: function (response) {
-                buildTable(response)
-                buildPagination(response)
+                buildTable(response);
+                buildPagination(response);
+            },
+            complete: function () {
+                NProgress.done();
             }
         });
     }

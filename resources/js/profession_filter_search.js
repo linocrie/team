@@ -56,6 +56,7 @@ $(function() {
             method: "GET",
             dataType: "json",
             beforeSend: function() {
+                NProgress.start();
                 if(xhr != null) {
                     xhr.abort();
                 }
@@ -63,6 +64,9 @@ $(function() {
             success: function (response) {
                 buildTable(response)
                 buildPagination(response)
+            },
+            complete: function () {
+                NProgress.done();
             }
         });
     }
