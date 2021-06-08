@@ -11,16 +11,18 @@ class ProfessionCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected array $beforeProfessions;
-    protected array $updatedProfessions;
+    private string $user;
+    private array $beforeProfessions;
+    private array $updatedProfessions;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(array $beforeProfessions, array $updatedProfessions)
+    public function __construct(string $user, array $beforeProfessions, array $updatedProfessions)
     {
+        $this->user = $user;
         $this->beforeProfessions = $beforeProfessions;
         $this->updatedProfessions = $updatedProfessions;
     }
@@ -34,7 +36,8 @@ class ProfessionCreated extends Mailable
     {
         return $this
             ->view('emails.professions', [
-                'beforeProfessions' => $this->beforeProfessions,
+                'user'               => $this->user,
+                'beforeProfessions'  => $this->beforeProfessions,
                 'updatedProfessions' => $this->updatedProfessions,
             ]);
     }
