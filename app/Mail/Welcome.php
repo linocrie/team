@@ -3,10 +3,11 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PostCreated extends Mailable
+class Welcome extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -15,9 +16,9 @@ class PostCreated extends Mailable
      *
      * @return void
      */
-    public function __construct($post)
+    public function __construct()
     {
-        $this->post = $post;
+        //
     }
 
     /**
@@ -27,7 +28,6 @@ class PostCreated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.posts')
-            ->with('post', $this->post);
+        return $this->view('emails.welcome');
     }
 }
