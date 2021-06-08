@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Jobs\ThumbnailGenerator;
 use App\Models\Post;
 use App\Models\Profession;
 use App\Models\User;
@@ -69,6 +70,13 @@ class PostsController extends Controller
         ]);
 
         $post->professions()->sync($request->postProfession);
+
+        // get stored file
+        ThumbnailGenerator::dispatch(auth()->user());
+
+        // Start image optimizing
+
+        // Save new image with old name + '_thumbnail'
 
         return redirect()
             ->route('posts.index')
