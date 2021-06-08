@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GalleryRequest;
+use App\Mail\GalleryCreated;
 use App\Models\Gallery;
 use App\Models\GalleryImages;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -18,6 +20,7 @@ class GalleryController extends Controller
 
     public function create(): View
     {
+
         return view('galleries.create');
     }
 
@@ -37,7 +40,7 @@ class GalleryController extends Controller
                 ]);
             }
         }
-
+        Mail::to(auth()->user())->send(new GalleryCreated($gallery));
         return redirect()
             ->route('profile.index')
             ->with('success', 'Gallery successfully created');
