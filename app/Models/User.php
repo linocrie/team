@@ -41,6 +41,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean'
     ];
 
     public function detail(): HasOne
@@ -89,7 +90,6 @@ class User extends Authenticatable
                 return $query->has('avatar');
             default:
                 return $query->doesntHave('avatar');
-
         }
     }
 
