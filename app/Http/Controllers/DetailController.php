@@ -5,11 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DetailRequest;
 use App\Mail\ProfessionCreated;
 use App\Models\Detail;
-use App\Models\Profession;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class DetailController extends Controller

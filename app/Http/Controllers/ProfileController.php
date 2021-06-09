@@ -28,7 +28,12 @@ class ProfileController extends Controller
 
     public function update(ProfileRequest $request): RedirectResponse
     {
-        ThumbnailGenerator::dispatch(auth()->user(), $request->all());
+        $user = auth()->user();
+        $user->update([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password
+        ]);
 
         return back()
             ->with('success', 'Profile successfully updated');
