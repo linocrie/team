@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ThumbnailGeneratorJob;
 use App\Models\Avatar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

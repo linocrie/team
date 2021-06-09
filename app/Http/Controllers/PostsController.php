@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Jobs\ThumbnailGeneratorJob;
 use App\Models\Post;
 use App\Models\Profession;
 use App\Models\User;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Imagick;
 
 class PostsController extends Controller
 {
@@ -56,7 +58,6 @@ class PostsController extends Controller
     public function store(PostRequest $request): RedirectResponse
     {
         $file = $request->file('image')->store('postimages');
-
         $post = Post::create([
             'user_id'     => auth()->id(),
             'title'       => $request->title,
