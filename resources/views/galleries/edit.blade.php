@@ -67,6 +67,7 @@
                         @endif
                         <div class="row">
                             @foreach($gallery->images as $images)
+
                                 <div class="col-md-6 mb-3">
                                     <div class="text-right mr-5">
                                         <form method="POST" action="{{ route('images.delete', ['images' => $images->id]) }}">
@@ -79,7 +80,7 @@
                                         </form>
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <img src="{{ asset('storage/'.$images->path) }}" alt='image' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
+                                        <img src="{{ $images->processed ? asset('storage/'.Str::substr($images->path,0,-4))."_thumbnail.".pathinfo($images->path,PATHINFO_EXTENSION) : asset('storage/'.$images->path) }}" alt='image' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
                                     </div>
                                     <strong class="d-flex justify-content-center">{{ $images->original_name }}</strong>
                                 </div>

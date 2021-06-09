@@ -34,11 +34,9 @@ class ProfessionCreated extends Mailable
      */
     public function build()
     {
-        return $this
-            ->view('emails.professions', [
-                'user'               => $this->user,
-                'beforeProfessions'  => $this->beforeProfessions,
-                'updatedProfessions' => $this->updatedProfessions,
-            ]);
+        return $this->view('emails.professions')
+            ->with('user', $this->user)
+            ->with('beforeProfessions', $this->beforeProfessions)
+            ->with('updatedProfessions', $this->updatedProfessions);
     }
 }

@@ -12,9 +12,11 @@
                         @endif
                         <div class="row">
                             @foreach($images as $image)
+
                                 <div class="col-md-6 mb-3">
                                     <div class="d-flex justify-content-center">
                                         <img src="{{ asset('storage/'.$image->path) }}" alt='avatar' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
+
                                     </div>
                                 </div>
                             @endforeach

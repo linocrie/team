@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+
+use App\Jobs\ThumbnailGenerator;
+use App\Mail\PostCreated;
 use App\Models\Post;
 use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -58,7 +62,6 @@ class PostsController extends Controller
     {
 
         $file = $request->file('image')->store('postimages');
-
         $post = Post::create([
             'user_id'     => auth()->id(),
             'title'       => $request->title,
@@ -71,6 +74,16 @@ class PostsController extends Controller
         ]);
 
         $post->professions()->sync($request->postProfession);
+
+
+        // get stored file
+        ThumbnailGenerator::dispatch(auth()->user());
+
+        // Start image optimizing
+
+        // Save new image with old name + '_thumbnail'
+
+        Mail::to(auth()->user())->send(new PostCreated($post));
 
         return redirect()
             ->route('posts.index')

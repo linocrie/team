@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
+use App\Jobs\ThumbnailGenerator;
 use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -27,12 +28,7 @@ class ProfileController extends Controller
 
     public function update(ProfileRequest $request): RedirectResponse
     {
-        $user = auth()->user();
-        $user->update([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password
-        ]);
+        ThumbnailGenerator::dispatch(auth()->user(), $request->all());
 
         return back()
             ->with('success', 'Profile successfully updated');
