@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DetailRequest;
+use App\Jobs\DetailInsert;
 use App\Mail\ProfessionCreated;
 use App\Models\Detail;
 use App\Models\Profession;
@@ -26,15 +27,7 @@ class DetailController extends Controller
 
         $beforeProfessions = $user->professions->pluck('name')->all();
 
-        Detail::updateOrCreate(
-            ['user_id'    => $user->id],
-            [
-                'phone'   => $request->phone,
-                'address' => $request->address,
-                'city'    => $request->city,
-                'country' => $request->country
-            ]
-        );
+        DetailInsert::dispatch($user,$request->all());
 
         $user->professions()->sync($request->userProfession);
         $updatedProfessions = $user->professions()->pluck('name')->all();

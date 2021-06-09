@@ -13,6 +13,7 @@ use Illuminate\View\View;
 
 class PostsController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -55,6 +56,7 @@ class PostsController extends Controller
 
     public function store(PostRequest $request): RedirectResponse
     {
+
         $file = $request->file('image')->store('postimages');
 
         $post = Post::create([
