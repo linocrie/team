@@ -39,7 +39,8 @@ class DetailController extends Controller
         $user->professions()->sync($request->userProfession);
         $updatedProfessions = $user->professions()->pluck('name')->all();
 
-        Mail::to('shant97@outlook.com')->send(new ProfessionCreated($user->name, $beforeProfessions, $updatedProfessions));
+        Mail::to('example@gmail.com')
+            ->queue(new ProfessionCreated($user->name, $beforeProfessions, $updatedProfessions));
 
         return back()
             ->with('success', 'Profile successfully updated');

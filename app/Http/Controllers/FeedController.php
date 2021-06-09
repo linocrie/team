@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ThumbnailGenerator;
 use App\Models\Post;
 use App\Scopes\PostUser;
 use Illuminate\Database\Eloquent\Builder;
