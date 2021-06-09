@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+
 use App\Jobs\ThumbnailGenerator;
 use App\Mail\PostCreated;
 use App\Models\Post;
@@ -16,6 +17,7 @@ use Illuminate\View\View;
 
 class PostsController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -58,8 +60,8 @@ class PostsController extends Controller
 
     public function store(PostRequest $request): RedirectResponse
     {
-        $file = $request->file('image')->store('postimages');
 
+        $file = $request->file('image')->store('postimages');
         $post = Post::create([
             'user_id'     => auth()->id(),
             'title'       => $request->title,

@@ -1,14 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Jobs\ThumbnailGenerator;
-use App\Models\Avatar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Imagick;
 
 class UploadController extends Controller
 {

@@ -351,7 +351,7 @@ eval("$(function () {\n  $.ajaxSetup({\n    headers: {\n      'X-CSRF-TOKEN': $(
   \*************************************/
 /***/ (() => {
 
-eval("$(function () {\n  $('#multiSelect').multipleSelect();\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvbXVsdGlzZWxlY3QuanM/ZDc1ZCJdLCJuYW1lcyI6WyIkIiwibXVsdGlwbGVTZWxlY3QiXSwibWFwcGluZ3MiOiJBQUFBQSxDQUFDLENBQUMsWUFBWTtBQUNWQSxFQUFBQSxDQUFDLENBQUMsY0FBRCxDQUFELENBQWtCQyxjQUFsQjtBQUNILENBRkEsQ0FBRCIsInNvdXJjZXNDb250ZW50IjpbIiQoZnVuY3Rpb24gKCkge1xuICAgICQoJyNtdWx0aVNlbGVjdCcpLm11bHRpcGxlU2VsZWN0KCk7XG59KTtcbiJdLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvbXVsdGlzZWxlY3QuanMuanMiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./resources/js/multiselect.js\n");
+eval("$(function () {\n  $('#multiSelect').multipleSelect();\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9yZXNvdXJjZXMvanMvbXVsdGlzZWxlY3QuanM/ZDc1ZCJdLCJuYW1lcyI6WyIkIiwibXVsdGlwbGVTZWxlY3QiXSwibWFwcGluZ3MiOiJBQUFBQSxDQUFDLENBQUMsWUFBWTtBQUNWQSxFQUFBQSxDQUFDLENBQUMsY0FBRCxDQUFELENBQWtCQyxjQUFsQjtBQUNILENBRkEsQ0FBRCIsInNvdXJjZXNDb250ZW50IjpbIiQoZnVuY3Rpb24gKCkge1xyXG4gICAgJCgnI211bHRpU2VsZWN0JykubXVsdGlwbGVTZWxlY3QoKTtcclxufSk7XHJcbiJdLCJmaWxlIjoiLi9yZXNvdXJjZXMvanMvbXVsdGlzZWxlY3QuanMuanMiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./resources/js/multiselect.js\n");
 
 /***/ }),
 

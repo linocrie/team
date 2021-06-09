@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GalleryRequest;
+use App\Jobs\ThumbnailGeneratorJob;
 use App\Mail\GalleryCreated;
 use App\Models\Gallery;
 use App\Models\GalleryImages;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Imagick;
 
 class GalleryController extends Controller
 {
@@ -24,6 +27,9 @@ class GalleryController extends Controller
         return view('galleries.create');
     }
 
+    /**
+     * @throws \ImagickException
+     */
     public function store(GalleryRequest $request): RedirectResponse
     {
         $gallery = Gallery::create([
@@ -34,13 +40,17 @@ class GalleryController extends Controller
         if($request->hasFile('galleries')) {
             foreach ($request->file('galleries') as $images) {
                 $path = $images->store('galleryImages');
-                $gallery->images()->create([
+
+
+
+                $image = $gallery->images()->create([
                     'original_name' => $images->getClientOriginalName(),
-                    'path' => $path
+                    'path' => $path,
                 ]);
+
+                ThumbnailGeneratorJob::dispatch($path,$image->id);
             }
         }
-        Mail::to(auth()->user())->send(new GalleryCreated($gallery));
         return redirect()
             ->route('profile.index')
             ->with('success', 'Gallery successfully created');
