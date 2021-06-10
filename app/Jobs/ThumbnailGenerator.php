@@ -45,7 +45,8 @@ class ThumbnailGenerator implements ShouldQueue
         $imagick = new Imagick(Storage::path($this->file));
         $imagick->resizeImage(200, 200, imagick::FILTER_UNDEFINED, 1);
         $pathExtension = pathinfo($this->file, PATHINFO_EXTENSION);
-        $newImage = Str::substr($this->file, 0, -4).'_thumbnail.'.$pathExtension;
+        $pathFileName = pathinfo($this->file, PATHINFO_FILENAME);
+        $newImage = 'avatars/'.$pathFileName.'_thumbnail.'.$pathExtension;
 
         $imagick->writeImage(Storage::path($newImage));
 

@@ -23,7 +23,8 @@ class UploadController extends Controller
 
         if ($user->load(['avatar'])->avatar) {
             $pathExtension = pathinfo($user->avatar->path, PATHINFO_EXTENSION);
-            Storage::delete(Str::substr($user->avatar->path, 0, -4).'_thumbnail.'.$pathExtension);
+            $pathFileName = pathinfo($user->avatar->path, PATHINFO_FILENAME);
+            Storage::delete('avatars/'.$pathFileName.'_thumbnail.'.$pathExtension);
             Storage::delete($user->avatar->path);
         }
 
