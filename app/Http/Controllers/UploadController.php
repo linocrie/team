@@ -5,6 +5,7 @@ use App\Jobs\ThumbnailGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UploadController extends Controller
 {
@@ -21,6 +22,8 @@ class UploadController extends Controller
         ]);
 
         if ($user->load(['avatar'])->avatar) {
+            $pathExtension = pathinfo($user->avatar->path, PATHINFO_EXTENSION);
+            Storage::delete(Str::substr($user->avatar->path, 0, -4).'_thumbnail.'.$pathExtension);
             Storage::delete($user->avatar->path);
         }
 

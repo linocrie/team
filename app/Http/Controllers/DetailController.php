@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProfessionCreatedOrUpdated;
 use App\Http\Requests\DetailRequest;
 use App\Jobs\DetailInsert;
 use App\Mail\ProfessionCreated;
@@ -29,8 +30,7 @@ class DetailController extends Controller
         $user->professions()->sync($request->userProfession);
         $updatedProfessions = $user->professions()->pluck('name')->all();
 
-        Mail::to('example@gmail.com')
-            ->queue(new ProfessionCreated($user->name, $beforeProfessions, $updatedProfessions));
+        event(new ProfessionCreatedOrUpdated($user->name, $beforeProfessions, $updatedProfessions));
 
         return back()
             ->with('success', 'Profile successfully updated');
