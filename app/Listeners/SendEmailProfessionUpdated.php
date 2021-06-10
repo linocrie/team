@@ -28,7 +28,7 @@ class SendEmailProfessionUpdated
      */
     public function handle(ProfessionCreatedOrUpdated $event)
     {
-        Mail::to('example@gmail.com')
+        Mail::to(auth()->user()->email)
             ->send(new ProfessionCreated($event->user, $event->beforeProfessions, $event->updatedProfessions));
     }
 }
