@@ -3,6 +3,7 @@
 @section('admin_content')
     <div class="container">
         <div class="mt-5">
+            <strong id="weather"></strong>
             <div class="card bg-secondary mb-5">
                 <div class="card-header font-weight-bold" style="font-size: 20px">Profession list</div>
                 <div class="card-body">

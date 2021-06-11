@@ -62,6 +62,7 @@ $(function() {
                 }
             },
             success: function (response) {
+                $('#weather').append("Temperature in " + response['weather'].name + ": " + "<span class='text-danger'>" + response['weather'].main.temp + "</span>");
                 buildTable(response)
                 buildPagination(response)
             },
@@ -83,7 +84,7 @@ $(function() {
     }
 
     function buildTable(response) {
-        if((response.data).length === 0) {
+        if((response['profession'].data).length === 0) {
             $('#profession_block').hide();
             $('#noProfession').html("No professions found");
         }
@@ -91,7 +92,7 @@ $(function() {
             $('#profession_block').show();
             $('#noProfession').empty();
             $('#professionBody').empty();
-            $.each(response.data, function (key, value) {
+            $.each(response['profession'].data, function (key, value) {
                 $('#professionBody').append(
                     `<tr class="${value.id}"><td> ${value.id} </td>
                     <td> ${value.name} </td>
@@ -109,15 +110,15 @@ $(function() {
 
     function buildPagination(response) {
 
-        if(response.total <= 3 || (response.data).length === 0) {
+        if(response['profession'].total <= 3 || (response['profession'].data).length === 0) {
             $('#pageNone').addClass('d-none');
         }
         else {
             $('#pageNone').removeClass('d-none');
         }
 
-        $('#next').attr('href', response.next_page_url);
-        $('#previous').attr('href', response.prev_page_url);
+        $('#next').attr('href', response['profession'].next_page_url);
+        $('#previous').attr('href', response['profession'].prev_page_url);
 
         let pageSize = response.last_page;
         let currentPage = response.current_page;
@@ -128,7 +129,7 @@ $(function() {
         }
         else {
             $('#previous').replaceWith(function() {
-                return $("<a href=" +response.prev_page_url + " id='previous' class='text-decoration-none p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
+                return $("<a href=" +response['profession'].prev_page_url + " id='previous' class='text-decoration-none p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
         if (currentPage === pageSize) {
@@ -138,7 +139,7 @@ $(function() {
         }
         else {
             $('#next').replaceWith(function() {
-                return $("<a href=" +response.next_page_url + " id='next' class='text-decoration-none p-1 ml-2 bg-dark text-white rounded'/>").append($(this).contents());
+                return $("<a href=" +response['profession'].next_page_url + " id='next' class='text-decoration-none p-1 ml-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
 
