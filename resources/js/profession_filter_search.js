@@ -62,7 +62,7 @@ $(function() {
                 }
             },
             success: function (response) {
-                $('#weather').append("Temperature in " + response['weather'].name + ": " + "<span class='text-danger'>" + response['weather'].main.temp + "</span>");
+                $('#weather').html("Temperature in " + response['weather'].name + ": " + "<span class='text-danger'>" + String((response['weather'].main.temp)).slice(0, -3) + "</span>" + "&#8451;");
                 buildTable(response)
                 buildPagination(response)
             },
