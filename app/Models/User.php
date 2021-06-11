@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserRegisteredEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -42,6 +43,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean'
+    ];
+
+    /**
+     * The event map for the model
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => UserRegisteredEvent::class,
     ];
 
     public function detail(): HasOne

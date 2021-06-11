@@ -23,9 +23,9 @@ class GalleryController extends Controller
 
     public function create(): View
     {
-
         return view('galleries.create');
     }
+
 
     /**
      * @throws \ImagickException
@@ -40,8 +40,6 @@ class GalleryController extends Controller
         if($request->hasFile('galleries')) {
             foreach ($request->file('galleries') as $images) {
                 $path = $images->store('galleryImages');
-
-
 
                 $image = $gallery->images()->create([
                     'original_name' => $images->getClientOriginalName(),
