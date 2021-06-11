@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Jobs\ThumbnailGeneratorJob;
-use App\Models\Avatar;
+use App\Jobs\ThumbnailGenerator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UploadController extends Controller
 {
@@ -23,20 +22,15 @@ class UploadController extends Controller
         ]);
 
         if ($user->load(['avatar'])->avatar) {
+            $pathExtension = pathinfo($user->avatar->path, PATHINFO_EXTENSION);
+            $pathFileName = pathinfo($user->avatar->path, PATHINFO_FILENAME);
+            Storage::delete('avatars/'.$pathFileName.'_thumbnail.'.$pathExtension);
             Storage::delete($user->avatar->path);
         }
 
         $file = $request->file('image')->store('avatars');
 
-        if(Storage::exists($file)) {
-            Avatar::updateOrCreate(
-                ['user_id' => $user->id],
-                [
-                    'original_name' => $request->file('image')->getClientOriginalName(),
-                    'path' => $file
-                ]
-            );
-        }
+        ThumbnailGenerator::dispatch(auth()->user(), $file, $request->file('image')->getClientOriginalName());
 
         return back()
             ->with('success','Image successfully uploaded');

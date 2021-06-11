@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+
 use App\Events\EmailProcessed;
 use App\Listeners\SendEmail;
+use App\Events\ProfessionCreatedOrUpdated;
+use App\Listeners\SendEmailProfessionUpdated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,8 +24,13 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
         EmailProcessed::class => [
-            SendEmail::class
+            SendEmail::class,
+        ],
+        ProfessionCreatedOrUpdated::class => [
+            SendEmailProfessionUpdated::class
+
         ],
     ];
 
