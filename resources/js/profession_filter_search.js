@@ -120,8 +120,8 @@ $(function() {
         $('#next').attr('href', response['profession'].next_page_url);
         $('#previous').attr('href', response['profession'].prev_page_url);
 
-        let pageSize = response.last_page;
-        let currentPage = response.current_page;
+        let pageSize = response['profession'].last_page;
+        let currentPage = response['profession'].current_page;
         if (currentPage === 1) {
             $('#previous').replaceWith(function() {
                 return $("<span id='previous' class='p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
