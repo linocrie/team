@@ -13,6 +13,7 @@ class GalleryCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $gallery;
     public function __construct($gallery)
     {
          $this->gallery = $gallery;
@@ -22,7 +23,6 @@ class GalleryCreated extends Mailable
 
     public function build()
     {
-
         return $this->view('emails.gallery')
             ->with('gallery', $this->gallery->load(['images']));
 

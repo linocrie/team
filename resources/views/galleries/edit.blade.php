@@ -75,12 +75,12 @@
 
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-white">
-                                                <i class="far fa-trash-alt"></i>
+                                                <i class="far fa-trash-alt">Delete</i>
                                             </button>
                                         </form>
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <img src="{{ $images->processed ? asset('storage/'.Str::substr($images->path,0,-4))."_thumbnail.".pathinfo($images->path,PATHINFO_EXTENSION) : asset('storage/'.$images->path) }}" alt='image' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
+                                        <img src="{{ $images->processed ? asset('storage/galleryImages/'. pathinfo($images->path, PATHINFO_FILENAME) .'_thumbnail.'.pathinfo($images->path,PATHINFO_EXTENSION)) : asset('storage/'.$images->path) }}" alt='image' class = 'img-fluid rounded-circle' style = "object-fit: cover; width: 200px; height: 200px;">
                                     </div>
                                     <strong class="d-flex justify-content-center">{{ $images->original_name }}</strong>
                                 </div>
