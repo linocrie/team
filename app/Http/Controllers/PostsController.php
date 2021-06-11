@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
-
-use App\Jobs\ThumbnailGenerator;
+use App\Jobs\ThumbnailGeneratorPost;
 use App\Mail\PostCreated;
 use App\Models\Post;
 use App\Models\Profession;
@@ -74,15 +73,7 @@ class PostsController extends Controller
         ]);
 
         $post->professions()->sync($request->postProfession);
-
-
-        // get stored file
-        ThumbnailGenerator::dispatch(auth()->user());
-
-        // Start image optimizing
-
-        // Save new image with old name + '_thumbnail'
-
+        ThumbnailGeneratorPost::dispatch($post, $file, $request->file('image')->getClientOriginalName());
         Mail::to(auth()->user())->send(new PostCreated($post));
 
         return redirect()
@@ -123,6 +114,7 @@ class PostsController extends Controller
                     'path'          => $path
                 ]
             );
+            ThumbnailGeneratorPost::dispatch($post, $path, $request->file('image')->getClientOriginalName());
         }
 
         $post->professions()->sync($request->postProfession);
@@ -139,6 +131,10 @@ class PostsController extends Controller
         if ($post->image()->exists()) {
             if(Storage::exists($path = $post->image->path)) {
                 Storage::delete($path);
+                $pathExtension = pathinfo($post->image->path, PATHINFO_EXTENSION);
+                $pathFileName = pathinfo($post->image->path, PATHINFO_FILENAME);
+                $newPath = 'postimages/'.$pathFileName.'_thumbnail.'.$pathExtension;
+                Storage::delete($newPath);
             }
             $post->image()->delete();
         }
