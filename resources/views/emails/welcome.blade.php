@@ -136,7 +136,7 @@
                                                             style='font-size:0px;padding:10px 25px;word-break:break-word;'>
                                                             <div
                                                                 style='color:#848789;font-family:Open Sans, Arial, sans-serif;font-size:12px;line-height:18px;text-align:left;text-decoration:none;'>
-                                                                Hello Dear User :)
+                                                                Hello Dear user :)
                                                             </div>
                                                         </td>
                                                     </tr>

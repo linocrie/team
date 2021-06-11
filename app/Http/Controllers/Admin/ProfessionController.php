@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\ProfessionWeather;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -18,13 +19,15 @@ class ProfessionController extends Controller
 
     public function index(Request $request)
     {
+        $weather = new ProfessionWeather();
+        $weatherInfo = $weather->getWeather();
         if ($request->expectsJson()) {
             $professions = Profession
                 ::filterByRelation()
                 ->searchName()
                 ->paginate($request->perPage);
 
-            return response()->json($professions);
+            return response()->json(["profession" => $professions, "weather" => $weatherInfo->json()]);
 
         }
 

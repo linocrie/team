@@ -29,6 +29,7 @@ class ThumbnailGenerator implements ShouldQueue
      */
     public function __construct(User $user, $file, $originalName)
     {
+
         $this->user = $user;
         $this->file = $file;
         $this->originalName = $originalName;
@@ -46,11 +47,11 @@ class ThumbnailGenerator implements ShouldQueue
         $imagick->resizeImage(200, 200, imagick::FILTER_UNDEFINED, 1);
         $pathExtension = pathinfo($this->file, PATHINFO_EXTENSION);
         $pathFileName = pathinfo($this->file, PATHINFO_FILENAME);
-        $newImage = 'avatars/'.$pathFileName.'_thumbnail.'.$pathExtension;
+        $newImage = 'postImages'.$pathFileName.'_thumbnail.'.$pathExtension;
 
         $imagick->writeImage(Storage::path($newImage));
 
-        if(Storage::exists($this->file)) {
+        if(Storage::exists($newImage)) {
             Avatar::updateOrCreate(
                 ['user_id' => $this->user->id],
                 [

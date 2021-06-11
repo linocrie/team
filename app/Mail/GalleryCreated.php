@@ -13,6 +13,7 @@ class GalleryCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $gallery;
     public function __construct($gallery)
     {
          $this->gallery = $gallery;
