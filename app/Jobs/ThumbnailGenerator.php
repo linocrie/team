@@ -50,7 +50,7 @@ class ThumbnailGenerator implements ShouldQueue
 
         $imagick->writeImage(Storage::path($newImage));
 
-        if(Storage::exists($this->file)) {
+        if(Storage::exists($newImage)) {
             Avatar::updateOrCreate(
                 ['user_id' => $this->user->id],
                 [

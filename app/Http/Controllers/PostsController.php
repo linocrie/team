@@ -75,14 +75,6 @@ class PostsController extends Controller
 
         $post->professions()->sync($request->postProfession);
 
-
-        // get stored file
-        ThumbnailGenerator::dispatch(auth()->user());
-
-        // Start image optimizing
-
-        // Save new image with old name + '_thumbnail'
-
         Mail::to(auth()->user())->send(new PostCreated($post));
 
         return redirect()
