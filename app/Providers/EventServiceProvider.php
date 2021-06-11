@@ -4,9 +4,11 @@ namespace App\Providers;
 
 
 use App\Events\EmailProcessed;
+use App\Events\PostCreate;
 use App\Listeners\SendEmail;
 use App\Events\ProfessionCreatedOrUpdated;
 use App\Events\UserRegisteredEvent;
+use App\Listeners\SendEmailPostCreate;
 use App\Listeners\SendEmailProfessionUpdated;
 use App\Listeners\SendWelcomeEmailListener;
 use Illuminate\Auth\Events\Registered;
@@ -34,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ProfessionCreatedOrUpdated::class => [
             SendEmailProfessionUpdated::class
+        ],
+        PostCreate::class => [
+            SendEmailPostCreate::class,
         ],
     ];
 

@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Jobs\ThumbnailGeneratorPost;
-use App\Mail\PostCreated;
+use App\Events\PostCreate;
 use App\Models\Post;
 use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -74,7 +73,7 @@ class PostsController extends Controller
 
         $post->professions()->sync($request->postProfession);
         ThumbnailGeneratorPost::dispatch($post, $file, $request->file('image')->getClientOriginalName());
-        Mail::to(auth()->user())->send(new PostCreated($post));
+        event(new PostCreate($post));
 
         return redirect()
             ->route('posts.index')
