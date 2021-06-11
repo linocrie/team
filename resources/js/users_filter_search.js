@@ -65,6 +65,7 @@ $(function () {
                 }
             },
             success: function (response) {
+                $('#weather').html("Temperature in " + response['get_users_weather'].name + ": " + "<span class='text-danger'>" + String((response['get_users_weather'].main.temp)).slice(0,-3)+ "</span>" + "&#8451;");
                 buildTable(response);
                 buildPagination(response);
             },
@@ -87,7 +88,7 @@ $(function () {
 
     function buildTable(response) {
         $('#rowSearch').empty();
-        $.each(response.data, function (key, value) {
+        $.each(response['users'].data, function (key, value) {
             $('#rowSearch').append(
                 `<tr class="text-center">
                         <th> ${value.id} </th>
@@ -108,19 +109,20 @@ $(function () {
     }
 
     function buildPagination(response) {
-        let pageSize = response.last_page;
-        let currentPage = response.current_page;
-        let totalPages = response.total;
+        console.log(response);
+        let pageSize = response['users'].last_page;
+        let currentPage = response['users'].current_page;
+        let totalPages = response['users'].total;
 
-        $('.next').attr('href', response.next_page_url);
-        $('.previous').attr('href', response.prev_page_url);
+        $('.next').attr('href', response['users'].next_page_url);
+        $('.previous').attr('href', response['users'].prev_page_url);
         if (currentPage === pageSize) {
             $('.next').replaceWith(function () {
                 return $("<span class='next'></span>").append($(this).contents());
             });
         } else {
             $('.next').replaceWith(function () {
-                return $("<a href=" + response.next_page_url + " class='next btn btn-dark '></a>").append($(this).contents());
+                return $("<a href=" + response['users'].next_page_url + " class='next btn btn-dark '></a>").append($(this).contents());
             });
         }
         if (currentPage === 1) {
@@ -129,10 +131,10 @@ $(function () {
             });
         } else {
             $('.previous').replaceWith(function () {
-                return $("<a href=" + response.prev_page_url + " class='previous btn btn-dark'></a>").append($(this).contents());
+                return $("<a href=" + response['users'].prev_page_url + " class='previous btn btn-dark'></a>").append($(this).contents());
             });
         }
-        if (totalPages <= 3 || response.data.length == 0) {
+        if (totalPages <= 3 || response['users'].data.length == 0) {
             $('#pagination').addClass('d-none');
         } else {
             $('#pagination').removeClass('d-none');
