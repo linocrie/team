@@ -1,8 +1,9 @@
 @extends('layouts.admin')
 
 @section('admin_content')
-    <div class="container">
-        <div class="card-body bg-secondary mt-5 mb-5">
+    <div class="container mt-5">
+        <strong id="weather"></strong>
+        <div class="card-body bg-secondary mb-5">
             <div class="section mt-3">
                 <div class="filter d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">

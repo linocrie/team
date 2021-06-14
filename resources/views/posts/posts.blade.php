@@ -26,7 +26,7 @@
                             <div class="avatar overflow-hidden rounded-circle m-4"
                                  style="width: 100px;height: 100px;background-color: rgba(0, 0, 0, 0.8);">
                                 <img
-                                    src="{{ $post->image ? asset('storage/'.$post->image->path) : asset('images/default-post.gif') }}"
+                                    src="{{ $post->image ? asset('storage/postimages/'.pathinfo($post->image->path, PATHINFO_FILENAME)).'_thumbnail.'.pathinfo($post->image->path, PATHINFO_EXTENSION) :  asset('images/default-post.gif') }}"
                                     alt="avatar" class="img-fluid h-100" id="image" style="object-fit: cover;">
                             </div>
                             <div class="post m-4" style="width: 500px;">

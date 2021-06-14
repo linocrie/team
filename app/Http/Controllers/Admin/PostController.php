@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\PostsWeather;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
@@ -15,15 +16,17 @@ class PostController extends Controller
         $this->middleware('is_admin');
     }
 
-    public function  index(Request $request)
+    public function index(Request $request)
     {
+        $postsWeather = new PostsWeather();
+        $weatherData = $postsWeather->get_weather();
         if ($request->expectsJson()) {
             $posts = Post::with('professions')
                 ->filterPosts()
                 ->searchPosts()
                 ->paginate($request->perPage);
 
-            return $posts->toJSON();
+            return response()->json(['posts' => $posts, 'weather' => $weatherData->json()]);
         }
 
         return view('admin.posts');

@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
-
-use App\Jobs\ThumbnailGenerator;
-use App\Mail\PostCreated;
+use App\Jobs\ThumbnailGeneratorPost;
+use App\Events\PostCreate;
 use App\Models\Post;
 use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -74,8 +72,8 @@ class PostsController extends Controller
         ]);
 
         $post->professions()->sync($request->postProfession);
-
-        Mail::to(auth()->user())->send(new PostCreated($post));
+        ThumbnailGeneratorPost::dispatch($post, $file, $request->file('image')->getClientOriginalName());
+        event(new PostCreate($post));
 
         return redirect()
             ->route('posts.index')
@@ -115,6 +113,7 @@ class PostsController extends Controller
                     'path'          => $path
                 ]
             );
+            ThumbnailGeneratorPost::dispatch($post, $path, $request->file('image')->getClientOriginalName());
         }
 
         $post->professions()->sync($request->postProfession);
@@ -131,6 +130,10 @@ class PostsController extends Controller
         if ($post->image()->exists()) {
             if(Storage::exists($path = $post->image->path)) {
                 Storage::delete($path);
+                $pathExtension = pathinfo($post->image->path, PATHINFO_EXTENSION);
+                $pathFileName = pathinfo($post->image->path, PATHINFO_FILENAME);
+                $newPath = 'postimages/'.$pathFileName.'_thumbnail.'.$pathExtension;
+                Storage::delete($newPath);
             }
             $post->image()->delete();
         }

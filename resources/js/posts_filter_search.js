@@ -43,8 +43,11 @@ $(function () {
                 }
             },
             success: function (response) {
+                $('#weather').html("Temperature in " + response['weather'].name + ": " + "<span class='text-danger'>" + String((response['weather'].main.temp)).slice(0, -3) + "</span>" + "&#8451;");
                 buildTable(response)
                 buildPagination(response)
+            },
+            complete: function () {
                 NProgress.done();
             }
         });
@@ -65,13 +68,13 @@ $(function () {
         });
     }
     function buildTable(response) {
-        if((response.data).length === 0) {
+        if((response['posts'].data).length === 0) {
             $("#postsBody").empty();
         }
         else {
             $('#postsBody').empty();
 
-            $.each(response.data, function (key, value) {
+            $.each(response['posts'].data, function (key, value) {
 
                 let arr = [];
                 $.each(value.professions, function (key, profession) {
@@ -98,19 +101,19 @@ $(function () {
         }
     }
     function buildPagination(response) {
-        let pageSize = response.last_page;
-        let currentPage = response.current_page;
-        let totalPages = response.total;
+        let pageSize = response['posts'].last_page;
+        let currentPage = response['posts'].current_page;
+        let totalPages = response['posts'].total;
 
-        $('.next').attr('href', response.next_page_url);
-        $('.previous').attr('href', response.prev_page_url);
+        $('.next').attr('href', response['posts'].next_page_url);
+        $('.previous').attr('href', response['posts'].prev_page_url);
         if (currentPage === pageSize) {
             $('.next').replaceWith(function () {
                 return $("<span class='next'></span>").append($(this).contents());
             });
         } else {
             $('.next').replaceWith(function () {
-                return $("<a href=" + response.next_page_url + " class='next btn btn-dark '></a>").append($(this).contents());
+                return $("<a href=" + response['posts'].next_page_url + " class='next btn btn-dark '></a>").append($(this).contents());
             });
         }
         if (currentPage === 1) {
@@ -119,10 +122,10 @@ $(function () {
             });
         } else {
             $('.previous').replaceWith(function () {
-                return $("<a href=" + response.prev_page_url + " class='previous btn btn-dark'></a>").append($(this).contents());
+                return $("<a href=" + response['posts'].prev_page_url + " class='previous btn btn-dark'></a>").append($(this).contents());
             });
         }
-        if (totalPages <= 3 || response.data.length == 0) {
+        if (totalPages <= 3 || response['posts'].data.length == 0) {
             $('#paginatePosts').addClass('d-none');
         } else {
             $('#paginatePosts').removeClass('d-none');
