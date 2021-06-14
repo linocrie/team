@@ -5,6 +5,7 @@
             <span class="alert alert-success d-flex justify-content-center p-2">{{ session('success') }}</span>
         @endif
         <div class="mt-5">
+            <strong id="weatherGallery"></strong>
             <div class="card bg-secondary mb-5">
                 <div class="card-header font-weight-bold" style="font-size: 20px">Gallery list</div>
                 <input type="hidden" id="hidden_page" value="1">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\GalleryWeather;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\GalleryImages;
@@ -23,13 +24,15 @@ class GalleriesController extends Controller
 
     public function  index(Request $request)
     {
+        $weather = new GalleryWeather();
+        $weatherForGallery = $weather->getWeather();
         if ($request->expectsJson())
         {
             $gallery = Gallery
                 ::filterByRelation()
                 ->searchName()
                 ->paginate($request->perPage);
-            return response()->json($gallery);
+            return response()->json(["gallery" => $gallery,"weather" => $weatherForGallery->json() ]);
         }
         return view('admin.galleries');
     }

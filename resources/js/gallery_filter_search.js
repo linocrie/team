@@ -63,6 +63,7 @@ $(function() {
                 }
             },
             success: function (response) {
+                $('#weatherGallery').html("Temperature in " + response['weather'].name + ": " + "<span class='text-danger'>" + String((response['weather'].main.temp)).slice(0, -3) + "</span>" + "&#8451;");
                 buildTable(response)
                 buildPagination(response)
                 NProgress.done();
@@ -84,7 +85,7 @@ $(function() {
     }
 
     function buildTable(response) {
-        if((response.data).length === 0) {
+        if((response['gallery'].data).length === 0) {
             $('#gallery_block').hide();
             $('#noGallery').html("No gallery found");
         }
@@ -92,7 +93,7 @@ $(function() {
             $('#gallery_block').show();
             $('#noGallery').empty();
             $('#galleryBody').empty();
-            $.each(response.data, function (key, value) {
+            $.each(response["gallery"].data, function (key, value) {
                 $('#galleryBody').append(
                     `<tr class="${value.id}"><td> ${value.id} </td>
                     <td> ${value.title} </td>
@@ -110,18 +111,18 @@ $(function() {
 
     function buildPagination(response) {
 
-        if(response.total <= 3 || (response.data).length === 0) {
+        if(response["gallery"].total <= 3 || (response["gallery"].data).length === 0) {
             $('#empty').addClass('d-none');
         }
         else {
             $('#empty').removeClass('d-none');
         }
 
-        $('#nextPage').attr('href', response.next_page_url);
-        $('#previousPage').attr('href', response.prev_page_url);
+        $('#nextPage').attr('href', response["gallery"].next_page_url);
+        $('#previousPage').attr('href', response["gallery"].prev_page_url);
 
-        let pageSize = response.last_page;
-        let currentPage = response.current_page;
+        let pageSize = response["gallery"].last_page;
+        let currentPage = response["gallery"].current_page;
         if (currentPage === 1) {
             $('#previousPage').replaceWith(function(){
                 return $("<span id='previousPage' class='p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
@@ -129,7 +130,7 @@ $(function() {
         }
         else {
             $('#previousPage').replaceWith(function(){
-                return $("<a href=" +response.prev_page_url + " id='previousPage' class='text-decoration-none p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
+                return $("<a href=" +response["gallery"].prev_page_url + " id='previousPage' class='text-decoration-none p-1 mr-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
         if (currentPage === pageSize) {
@@ -139,7 +140,7 @@ $(function() {
         }
         else {
             $('#nextPage').replaceWith(function(){
-                return $("<a href=" +response.next_page_url + " id='nextPage' class='text-decoration-none p-1 ml-2 bg-dark text-white rounded'/>").append($(this).contents());
+                return $("<a href=" +response["gallery"].next_page_url + " id='nextPage' class='text-decoration-none p-1 ml-2 bg-dark text-white rounded'/>").append($(this).contents());
             });
         }
 
